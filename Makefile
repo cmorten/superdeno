@@ -27,7 +27,7 @@ precommit:
 	@make lock
 
 test:
-	@deno test
+	@deno test --allow-net --allow-read
 
 typedoc:
 	@typedoc --ignoreCompilerErrors --out ./docs --mode modules --includeDeclarations --excludeExternals ./src
