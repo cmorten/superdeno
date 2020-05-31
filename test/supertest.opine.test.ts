@@ -1,4 +1,4 @@
-import { Opine, expect } from "./deps.ts";
+import { Opine, OpineTypes, expect } from "./deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno } from "../mod.ts";
 import { Test } from "../src/types.ts";
@@ -9,7 +9,7 @@ describe("superdeno(url)", () => {
   it("superdeno(url): should support `superdeno(url)`", (done) => {
     const app = opine();
 
-    app.get("/", (req, res) => {
+    app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
       res.send("hello");
     });
 
@@ -31,7 +31,7 @@ describe("superdeno(url)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hello");
       });
 
@@ -54,7 +54,7 @@ describe("superdeno(app)", () => {
   it("superdeno(app): should fire up the app on an ephemeral port", (done) => {
     const app = opine();
 
-    app.get("/", (req, res) => {
+    app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
       res.send("hey");
     });
 
@@ -70,7 +70,7 @@ describe("superdeno(app)", () => {
   it("superdeno(app): should work with an active server", (done) => {
     const app = opine();
 
-    app.get("/", (req, res) => {
+    app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
       res.send("hey");
     });
 
@@ -88,7 +88,7 @@ describe("superdeno(app)", () => {
   it("superdeno(app): should work with remote server", (done) => {
     const app = opine();
 
-    app.get("/", (req, res) => {
+    app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
       res.send("hey");
     });
 
@@ -110,7 +110,7 @@ describe("superdeno(app)", () => {
 
   //   const app = opine();
 
-  //   app.get("/", (req, res) => {
+  //   app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
   //     res.send("hey");
   //   });
 
@@ -134,7 +134,7 @@ describe("superdeno(app)", () => {
 
     app.use(json());
 
-    app.post("/", (req, res) => {
+    app.post("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
       res.send(req.parsedBody.name);
     });
 
@@ -147,7 +147,7 @@ describe("superdeno(app)", () => {
   it("superdeno(app): should work when unbuffered", (done) => {
     const app = opine();
 
-    app.get("/", (req, res) => {
+    app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
       res.end("Hello");
     });
 
@@ -160,7 +160,7 @@ describe("superdeno(app)", () => {
   // it('should default redirects to 0', (done) => {
   //   const app = opine();
 
-  //   app.get('/', (req, res) => {
+  //   app.get('/', (req: OpineTypes.Request, res: OpineTypes.Response) => {
   //     res.redirect('/login');
   //   });
 
@@ -173,11 +173,11 @@ describe("superdeno(app)", () => {
   // it('should handle redirects', (done) => {
   //   const app = opine();
 
-  //   app.get('/login', (req, res) => {
+  //   app.get('/login', (req: OpineTypes.Request, res: OpineTypes.Response) => {
   //     res.end('Login');
   //   });
 
-  //   app.get('/', (req, res) => {
+  //   app.get('/', (req: OpineTypes.Request, res: OpineTypes.Response) => {
   //     res.redirect('/login');
   //   });
 
@@ -196,7 +196,7 @@ describe("superdeno(app)", () => {
   // it('should handle socket errors', (done) => {
   //   const app = opine();
 
-  //   app.get('/', (req, res) => {
+  //   app.get('/', (req: OpineTypes.Request, res: OpineTypes.Response) => {
   //     res.destroy();
   //   });
 
@@ -212,7 +212,7 @@ describe("superdeno(app)", () => {
     it("superdeno(app): .end(fn): should close server", (done) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("superdeno FTW!");
       });
 
@@ -231,7 +231,7 @@ describe("superdeno(app)", () => {
       const app = opine();
       let closed = false;
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("superdeno FTW!");
       });
 
@@ -251,7 +251,7 @@ describe("superdeno(app)", () => {
       const app = opine();
       const test = superdeno(app);
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("superdeno FTW!");
       });
 
@@ -274,7 +274,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("whatever");
       });
 
@@ -297,7 +297,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("whatever");
       });
 
@@ -317,7 +317,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res, next) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         setTimeout(async () => {
           try {
             await res.end();
@@ -342,9 +342,12 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", async (req, res) => {
-        res.end();
-      });
+      app.get(
+        "/",
+        async (req: OpineTypes.Request, res: OpineTypes.Response) => {
+          res.end();
+        },
+      );
 
       const server = app.listen();
       const address = server.listener.addr as Deno.NetAddr;
@@ -366,7 +369,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hey");
       });
 
@@ -384,7 +387,7 @@ describe("superdeno(app)", () => {
     it("superdeno(app): .expect(status): should assert only status", (done) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hey");
       });
 
@@ -401,7 +404,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("foo");
       });
 
@@ -416,7 +419,7 @@ describe("superdeno(app)", () => {
       ) => {
         const app = opine();
 
-        app.get("/", (req, res) => {
+        app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
           res.send("foo");
         });
 
@@ -439,7 +442,7 @@ describe("superdeno(app)", () => {
 
       app.set("json spaces", 0);
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send({ foo: "bar" });
       });
 
@@ -461,7 +464,7 @@ describe("superdeno(app)", () => {
 
       app.set("json spaces", 0);
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.setStatus(500).send({ message: "something went wrong" });
       });
 
@@ -484,7 +487,7 @@ describe("superdeno(app)", () => {
 
       app.set("json spaces", 0);
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send({ foo: "bar" });
       });
 
@@ -500,7 +503,7 @@ describe("superdeno(app)", () => {
 
       app.set("json spaces", 0);
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send({ foo: "bar" });
       });
 
@@ -523,7 +526,7 @@ describe("superdeno(app)", () => {
       done,
     ) => {
       const app = opine();
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.setStatus(200).json({ stringValue: "foo", numberValue: 3 });
       });
 
@@ -536,7 +539,7 @@ describe("superdeno(app)", () => {
       done,
     ) => {
       const app = opine();
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.setStatus(200)
           .json(
             {
@@ -579,7 +582,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("foobar");
       });
 
@@ -597,7 +600,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hey tj");
       });
 
@@ -619,7 +622,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hey tj");
       });
 
@@ -637,7 +640,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send({ foo: "bar" });
       });
 
@@ -655,7 +658,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send({ foo: "bar" });
       });
 
@@ -676,7 +679,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hey");
       });
 
@@ -692,7 +695,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hey");
       });
 
@@ -713,7 +716,7 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hey");
       });
 
@@ -730,7 +733,7 @@ describe("superdeno(app)", () => {
 
     describe("handling arbitrary expect functions", () => {
       const app = opine();
-      app.get("/", (req, res) => {
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
         res.send("hey");
       });
 
@@ -838,7 +841,7 @@ describe("superdeno(app)", () => {
     describe("handling multiple assertions per field", () => {
       it("superdeno(app): .expect(field, value[, fn]): should work", (done) => {
         const app = opine();
-        app.get("/", (req, res) => {
+        app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
           res.send("hey");
         });
 
@@ -853,7 +856,7 @@ describe("superdeno(app)", () => {
         done,
       ) => {
         const app = opine();
-        app.get("/", (req, res) => {
+        app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
           res.send("hey");
         });
 
@@ -874,7 +877,7 @@ describe("superdeno(app)", () => {
         done,
       ) => {
         const app = opine();
-        app.get("/", (req, res) => {
+        app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
           res.send("hey");
         });
 
@@ -896,7 +899,7 @@ describe("superdeno(app)", () => {
         done,
       ) => {
         const app = opine();
-        app.get("/", (req, res) => {
+        app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
           res.send("hey");
         });
 

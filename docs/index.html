@@ -66,12 +66,161 @@
 					<h1>superdeno</h1>
 				</a>
 				<p>HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/superagent">superagent</a>.</p>
-				<p><img src="https://github.com/asos-craigmorten/superdeno/workflows/Test/badge.svg" alt="Test"> <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a> <a href="https://img.shields.io/github/issues/asos-craigmorten/superdeno"><img src="https://img.shields.io/github/issues/asos-craigmorten/superdeno" alt=""></a>
+				<p><a href="https://github.com/asos-craigmorten/superdeno/tags/"><img src="https://img.shields.io/github/tag/asos-craigmorten/superdeno" alt="GitHub tag"></a> <img src="https://github.com/asos-craigmorten/superdeno/workflows/Test/badge.svg" alt="Test"> <a href="https://doc.deno.land/https/deno.land/x/superdeno/mod.ts"><img src="https://doc.deno.land/badge.svg" alt="deno doc"></a> <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a> <a href="https://img.shields.io/github/issues/asos-craigmorten/superdeno"><img src="https://img.shields.io/github/issues/asos-craigmorten/superdeno" alt=""></a>
 				<img src="https://img.shields.io/github/stars/asos-craigmorten/superdeno" alt=""> <img src="https://img.shields.io/github/forks/asos-craigmorten/superdeno" alt=""> <img src="https://img.shields.io/github/license/asos-craigmorten/superdeno" alt=""> <a href="https://GitHub.com/asos-craigmorten/superdeno/graphs/commit-activity"><img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintenance"></a> <a href="http://hits.dwyl.com/asos-craigmorten/superdeno"><img src="http://hits.dwyl.com/asos-craigmorten/superdeno.svg" alt="HitCount"></a></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/superdeno@master/mod.ts"</span>;
+<span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/superdeno@master/mod.ts"</span>;
+
+<span class="hljs-keyword">const</span> app = superdeno();
+
+app.get(<span class="hljs-string">"/user"</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  res.setStatus(<span class="hljs-number">200</span>).json({ name: <span class="hljs-string">"deno"</span> });
+});
+
+request(app)
+  .get(<span class="hljs-string">"/user"</span>)
+  .expect(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-regexp">/json/</span>)
+  .expect(<span class="hljs-string">"Content-Length"</span>, <span class="hljs-string">"15"</span>)
+  .expect(<span class="hljs-number">200</span>)
+  .end(<span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+  });</code></pre>
+				<a href="#about" id="about" style="color: inherit; text-decoration: none;">
+					<h2>About</h2>
+				</a>
+				<p>The motivation of this module is to provide a high-level abstraction for testing HTTP in Deno, while still allowing you to drop down to the lower-level API provided by <a href="https://visionmedia.github.io/superagent/">superagent</a>.</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p>This is a <a href="https://deno.land/">Deno</a> module available to import direct from this repo and via the <a href="https://deno.land/x">Deno Registry</a>.</p>
+				<p>Before importing, <a href="https://deno.land/#installation">download and install Deno</a>.</p>
+				<p>You can then import SuperDeno straight into your project:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/superdeno@master/mod.ts"</span>;</code></pre>
+				<p>If you want to use a specific version of SuperDeno, just modify the import url to contain the version:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/superdeno@0.3.0/mod.ts"</span>;</code></pre>
+				<p>Or if you want to use a specific commit of SuperDeno, just modify the import url to contain the commit hash:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/superdeno@c21f8d6/mod.ts"</span>;</code></pre>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h2>Example</h2>
+				</a>
+				<p>You may pass a url string, <a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#Server"><code>http.Server</code></a>, a request handling function, or an object that implements an <code>app.listen()</code> method (which mirrors the <a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#serve"><code>http.serve</code></a> interface) to <code>superdeno()</code> - if SuperDeno identifies that a server is not already listening for connections, then one is bound to an ephemeral port for you so there is no need to keep track of ports.</p>
+				<p>SuperDeno works with any Deno test framework. Here&#39;s an example with Deno&#39;s built-in test framework, note how you can pass <code>done</code> straight to any of the <code>.expect()</code> calls:</p>
+				<pre><code class="language-ts">Deno.test(<span class="hljs-string">"GET /user responds with json"</span>, <span class="hljs-function">(<span class="hljs-params">done</span>) =&gt;</span> {
+  request(app)
+    .get(<span class="hljs-string">"/user"</span>)
+    .set(<span class="hljs-string">"Accept"</span>, <span class="hljs-string">"application/json"</span>)
+    .expect(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-regexp">/json/</span>)
+    .expect(<span class="hljs-number">200</span>, done);
+});</code></pre>
+				<p>Here&#39;s an example of SuperDeno working with the Opine web framework:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/opine@0.8.0/mod.ts"</span>;
+<span class="hljs-keyword">import</span> { expect } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/expect@9effa6/mod.ts"</span>;
+
+Deno.test(<span class="hljs-string">"it should support regular expressions"</span>, <span class="hljs-function">(<span class="hljs-params">done</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> app = opine();
+
+  app.get(<span class="hljs-string">"/"</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    res.send(<span class="hljs-string">"hey"</span>);
+  });
+
+  superdeno(app)
+    .get(<span class="hljs-string">"/"</span>)
+    .expect(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-regexp">/^application/</span>)
+    .end(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      expect(err.message).toEqual(
+        <span class="hljs-string">'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'</span>
+      );
+      done();
+    });
+});</code></pre>
+				<p>Here&#39;s an example of SuperDeno working with the Oak web framework:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/oak@v5.0.0/mod.ts"</span>;
+
+Deno.test(<span class="hljs-string">"it should support the Oak framework"</span>, <span class="hljs-function">(<span class="hljs-params">done</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
+  router.get(<span class="hljs-string">"/"</span>, <span class="hljs-function">(<span class="hljs-params">ctx</span>) =&gt;</span> {
+    ctx.response.body = <span class="hljs-string">"hello"</span>;
+  });
+
+  <span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Application();
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+
+  <span class="hljs-keyword">const</span> controller = <span class="hljs-keyword">new</span> AbortController();
+  <span class="hljs-keyword">const</span> { signal } = controller;
+
+  app.addEventListener(<span class="hljs-string">"listen"</span>, <span class="hljs-function">(<span class="hljs-params">{ hostname, port, secure }</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> protocol = secure ? <span class="hljs-string">"https"</span> : <span class="hljs-string">"http"</span>;
+    <span class="hljs-keyword">const</span> url = <span class="hljs-string">`<span class="hljs-subst">${protocol}</span>://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>`</span>;
+
+    superdeno(url)
+      .get(<span class="hljs-string">"/"</span>)
+      .expect(<span class="hljs-string">"hello"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        controller.abort();
+        done();
+      });
+  });
+
+  <span class="hljs-keyword">await</span> app.listen({ port: <span class="hljs-number">0</span>, signal });
+});</code></pre>
+				<p>For further examples, see the <a href="./test">tests</a> or the <a href="https://github.com/visionmedia/supertest#example">supertest examples</a> for inspiration.</p>
+				<a href="#docs" id="docs" style="color: inherit; text-decoration: none;">
+					<h2>Docs</h2>
+				</a>
+				<ul>
+					<li><a href="https://asos-craigmorten.github.io/superdeno/">SuperDeno Type Docs</a></li>
+					<li><a href="https://doc.deno.land/https/deno.land/x/superdeno/mod.ts">SuperDeno Deno Docs</a></li>
+					<li><a href="https://github.com/asos-craigmorten/superdeno/blob/master/LICENSE.md">License</a></li>
+					<li><a href="https://github.com/asos-craigmorten/superdeno/blob/master/.github/CHANGELOG.md">Changelog</a></li>
+				</ul>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>API</h2>
+				</a>
+				<p>You may use any <a href="http://github.com/visionmedia/superagent">superagent</a> client (browser) methods and perform assertions in the <code>.end()</code> callback for lower-level needs.</p>
+				<a href="#expectstatus-fn" id="expectstatus-fn" style="color: inherit; text-decoration: none;">
+					<h3>.expect(status[, fn])</h3>
+				</a>
+				<p>Assert response <code>status</code> code.</p>
+				<a href="#expectstatus-body-fn" id="expectstatus-body-fn" style="color: inherit; text-decoration: none;">
+					<h3>.expect(status, body[, fn])</h3>
+				</a>
+				<p>Assert response <code>status</code> code and <code>body</code>.</p>
+				<a href="#expectbody-fn" id="expectbody-fn" style="color: inherit; text-decoration: none;">
+					<h3>.expect(body[, fn])</h3>
+				</a>
+				<p>Assert response <code>body</code> text with a string, regular expression, or parsed body object.</p>
+				<a href="#expectfield-value-fn" id="expectfield-value-fn" style="color: inherit; text-decoration: none;">
+					<h3>.expect(field, value[, fn])</h3>
+				</a>
+				<p>Assert header <code>field</code> <code>value</code> with a string or regular expression.</p>
+				<a href="#expectfunctionres-" id="expectfunctionres-" style="color: inherit; text-decoration: none;">
+					<h3>.expect(function(res) {})</h3>
+				</a>
+				<p>Pass a custom assertion function. It&#39;ll be given the response object to check. If the check fails, throw an error.</p>
+				<pre><code class="language-ts">superdeno(app).get(<span class="hljs-string">"/"</span>).expect(hasPreviousAndNextKeys).end(done);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hasPreviousAndNextKeys</span>(<span class="hljs-params">res</span>) </span>{
+  <span class="hljs-keyword">if</span> (!(<span class="hljs-string">"next"</span> <span class="hljs-keyword">in</span> res.parsedBody)) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"missing next key"</span>);
+  <span class="hljs-keyword">if</span> (!(<span class="hljs-string">"prev"</span> <span class="hljs-keyword">in</span> res.parsedBody)) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"missing prev key"</span>);
+}</code></pre>
+				<a href="#endfn" id="endfn" style="color: inherit; text-decoration: none;">
+					<h3>.end(fn)</h3>
+				</a>
+				<p>Perform the request and invoke <code>fn(err, res)</code>.</p>
+				<a href="#notes" id="notes" style="color: inherit; text-decoration: none;">
+					<h2>Notes</h2>
+				</a>
+				<p>This is a port (not fork) of <a href="https://github.com/visionmedia/supertest">supertest</a> to TypeScript + Deno, which fulfills this motivation currently for Node. This module also includes a XHR sham so <a href="https://visionmedia.github.io/superagent/">superagent</a> client mode can be used directly.</p>
 				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
 					<h2>Contributing</h2>
 				</a>
-				<p><a href="https://github.com/asos-craigmorten/opine/blob/master/.github/CONTRIBUTING.md">Contributing guide</a></p>
+				<p><a href="https://github.com/asos-craigmorten/superdeno/blob/master/.github/CONTRIBUTING.md">Contributing guide</a></p>
+				<hr>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p>This library is a port of <a href="https://github.com/visionmedia/supertest">supertest</a> whose license and copyrights are available at <a href="./SUPERTEST_LICENSE.md">SUPERTEST_LICENSE</a> in the root of this repository, and covers all files within the <a href="./src">source</a> directory which detail that the file is a port.</p>
+				<p>superdeno is licensed under the <a href="./LICENSE.md">MIT License</a>.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

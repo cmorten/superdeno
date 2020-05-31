@@ -1,3 +1,7 @@
+/**
+ * Port of supertest (https://github.com/visionmedia/supertest) for Deno
+ */
+
 import {
   superagent,
   Server,
@@ -38,10 +42,13 @@ export class Test extends SuperRequest {
     } else {
       if (isServer(app)) {
         this._server = app as Server;
-      }
-      if (isListener(app)) {
+      } else if (isListener(app)) {
         secure = false;
         this._server = (app as Listener).listen({ port: 0 });
+      } else {
+        throw new Error(
+          "superdeno is unable to identify or create a valid test server",
+        );
       }
 
       this.url = this.serverAddress(path, host, secure);

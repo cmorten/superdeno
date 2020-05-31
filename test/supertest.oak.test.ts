@@ -34,7 +34,7 @@ const bootstrapOakServerTest = async (
   const controller = new AbortController();
   const { signal } = controller;
 
-  app.addEventListener("listen", ({ hostname, port, secure }) => {
+  app.addEventListener("listen", ({ hostname, port, secure }: any) => {
     const protocol = secure ? "https" : "http";
     const url = `${protocol}://${hostname}:${port}`;
 
@@ -50,7 +50,7 @@ describe("Oak: superdeno(url)", () => {
   ) => {
     await bootstrapOakServerTest({
       configureApp: ({ router }) => {
-        router.get("/", (ctx) => {
+        router.get("/", (ctx: Oak.RouterContext) => {
           ctx.response.body = "hello";
         });
       },
@@ -72,7 +72,7 @@ describe("Oak: superdeno(url)", () => {
     ) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
-          router.get("/", (ctx) => {
+          router.get("/", (ctx: Oak.RouterContext) => {
             ctx.response.body = "hello";
           });
         },
