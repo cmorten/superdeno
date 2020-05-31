@@ -7,15 +7,15 @@ HTTP assertions for Deno made easy via [superagent](https://github.com/visionmed
 
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno@master/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@master/mod.ts";
+import { opine } from "https://deno.land/x/opine@0.8.0/mod.ts";
 
-const app = superdeno();
+const app = opine();
 
 app.get("/user", (req, res) => {
   res.setStatus(200).json({ name: "deno" });
 });
 
-request(app)
+superdeno(app)
   .get("/user")
   .expect("Content-Type", /json/)
   .expect("Content-Length", "15")
