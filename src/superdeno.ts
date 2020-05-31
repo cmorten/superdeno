@@ -1,3 +1,7 @@
+/**
+ * Port of supertest (https://github.com/visionmedia/supertest) for Deno
+ */
+
 import { methods, Server, serve } from "../deps.ts";
 import { Test } from "./test.ts";
 import { close } from "./close.ts";
