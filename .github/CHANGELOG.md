@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [1.1.2] - 01-06-2020
+
+- fix: subresource integrity check failed --lock=lock.json.
+
 ## [1.1.1] - 01-06-2020
 
 - docs: minor inline documentation and types improvements to appease deno docs.
