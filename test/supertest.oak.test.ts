@@ -1,8 +1,7 @@
 import { Oak, expect } from "./deps.ts";
 import { HTTPOptions, HTTPSOptions } from "../deps.ts";
 import { describe, it } from "./utils.ts";
-import { superdeno } from "../mod.ts";
-import { Test } from "../src/types.ts";
+import { superdeno, Test } from "../mod.ts";
 
 const { Application, Router } = Oak;
 
