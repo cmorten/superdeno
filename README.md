@@ -2,7 +2,7 @@
 
 HTTP assertions for Deno made easy via [superagent](https://github.com/visionmedia/superagent).
 
-[![GitHub tag](https://img.shields.io/github/tag/asos-craigmorten/superdeno)](https://github.com/asos-craigmorten/superdeno/tags/) ![Test](https://github.com/asos-craigmorten/superdeno/workflows/Test/badge.svg) [![deno doc](https://doc.deno.land/badge.svg)](https://doc.deno.land/https/deno.land/x/superdeno/mod.ts) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com) [![GitHub issues](https://img.shields.io/github/issues/asos-craigmorten/superdeno)](https://img.shields.io/github/issues/asos-craigmorten/superdeno)
+[![GitHub tag](https://img.shields.io/github/tag/asos-craigmorten/superdeno)](https://github.com/asos-craigmorten/superdeno/tags/) ![Test](https://github.com/asos-craigmorten/superdeno/workflows/Test/badge.svg) [![deno doc](https://doc.deno.land/badge.svg)](https://doc.deno.land/https/deno.land/x/superdeno@master/mod.ts) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com) [![GitHub issues](https://img.shields.io/github/issues/asos-craigmorten/superdeno)](https://img.shields.io/github/issues/asos-craigmorten/superdeno)
 ![GitHub stars](https://img.shields.io/github/stars/asos-craigmorten/superdeno) ![GitHub forks](https://img.shields.io/github/forks/asos-craigmorten/superdeno) ![SuperDeno License](https://img.shields.io/github/license/asos-craigmorten/superdeno) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/asos-craigmorten/superdeno/graphs/commit-activity) [![HitCount](http://hits.dwyl.com/asos-craigmorten/superdeno.svg)](http://hits.dwyl.com/asos-craigmorten/superdeno)
 
 ```ts
