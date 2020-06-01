@@ -54,13 +54,14 @@ export interface SuperDeno {
  * 
  * @param {string|RequestHandler|Listener|Server} app 
  * @param {?boolean} secure 
+ * 
  * @returns {SuperDeno}
  * @public
  */
-export const superdeno = (
+export function superdeno(
   app: string | RequestHandler | Listener | Server,
   secure?: boolean,
-): SuperDeno => {
+): SuperDeno {
   const obj: Record<string, any> = {};
 
   let managedServer: Server | undefined;
@@ -93,4 +94,4 @@ export const superdeno = (
   }
 
   return obj as SuperDeno;
-};
+}
