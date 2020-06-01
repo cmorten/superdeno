@@ -23,8 +23,8 @@ export interface IRequest {
   /**
    * Initialize a new `Request` with the given `method` and `url`.
    *
-   * @param {String} method
-   * @param {String} url
+   * @param {string} method
+   * @param {string} url
    */
   new (method: string, url: string): IRequest;
 
@@ -207,6 +207,7 @@ export class Test extends SuperRequest {
    * @param {string} path
    * @param {?string} host
    * @param {?boolean} secure
+   * 
    * @returns {string} URL address
    * @private
    */
@@ -228,6 +229,7 @@ export class Test extends SuperRequest {
    *   .expect(fn)
    *
    * @param {CallbackHandler} callback
+   * 
    * @returns {Test} for chaining
    * @public
    */
@@ -240,6 +242,7 @@ export class Test extends SuperRequest {
    *
    * @param {number} status
    * @param {?CallbackHandler} callback
+   * 
    * @returns {Test} for chaining
    * @public
    */
@@ -253,6 +256,7 @@ export class Test extends SuperRequest {
    * @param {number} status
    * @param {any} body
    * @param {?CallbackHandler} callback
+   * 
    * @returns {Test} for chaining
    * @public
    */
@@ -265,6 +269,7 @@ export class Test extends SuperRequest {
    *
    * @param {ExpectChecker} checker
    * @param {?CallbackHandler} callback
+   * 
    * @returns {Test} for chaining
    * @public
    */
@@ -278,6 +283,7 @@ export class Test extends SuperRequest {
    *
    * @param {string|RegExp|Object} body
    * @param {?CallbackHandler} callback
+   * 
    * @returns {Test} for chaining
    * @public
    */
@@ -291,6 +297,7 @@ export class Test extends SuperRequest {
    * @param {string} field
    * @param {string|RegExp|Object} value
    * @param {?CallbackHandler} callback
+   * 
    * @returns {Test} for chaining
    * @public
    */
@@ -337,6 +344,7 @@ export class Test extends SuperRequest {
    * the server is listening.
    *
    * @param {CallbackHandler} fn
+   * 
    * @returns {Test} for chaining
    * @public
    */
@@ -401,8 +409,9 @@ export class Test extends SuperRequest {
   /**
    * Perform assertions on a response body and return an Error upon failure.
    *
-   * @param {Mixed} body
-   * @param {Response} res
+   * @param {any} body
+   * @param {any} res
+   * 
    * @returns {?Error}
    * @private
    */
@@ -450,8 +459,9 @@ export class Test extends SuperRequest {
   /**
    * Perform assertions on a response header and return an Error upon failure.
    *
-   * @param {Object} header
-   * @param {Response} res
+   * @param {any} header
+   * @param {any} res
+   * 
    * @returns {?Error}
    * @private
    */
@@ -488,8 +498,9 @@ export class Test extends SuperRequest {
   /**
    * Perform assertions on the response status and return an Error upon failure.
    *
-   * @param {Number} status
-   * @param {Response} res
+   * @param {number} status
+   * @param {any} res
+   * 
    * @returns {?Error}
    * @private
    */
@@ -506,7 +517,8 @@ export class Test extends SuperRequest {
    * Performs an assertion by calling a function and return an Error upon failure.
    *
    * @param {Function} fn
-   * @param {Response} res
+   * @param {any} res
+   * 
    * @returns {?Error}
    * @private
    */
@@ -529,6 +541,7 @@ export class Test extends SuperRequest {
  * @param {string} msg
  * @param {any} expected
  * @param {any} actual
+ * 
  * @returns {Error}
  * @private
  */
