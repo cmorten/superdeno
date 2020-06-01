@@ -128,6 +128,8 @@ Deno.test("it should support the Oak framework", (done) => {
 });
 ```
 
+If you are using the [Oak](https://github.com/oakserver/oak/) web framework then it is recommended that you use the specialised [SuperOak](https://github.com/asos-craigmorten/superoak) assertions library for reduced bootstrapping.
+
 For further examples, see the [tests](./test) or the [supertest examples](https://github.com/visionmedia/supertest#example) for inspiration.
 
 ## Docs
