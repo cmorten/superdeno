@@ -66,18 +66,18 @@
 					<h1>superdeno</h1>
 				</a>
 				<p>HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/superagent">superagent</a>.</p>
-				<p><a href="https://github.com/asos-craigmorten/superdeno/tags/"><img src="https://img.shields.io/github/tag/asos-craigmorten/superdeno" alt="GitHub tag"></a> <img src="https://github.com/asos-craigmorten/superdeno/workflows/Test/badge.svg" alt="Test"> <a href="https://doc.deno.land/https/deno.land/x/superdeno/mod.ts"><img src="https://doc.deno.land/badge.svg" alt="deno doc"></a> <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a> <a href="https://img.shields.io/github/issues/asos-craigmorten/superdeno"><img src="https://img.shields.io/github/issues/asos-craigmorten/superdeno" alt=""></a>
-				<img src="https://img.shields.io/github/stars/asos-craigmorten/superdeno" alt=""> <img src="https://img.shields.io/github/forks/asos-craigmorten/superdeno" alt=""> <img src="https://img.shields.io/github/license/asos-craigmorten/superdeno" alt=""> <a href="https://GitHub.com/asos-craigmorten/superdeno/graphs/commit-activity"><img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintenance"></a> <a href="http://hits.dwyl.com/asos-craigmorten/superdeno"><img src="http://hits.dwyl.com/asos-craigmorten/superdeno.svg" alt="HitCount"></a></p>
+				<p><a href="https://github.com/asos-craigmorten/superdeno/tags/"><img src="https://img.shields.io/github/tag/asos-craigmorten/superdeno" alt="GitHub tag"></a> <img src="https://github.com/asos-craigmorten/superdeno/workflows/Test/badge.svg" alt="Test"> <a href="https://doc.deno.land/https/deno.land/x/superdeno/mod.ts"><img src="https://doc.deno.land/badge.svg" alt="deno doc"></a> <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a> <a href="https://img.shields.io/github/issues/asos-craigmorten/superdeno"><img src="https://img.shields.io/github/issues/asos-craigmorten/superdeno" alt="GitHub issues"></a>
+				<img src="https://img.shields.io/github/stars/asos-craigmorten/superdeno" alt="GitHub stars"> <img src="https://img.shields.io/github/forks/asos-craigmorten/superdeno" alt="GitHub forks"> <img src="https://img.shields.io/github/license/asos-craigmorten/superdeno" alt="SuperDeno License"> <a href="https://GitHub.com/asos-craigmorten/superdeno/graphs/commit-activity"><img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintenance"></a> <a href="http://hits.dwyl.com/asos-craigmorten/superdeno"><img src="http://hits.dwyl.com/asos-craigmorten/superdeno.svg" alt="HitCount"></a></p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/superdeno@master/mod.ts"</span>;
-<span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/superdeno@master/mod.ts"</span>;
+<span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/opine@0.8.0/mod.ts"</span>;
 
-<span class="hljs-keyword">const</span> app = superdeno();
+<span class="hljs-keyword">const</span> app = opine();
 
 app.get(<span class="hljs-string">"/user"</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   res.setStatus(<span class="hljs-number">200</span>).json({ name: <span class="hljs-string">"deno"</span> });
 });
 
-request(app)
+superdeno(app)
   .get(<span class="hljs-string">"/user"</span>)
   .expect(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-regexp">/json/</span>)
   .expect(<span class="hljs-string">"Content-Length"</span>, <span class="hljs-string">"15"</span>)

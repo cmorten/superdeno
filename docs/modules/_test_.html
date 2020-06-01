@@ -74,6 +74,22 @@
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_test_.test.html" class="tsd-kind-icon">Test</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported"><a href="../interfaces/_test_.httperror.html" class="tsd-kind-icon">HTTPError</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_test_.irequest.html" class="tsd-kind-icon">IRequest</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_test_.iresponse.html" class="tsd-kind-icon">IResponse</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported"><a href="../interfaces/_test_.xmlhttprequest.html" class="tsd-kind-icon">XMLHttp<wbr>Request</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported"><a href="_test_.html#callbackhandler" class="tsd-kind-icon">Callback<wbr>Handler</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported"><a href="_test_.html#expectchecker" class="tsd-kind-icon">Expect<wbr>Checker</a></li>
+							</ul>
+						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
@@ -90,16 +106,99 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+					<a name="callbackhandler" class="tsd-anchor"></a>
+					<h3>Callback<wbr>Handler</h3>
+					<div class="tsd-signature tsd-kind-icon">Callback<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, res<span class="tsd-signature-symbol">: </span><a href="../interfaces/_test_.iresponse.html" class="tsd-signature-type">IResponse</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/asos-craigmorten/superdeno/blob/5d82934/src/test.ts#L143">git/asos-craigmorten/superdeno/src/test.ts:143</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The handler function for callbacks within Deno <code>expect</code> and <code>end</code> methods.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, res<span class="tsd-signature-symbol">: </span><a href="../interfaces/_test_.iresponse.html" class="tsd-signature-type">IResponse</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>err: <span class="tsd-signature-type">any</span></h5>
+											</li>
+											<li>
+												<h5>res: <a href="../interfaces/_test_.iresponse.html" class="tsd-signature-type">IResponse</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+					<a name="expectchecker" class="tsd-anchor"></a>
+					<h3>Expect<wbr>Checker</h3>
+					<div class="tsd-signature tsd-kind-icon">Expect<wbr>Checker<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/asos-craigmorten/superdeno/blob/5d82934/src/test.ts#L148">git/asos-craigmorten/superdeno/src/test.ts:148</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Custom expectation checker.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>res: <span class="tsd-signature-type">Response</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
 					<a name="superrequest" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> Super<wbr>Request</h3>
-					<div class="tsd-signature tsd-kind-icon">Super<wbr>Request<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = (superagent as any).Request</span></div>
+					<div class="tsd-signature tsd-kind-icon">Super<wbr>Request<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_test_.irequest.html" class="tsd-signature-type">IRequest</a><span class="tsd-signature-symbol"> = (superagent as any).Request</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/asos-craigmorten/superdeno/blob/f080fec/src/test.ts#L19">git/asos-craigmorten/superdeno/src/test.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/asos-craigmorten/superdeno/blob/5d82934/src/test.ts#L159">git/asos-craigmorten/superdeno/src/test.ts:159</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The superagent Request class.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected tsd-is-not-exported">
@@ -108,13 +207,13 @@
 					<a name="error" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> error</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-private tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, expected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, actual<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.httperror.html#error" class="tsd-signature-type">Error</a></li>
+						<li class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, expected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, actual<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_test_.httperror.html#error" class="tsd-signature-type">Error</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/asos-craigmorten/superdeno/blob/f080fec/src/test.ts#L326">git/asos-craigmorten/superdeno/src/test.ts:326</a></li>
+									<li>Defined in <a href="https://github.com/asos-craigmorten/superdeno/blob/5d82934/src/test.ts#L535">git/asos-craigmorten/superdeno/src/test.ts:535</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -134,7 +233,7 @@
 									<h5>actual: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_types_.httperror.html#error" class="tsd-signature-type">Error</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_test_.httperror.html#error" class="tsd-signature-type">Error</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -167,6 +266,24 @@
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="../classes/_test_.test.html" class="tsd-kind-icon">Test</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../interfaces/_test_.httperror.html" class="tsd-kind-icon">HTTPError</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_test_.irequest.html" class="tsd-kind-icon">IRequest</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_test_.iresponse.html" class="tsd-kind-icon">IResponse</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../interfaces/_test_.xmlhttprequest.html" class="tsd-kind-icon">XMLHttp<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_test_.html#callbackhandler" class="tsd-kind-icon">Callback<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_test_.html#expectchecker" class="tsd-kind-icon">Expect<wbr>Checker</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_test_.html#superrequest" class="tsd-kind-icon">Super<wbr>Request</a>
