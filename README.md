@@ -60,12 +60,12 @@ You may pass a url string, [`http.Server`](https://doc.deno.land/https/deno.land
 SuperDeno works with any Deno test framework. Here's an example with Deno's built-in test framework, note how you can pass `done` straight to any of the `.expect()` calls:
 
 ```ts
-Deno.test("GET /user responds with json", (done) => {
-  request(app)
+Deno.test("GET /user responds with json", async () => {
+  await superdeno(app)
     .get("/user")
     .set("Accept", "application/json")
     .expect("Content-Type", /json/)
-    .expect(200, done);
+    .expect(200);
 });
 ```
 
@@ -75,21 +75,20 @@ Here's an example of SuperDeno working with the Opine web framework:
 import { opine } from "https://deno.land/x/opine@0.8.0/mod.ts";
 import { expect } from "https://deno.land/x/expect@9effa6/mod.ts";
 
-Deno.test("it should support regular expressions", (done) => {
-  const app = opine();
+const app = opine();
 
-  app.get("/", (req, res) => {
-    res.send("hey");
-  });
+app.get("/", (req, res) => {
+  res.send("hey");
+});
 
-  superdeno(app)
+Deno.test("it should support regular expressions", async () => {
+  await superdeno(app)
     .get("/")
     .expect("Content-Type", /^application/)
     .end((err) => {
       expect(err.message).toEqual(
         'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
       );
-      done();
     });
 });
 ```
@@ -99,28 +98,27 @@ Here's an example of SuperDeno working with the Oak web framework:
 ```ts
 import { Application, Router } from "https://deno.land/x/oak@v5.0.0/mod.ts";
 
-Deno.test("it should support the Oak framework", (done) => {
-  const router = new Router();
-  router.get("/", (ctx) => {
-    ctx.response.body = "hello";
-  });
+const router = new Router();
+router.get("/", (ctx) => {
+  ctx.response.body = "hello";
+});
 
-  const app = new Application();
-  app.use(router.routes());
-  app.use(router.allowedMethods());
+const app = new Application();
+app.use(router.routes());
+app.use(router.allowedMethods());
 
+Deno.test("it should support the Oak framework", () => {
   const controller = new AbortController();
   const { signal } = controller;
 
-  app.addEventListener("listen", ({ hostname, port, secure }) => {
+  app.addEventListener("listen", async ({ hostname, port, secure }) => {
     const protocol = secure ? "https" : "http";
     const url = `${protocol}://${hostname}:${port}`;
 
-    superdeno(url)
+    await superdeno(url)
       .get("/")
       .expect("hello", () => {
         controller.abort();
-        done();
       });
   });
 
