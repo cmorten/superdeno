@@ -1,12 +1,41 @@
-# superdeno
+<p align="center">
+  <a href="https://www.linkedin.com/in/hannah-morten-b1218017a/"><img height="200" src="https://github.com/asos-craigmorten/superdeno/blob/main/.github/icon.png" alt="Super Deno standing in the rain at night – stoically facing the dark battle that is software engineering"></a>
+  <h1 align="center">SuperDeno</h1>
+</p>
+<p align="center">
+HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/superagent">superagent</a>.
+</p>
+<p align="center">
+   <a href="https://github.com/asos-craigmorten/superdeno/tags/"><img src="https://img.shields.io/github/tag/asos-craigmorten/superdeno" alt="Current version" /></a>
+   <img src="https://github.com/asos-craigmorten/superdeno/workflows/Test/badge.svg" alt="Current test status" />
+   <a href="https://doc.deno.land/https/deno.land/x/superdeno/mod.ts"><img src="https://doc.deno.land/badge.svg" alt="SuperDeno docs" /></a>
+   <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs are welcome" /></a>
+   <a href="https://github.com/asos-craigmorten/superdeno/issues/"><img src="https://img.shields.io/github/issues/asos-craigmorten/superdeno" alt="SuperDeno issues" /></a>
+   <img src="https://img.shields.io/github/stars/asos-craigmorten/superdeno" alt="SuperDeno stars" />
+   <img src="https://img.shields.io/github/forks/asos-craigmorten/superdeno" alt="SuperDeno forks" />
+   <img src="https://img.shields.io/github/license/asos-craigmorten/superdeno" alt="SuperDeno license" />
+   <a href="https://GitHub.com/asos-craigmorten/superdeno/graphs/commit-activity"><img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="SuperDeno is maintained" /></a>
+   <a href="http://hits.dwyl.com/asos-craigmorten/superdeno"><img src="http://hits.dwyl.com/asos-craigmorten/superdeno.svg" alt="SuperDeno repository visit count" /></a>
+</p>
 
-HTTP assertions for Deno made easy via [superagent](https://github.com/visionmedia/superagent).
+---
 
-[![GitHub tag](https://img.shields.io/github/tag/asos-craigmorten/superdeno)](https://github.com/asos-craigmorten/superdeno/tags/) ![Test](https://github.com/asos-craigmorten/superdeno/workflows/Test/badge.svg) [![deno doc](https://doc.deno.land/badge.svg)](https://doc.deno.land/https/deno.land/x/superdeno@master/mod.ts) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com) [![GitHub issues](https://img.shields.io/github/issues/asos-craigmorten/superdeno)](https://img.shields.io/github/issues/asos-craigmorten/superdeno)
-![GitHub stars](https://img.shields.io/github/stars/asos-craigmorten/superdeno) ![GitHub forks](https://img.shields.io/github/forks/asos-craigmorten/superdeno) ![SuperDeno License](https://img.shields.io/github/license/asos-craigmorten/superdeno) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/asos-craigmorten/superdeno/graphs/commit-activity) [![HitCount](http://hits.dwyl.com/asos-craigmorten/superdeno.svg)](http://hits.dwyl.com/asos-craigmorten/superdeno)
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [About](#about)
+- [Installation](#installation)
+- [Example](#example)
+- [Documentation](#documentation)
+- [API](#api)
+- [Notes](#notes)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Getting Started
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@master/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@main/mod.ts";
 import { opine } from "https://deno.land/x/opine@0.8.0/mod.ts";
 
 const app = opine();
@@ -38,7 +67,7 @@ Before importing, [download and install Deno](https://deno.land/#installation).
 You can then import SuperDeno straight into your project:
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@master/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@main/mod.ts";
 ```
 
 If you want to use a specific version of SuperDeno, just modify the import url to contain the version:
@@ -130,12 +159,12 @@ If you are using the [Oak](https://github.com/oakserver/oak/) web framework then
 
 For further examples, see the [tests](./test) or the [supertest examples](https://github.com/visionmedia/supertest#example) for inspiration.
 
-## Docs
+## Documentation
 
-- [SuperDeno Type Docs](https://asos-craigmorten.github.io/superdeno/)
 - [SuperDeno Deno Docs](https://doc.deno.land/https/deno.land/x/superdeno/mod.ts)
-- [License](https://github.com/asos-craigmorten/superdeno/blob/master/LICENSE.md)
-- [Changelog](https://github.com/asos-craigmorten/superdeno/blob/master/.github/CHANGELOG.md)
+- ~[SuperDeno Type Docs](https://asos-craigmorten.github.io/superdeno/)~ - Unavailable while awaiting GitHub's support of alternatively named default branches.
+- [License](https://github.com/asos-craigmorten/superdeno/blob/main/LICENSE.md)
+- [Changelog](https://github.com/asos-craigmorten/superdeno/blob/main/.github/CHANGELOG.md)
 
 ## API
 
@@ -180,7 +209,7 @@ This is a port (not fork) of [supertest](https://github.com/visionmedia/supertes
 
 ## Contributing
 
-[Contributing guide](https://github.com/asos-craigmorten/superdeno/blob/master/.github/CONTRIBUTING.md)
+[Contributing guide](https://github.com/asos-craigmorten/superdeno/blob/main/.github/CONTRIBUTING.md)
 
 ---
 
