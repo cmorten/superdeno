@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [1.1.4] - 18-06-2020
+
+- fix: egg.json
+- feat: add icon artist attribution.
+
 ## [1.1.3] - 18-06-2020
 
 - feat: move to main default branch.

@@ -8,7 +8,7 @@
         "./deps.ts",
         "./version.ts",
         "./lock.json",
-        "./src/**/*",
+        "./src/*",
         "./README.md",
         "./LICENSE.md",
         "./SUPERTEST_LICENSE.md",
