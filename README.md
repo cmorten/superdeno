@@ -217,4 +217,6 @@ This is a port (not fork) of [supertest](https://github.com/visionmedia/supertes
 
 This library is a port of [supertest](https://github.com/visionmedia/supertest) whose license and copyrights are available at [SUPERTEST_LICENSE](./SUPERTEST_LICENSE.md) in the root of this repository, and covers all files within the [source](./src) directory which detail that the file is a port.
 
-superdeno is licensed under the [MIT License](./LICENSE.md).
+SuperDeno is licensed under the [MIT License](./LICENSE.md).
+
+Icon designed and created by [Hannah Morten](https://www.linkedin.com/in/hannah-morten-b1218017a/).
