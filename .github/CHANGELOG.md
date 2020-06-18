@@ -1,5 +1,12 @@
 # ChangeLog
 
+## [1.1.3] - 18-06-2020
+
+- feat: move to main default branch.
+- fix: pull request template.
+- feat: support <https://nest.land> package registry.
+- feat: bump Deno version support to 1.1.0.
+
 ## [1.1.2] - 01-06-2020
 
 - fix: subresource integrity check failed --lock=lock.json.
