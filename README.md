@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.linkedin.com/in/hannah-morten-b1218017a/"><img height="200" src="https://github.com/asos-craigmorten/superdeno/blob/main/.github/icon.png" alt="Super Deno standing in the rain at night – stoically facing the dark battle that is software engineering"></a>
+  <a href="https://www.linkedin.com/in/hannah-morten-b1218017a/"><img height="200" src="https://github.com/asos-craigmorten/superdeno/raw/main/.github/superdeno.png" alt="Super Deno standing in the rain at night – stoically facing the dark battle that is software engineering"></a>
   <h1 align="center">SuperDeno</h1>
 </p>
 <p align="center">
