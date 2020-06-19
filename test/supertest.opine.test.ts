@@ -396,7 +396,9 @@ describe("superdeno(app)", () => {
         .end(done);
     });
 
-    it("superdeno(app): .expect(status): should assert only error status'", (done) => {
+    it("superdeno(app): .expect(status): should assert only error status'", (
+      done,
+    ) => {
       const app = opine();
 
       app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {

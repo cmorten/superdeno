@@ -401,7 +401,10 @@ export class Test extends SuperRequest {
     }
 
     // set unexpected superagent error if no other error has occurred.
-    if (!error && resError instanceof Error && (!res || (resError as any).status !== res.status)) {
+    if (
+      !error && resError instanceof Error &&
+      (!res || (resError as any).status !== res.status)
+    ) {
       error = resError;
     }
 
