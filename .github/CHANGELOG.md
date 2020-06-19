@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [1.1.5] - 19-06-2020
+
+- feat: add repository to `egg.json`.
+
 ## [1.1.4] - 18-06-2020
 
 - fix: egg.json
