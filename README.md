@@ -54,6 +54,8 @@ superdeno(app)
   });
 ```
 
+Looking to test an Oak web server? Check out [SuperOak](https://github.com/asos-craigmorten/superoak)!
+
 ## About
 
 The motivation of this module is to provide a high-level abstraction for testing HTTP in Deno, while still allowing you to drop down to the lower-level API provided by [superagent](https://visionmedia.github.io/superagent/).
