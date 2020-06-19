@@ -395,11 +395,16 @@ export class Test extends SuperRequest {
       error = resError;
     }
 
+    // asserts
     for (let i = 0; i < this.#asserts.length && !error; i += 1) {
       error = this.#assertFunction(this.#asserts[i], res);
     }
 
-    if (!error && resError) {
+    // set unexpected superagent error if no other error has occurred.
+    if (
+      !error && resError instanceof Error &&
+      (!res || (resError as any).status !== res.status)
+    ) {
       error = resError;
     }
 
