@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [1.2.0] - 19-06-2020
+
+- fix: 4xx and 5xx http status codes should not throw.
+
 ## [1.1.5] - 19-06-2020
 
 - feat: add repository to `egg.json`.

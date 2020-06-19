@@ -395,6 +395,21 @@ describe("superdeno(app)", () => {
         .expect(200)
         .end(done);
     });
+
+    it("superdeno(app): .expect(status): should assert only error status'", (
+      done,
+    ) => {
+      const app = opine();
+
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
+        res.sendStatus(400);
+      });
+
+      superdeno(app)
+        .get("/")
+        .expect(400)
+        .end(done);
+    });
   });
 
   describe(".expect(status, body[, fn])", () => {
@@ -410,6 +425,20 @@ describe("superdeno(app)", () => {
       superdeno(app)
         .get("/")
         .expect(200, "foo", done);
+    });
+
+    it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", (
+      done,
+    ) => {
+      const app = opine();
+
+      app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
+        res.setStatus(400).send("foo");
+      });
+
+      superdeno(app)
+        .get("/")
+        .expect(400, "foo", done);
     });
 
     describe("when the body argument is an empty string", () => {
