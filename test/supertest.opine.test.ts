@@ -335,31 +335,6 @@ describe("superdeno(app)", () => {
           done();
         });
     });
-
-    it("superdeno(app): .end(fn): should handle error returned when server goes down", (
-      done,
-    ) => {
-      const app = opine();
-
-      app.get(
-        "/",
-        async (req: OpineTypes.Request, res: OpineTypes.Response) => {
-          res.end();
-        },
-      );
-
-      const server = app.listen();
-      const address = server.listener.addr as Deno.NetAddr;
-      const url = `http://localhost:${address.port}`;
-      server.listener.close();
-
-      superdeno(url)
-        .get("/")
-        .expect(200, (err) => {
-          expect(err).toBeInstanceOf(Error);
-          done();
-        });
-    });
   });
 
   describe(".expect(status[, fn])", () => {
