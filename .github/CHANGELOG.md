@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [1.3.0] - 21-06-2020
+
+- fix: relax `RequestHandler` type.
+- feat: bump std and opine versions.
+
 ## [1.2.1] - 19-06-2020
 
 - chore: readme image size.

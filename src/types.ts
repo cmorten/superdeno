@@ -1,7 +1,7 @@
-import { Server, ServerRequest, HTTPOptions, HTTPSOptions } from "../deps.ts";
+import { Server, HTTPOptions, HTTPSOptions } from "../deps.ts";
 
 export interface RequestHandler {
-  (req: ServerRequest): void;
+  (req: any): void;
 }
 
 export interface Listener {
