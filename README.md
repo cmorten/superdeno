@@ -41,7 +41,7 @@ import { opine } from "https://deno.land/x/opine@0.8.0/mod.ts";
 const app = opine();
 
 app.get("/user", (req, res) => {
-  res.setStatus(200).json({ name: "deno" });
+  res.setStatus(200).json({ name: "Deno" });
 });
 
 superdeno(app)
@@ -109,7 +109,7 @@ import { expect } from "https://deno.land/x/expect@9effa6/mod.ts";
 const app = opine();
 
 app.get("/", (req, res) => {
-  res.send("hey");
+  res.send("Hello Deno!");
 });
 
 Deno.test("it should support regular expressions", async () => {
@@ -127,11 +127,11 @@ Deno.test("it should support regular expressions", async () => {
 Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
-import { Application, Router } from "https://deno.land/x/oak@v5.0.0/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@main/mod.ts";
 
 const router = new Router();
 router.get("/", (ctx) => {
-  ctx.response.body = "hello";
+  ctx.response.body = "Hello Deno!";
 });
 
 const app = new Application();
@@ -148,7 +148,7 @@ Deno.test("it should support the Oak framework", () => {
 
     await superdeno(url)
       .get("/")
-      .expect("hello", () => {
+      .expect("Hello Deno!", () => {
         controller.abort();
       });
   });
@@ -157,7 +157,35 @@ Deno.test("it should support the Oak framework", () => {
 });
 ```
 
-If you are using the [Oak](https://github.com/oakserver/oak/) web framework then it is recommended that you use the specialised [SuperOak](https://github.com/asos-craigmorten/superoak) assertions library for reduced bootstrapping.
+If you are using the [Oak](https://github.com/oakserver/oak/) web framework then it is recommended that you use the specialized [SuperOak](https://github.com/asos-craigmorten/superoak) assertions library for reduced bootstrapping.
+
+If you don't need to test the server setup side of your Oak application, or you are making use of the `app.handle()` method (for example for serverless apps) then you can write slightly less verbose tests for Oak:
+
+```ts
+import { Application, Router } from "https://deno.land/x/oak@main/mod.ts";
+
+const router = new Router();
+
+router.get("/", (ctx) => {
+  ctx.response.body = "Hello Deno!";
+});
+
+const app = new Application();
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+Deno.test("it should support the Oak framework `app.handle` method", async () => {
+  /**
+   * Note that we have to bind `app` to the function otherwise `app.handle`
+   * doesn't preserve the `this` context from `app`.
+   */
+  await superdeno(app.handle.bind(app))
+    .get("/")
+    .expect("Hello Deno!");
+});
+```
+
+In this case, SuperDeno handles the setup and closing of the server for you, so you can focus on just testing your middleware.
 
 For further examples, see the [tests](./test) or the [supertest examples](https://github.com/visionmedia/supertest#example) for inspiration.
 
@@ -193,12 +221,12 @@ Assert header `field` `value` with a string or regular expression.
 Pass a custom assertion function. It'll be given the response object to check. If the check fails, throw an error.
 
 ```ts
-superdeno(app).get("/").expect(hasPreviousAndNextKeys).end(done);
-
 function hasPreviousAndNextKeys(res) {
   if (!("next" in res.parsedBody)) throw new Error("missing next key");
   if (!("prev" in res.parsedBody)) throw new Error("missing prev key");
 }
+
+await superdeno(app).get("/").expect(hasPreviousAndNextKeys);
 ```
 
 ### .end(fn)

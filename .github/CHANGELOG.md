@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [1.4.0] - 23-06-2020
+
+- feat: support `app.handle()` from Oak.
+- chore: update dependencies.
+
 ## [1.3.0] - 21-06-2020
 
 - fix: relax `RequestHandler` type.
