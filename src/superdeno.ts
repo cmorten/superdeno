@@ -2,10 +2,10 @@
  * Port of supertest (https://github.com/visionmedia/supertest) for Deno
  */
 
-import { methods, Server, serve } from "../deps.ts";
+import { methods, Server, serve, Response } from "../deps.ts";
 import { Test } from "./test.ts";
 import { close } from "./close.ts";
-import { isListener, isServer, isString } from "./utils.ts";
+import { isListener, isServer, isString, isResponse } from "./utils.ts";
 import { RequestHandler, Listener } from "./types.ts";
 
 /**
@@ -72,7 +72,7 @@ export function superdeno(
   methods.forEach((method) => {
     obj[method] = (url: string) => {
       return new Test(
-        app as string | Listener | Server,
+        managedServer || app as string | Listener | Server,
         method,
         url,
         undefined,
@@ -85,7 +85,11 @@ export function superdeno(
     (async () => {
       try {
         for await (const request of managedServer as Server) {
-          (app as RequestHandler)(request);
+          const response = await (app as RequestHandler)(request, secure);
+
+          if (isResponse(response)) {
+            await request.respond(response as Response);
+          }
         }
       } catch (err) {
         await close(managedServer as Server, app, err);

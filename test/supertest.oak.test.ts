@@ -90,3 +90,25 @@ describe("Oak: superdeno(url)", () => {
     });
   });
 });
+
+describe("Oak: superdeno(app.handle)", () => {
+  it("Oak: superdeno(app.handle): should support `superdeno(app.handle)` for web frameworks such as Oak", async () => {
+    const router = new Router();
+    const app = new Application();
+
+    router.get("/", (ctx: Oak.RouterContext) => {
+      ctx.response.body = "Hello Deno!";
+    });
+
+    app.use(router.routes());
+    app.use(router.allowedMethods());
+
+    /**
+     * Note that we have to bind `app` to the function otherwise `app.handle`
+     * doesn't maintain `this` from the `app`.
+     */
+    await superdeno(app.handle.bind(app))
+      .get("/")
+      .expect("Hello Deno!");
+  });
+});
