@@ -127,7 +127,11 @@ export class XMLHttpRequestSham {
 
       for (headerIndex = headers.length - 1; headerIndex >= 0; headerIndex--) {
         match = /^(.+?)\:\s*(.+)$/.exec(headers[headerIndex]);
-        match && (parsedHeaders[match[1]] = match[2]);
+        if (match) {
+          parsedHeaders[match[1]] = parsedHeaders[match[1]]
+            ? [parsedHeaders[match[1]], match[2]].flat(1)
+            : match[2];
+        }
       }
 
       headers = parsedHeaders;
@@ -138,7 +142,13 @@ export class XMLHttpRequestSham {
       parsedHeaders = {};
 
       for (headerName in headers) {
-        parsedHeaders[headerName.toLowerCase()] = headers[headerName];
+        parsedHeaders[headerName.toLowerCase()] = parsedHeaders[
+          headerName.toLowerCase()
+        ]
+          ? [parsedHeaders[headerName.toLowerCase()], headers[headerName]].flat(
+            1,
+          )
+          : headers[headerName];
       }
 
       headers = parsedHeaders;
@@ -157,16 +167,20 @@ export class XMLHttpRequestSham {
     const xhr = {};
 
     xhr.getAllResponseHeaders = function () {
-      return typeof this?.headers?.entries === "function"
-        ? Array.from(this.headers.entries()).reduce(
-          (headerStr, [field, value]) => {
-            return headerStr
-              ? `${headerStr}\r\n${field}: ${value}`
-              : `${field}: ${value}`;
-          },
-          "",
-        )
-        : "";
+      if (this.headers) {
+        let headerStr = "";
+        Array.from(new Set(this.headers.keys())).forEach((field) => {
+          const value = this.headers.get(field);
+
+          headerStr = headerStr
+            ? `${headerStr}\r\n${field}: ${value}`
+            : `${field}: ${value}`;
+        });
+
+        return headerStr;
+      }
+
+      return "";
     };
 
     xhr.setRequestHeader = function (name, value) {

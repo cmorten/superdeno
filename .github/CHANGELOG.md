@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [1.5.0] - 29-06-2020
+
+- fix: handling of multiple values for the same header field.
+- feat: upgrade to Deno 1.1.2 and std 0.59.0.
+- fix: typing issues.
+
 ## [1.4.0] - 23-06-2020
 
 - feat: support `app.handle()` from Oak.
