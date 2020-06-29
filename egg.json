@@ -1,7 +1,7 @@
 {
     "name": "superdeno",
     "description": "HTTP assertions for Deno made easy via superagent.",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "repository": "https://github.com/asos-craigmorten/superdeno",
     "stable": true,
     "files": [

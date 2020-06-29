@@ -146,8 +146,8 @@ export class XMLHttpRequestSham {
           headerName.toLowerCase()
         ]
           ? [parsedHeaders[headerName.toLowerCase()], headers[headerName]].flat(
-              1
-            )
+            1,
+          )
           : headers[headerName];
       }
 
