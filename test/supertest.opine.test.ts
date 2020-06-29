@@ -143,6 +143,32 @@ describe("superdeno(app)", () => {
       .expect("john", done);
   });
 
+  it("superdeno(app): should handle headers correctly", (done) => {
+    const app = opine();
+
+    app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
+      res.cookie({ name: "foo", value: "bar" });
+      res.cookie({ name: "user", value: "deno" });
+      res.set("Set-Cookie", "fizz=buzz");
+      res.set("X-Tested-With", "SuperDeno");
+      res.type("application/json");
+      res.end();
+    });
+
+    superdeno(app)
+      .get("/")
+      .expect(function (res) {
+        expect(res.headers).toEqual({
+          "content-length": "0",
+          "x-powered-by": "Opine",
+          "set-cookie": "foo=bar; Path=/, user=deno; Path=/, fizz=buzz",
+          "x-tested-with": "SuperDeno",
+          "content-type": "application/json; charset=utf-8",
+        });
+      })
+      .expect(200, done);
+  });
+
   it("superdeno(app): should work when unbuffered", (done) => {
     const app = opine();
 
@@ -604,17 +630,17 @@ describe("superdeno(app)", () => {
       const app = opine();
 
       app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
-        res.send("hey tj");
+        res.send("hey deno");
       });
 
       superdeno(app)
         .get("/")
-        .expect(/tj/)
+        .expect(/deno/)
         .expect("hey")
-        .expect("hey tj")
+        .expect("hey deno")
         .end((err, res) => {
           expect(err.message).toEqual(
-            "expected 'hey' response body, got 'hey tj'",
+            "expected 'hey' response body, got 'hey deno'",
           );
           done();
         });
@@ -626,14 +652,14 @@ describe("superdeno(app)", () => {
       const app = opine();
 
       app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
-        res.send("hey tj");
+        res.send("hey deno");
       });
 
       superdeno(app)
         .get("/")
-        .expect(/tj/)
+        .expect(/deno/)
         .expect(/^hey/)
-        .expect("hey tj", done);
+        .expect("hey deno", done);
     });
   });
 
