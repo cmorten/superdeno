@@ -4,12 +4,11 @@
 
 import {
   superagent,
-  Server,
   STATUS_TEXT,
   assertEquals,
   util,
 } from "../deps.ts";
-import { Listener } from "./types.ts";
+import { Listener, Server } from "./types.ts";
 import { close } from "./close.ts";
 import { isServer, isListener, isString } from "./utils.ts";
 import { XMLHttpRequestSham } from "./xhrSham.js";
