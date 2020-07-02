@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [1.5.1] - 02-07-2020
+
+- fix: breaking sub-dependency change.
+
 ## [1.5.0] - 29-06-2020
 
 - fix: handling of multiple values for the same header field.
