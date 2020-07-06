@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [1.6.0] - 06-07-2020
+
+- feat: bump deno and deps versions.
+- refactor: small updates to xhrSham.
+- test: add Ako framework test for error response status and body.
+
 ## [1.5.1] - 02-07-2020
 
 - fix: breaking sub-dependency change.
