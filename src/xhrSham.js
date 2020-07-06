@@ -258,6 +258,11 @@ export class XMLHttpRequestSham {
       return xhr.onreadystatechange();
     } else {
       try {
+        const body = typeof options.requestBody === "object" &&
+          options.requestBody !== null
+          ? JSON.stringify(options.requestBody)
+          : options.requestBody;
+
         // We should the fetch promise into a polyfill promise cache
         // so that superdeno can await these promises before ending.
         // Not doing such results in Deno test complaining of unhandled
@@ -265,8 +270,9 @@ export class XMLHttpRequestSham {
         window._xhrSham.promises[self.id] = fetch(options.url, {
           method: options.method,
           headers: options.requestHeaders,
-          body: options.requestBody,
+          body,
           signal: this.controller.signal,
+          mode: "cors",
         });
 
         // Wait on the response, and then read the buffer.

@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [1.6.1] - 06-07-2020
+
+- fix: SuperDeno should permit and handle GET requests with body payloads.
+
 ## [1.6.0] - 06-07-2020
 
 - feat: bump deno and deps versions.
