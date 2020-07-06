@@ -128,7 +128,7 @@ describe("superdeno(app)", () => {
   //     });
   // });
 
-  it("superdeno(app): should work with .send() etc", (done) => {
+  it("superdeno(app): should work with .send() on POST", (done) => {
     const app = opine();
 
     app.use(json());
@@ -139,6 +139,23 @@ describe("superdeno(app)", () => {
 
     superdeno(app)
       .post("/")
+      .send({ name: "john" })
+      .expect("john", done);
+  });
+
+  it("superdeno(app): should work with .send() on GET given RFCs 7230-7237", (
+    done,
+  ) => {
+    const app = opine();
+
+    app.use(json());
+
+    app.get("/", (req: OpineTypes.Request, res: OpineTypes.Response) => {
+      res.send(req.parsedBody.name);
+    });
+
+    superdeno(app)
+      .get("/")
       .send({ name: "john" })
       .expect("john", done);
   });
