@@ -190,6 +190,7 @@ export class XMLHttpRequestSham {
 
     xhr.onreadystatechange = function () {
       const xhrResponse = this;
+
       // At the moment, xhr.onreadystatechange() is _always_ called
       // in this implementation. TBC whether this is accurate.
       // To prevent a memory leak we clean up our promise from the
@@ -201,29 +202,39 @@ export class XMLHttpRequestSham {
     };
 
     xhr.setAbortedResponse = function () {
-      // TODO: clean-up what we actually _need_ for superagent to work.
+      // TODO: this needs work.
+      //
+      // REF: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#Properties
+
+      this.readyState = 0;
+      this.body = "";
+      this.response = "";
       this.responseText = "";
       this.responseType = "";
-      this.response = "";
-      this.body = "";
+      this.responseURL = null;
+      this.responseXML = null;
       this.status = 0;
       this.statusCode = 0;
       this.statusText = "aborted";
-      this.readyState = 0;
     };
 
     xhr.setErrorResponse = function () {
-      // TODO: clean-up what we actually _need_ for superagent to work.
-      const message = this.message;
+      const errorMessage = this.message;
 
-      this.responseText = message;
+      // TODO: this needs work.
+      //
+      // REF: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#Properties
+
+      this.readyState = 4;
+      this.body = errorMessage;
+      this.response = errorMessage;
+      this.responseText = errorMessage;
       this.responseType = "text";
-      this.response = message;
-      this.body = message;
+      this.responseURL = null;
+      this.responseXML = null;
       this.status = 0;
       this.statusCode = 0;
       this.statusText = message;
-      this.readyState = 4;
     };
 
     let headers;
@@ -243,6 +254,7 @@ export class XMLHttpRequestSham {
       // If aborted before even start the fetch then don't bother making
       // the request at all.
       xhr.setAbortedResponse();
+
       return xhr.onreadystatechange();
     } else {
       try {
@@ -263,9 +275,11 @@ export class XMLHttpRequestSham {
         mergeDescriptors(xhr, response, false);
 
         // A naive approach to handle the response body. We should really
-        // interrogate content-type etc.
+        // interrogate contentType etc.
         const buf = await response.arrayBuffer();
         parsedResponse = decoder.decode(buf);
+
+        // See if the response is JSON.
         try {
           JSON.parse(parsedResponse);
           isJson = true;
@@ -275,6 +289,7 @@ export class XMLHttpRequestSham {
         // isn't quite up to scratch.
         if (this.aborted) {
           xhr.setAbortedResponse();
+
           return xhr.onreadystatechange();
         }
       } catch (err) {
@@ -285,19 +300,26 @@ export class XMLHttpRequestSham {
           // Or genuine error
           xhr.setErrorResponse();
         }
+
         return xhr.onreadystatechange();
       }
     }
 
-    // TODO: clean-up what we actually _need_ for superagent to work.
+    // TODO: this needs work.
+    //
+    // REF: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#Properties
+
+    xhr.readyState = 4;
+    xhr.body = parsedResponse;
+    xhr.response = parsedResponse;
     xhr.responseText = parsedResponse;
     xhr.responseType = isJson ? "" : "text";
-    xhr.response = parsedResponse;
-    xhr.body = parsedResponse;
+    xhr.responseURL = response.url;
+    xhr.responseXML = null;
     xhr.status = response.status;
     xhr.statusCode = response.status;
     xhr.statusText = response.statusText;
-    xhr.readyState = 4;
+
     xhr.onreadystatechange();
   }
 }

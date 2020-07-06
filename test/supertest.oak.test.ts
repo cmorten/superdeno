@@ -65,6 +65,50 @@ describe("Oak: superdeno(url)", () => {
     });
   });
 
+  describe(".expect(status, body[, fn])", () => {
+    it("Oak: superdeno(url): .expect(status, body[, fn]): should assert the response body and status", async (
+      done,
+    ) => {
+      await bootstrapOakServerTest({
+        configureApp: ({ router }) => {
+          router.get("/", (ctx: Oak.RouterContext) => {
+            ctx.response.body = "foo";
+          });
+        },
+        listenOpts: { port: 0 },
+        assertionsDelegate: ({ url, controller, done }) =>
+          superdeno(url)
+            .get("/")
+            .expect(200, "foo", () => {
+              controller.abort();
+              done();
+            }),
+        done,
+      });
+    });
+
+    it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", async (
+      done,
+    ) => {
+      await bootstrapOakServerTest({
+        configureApp: ({ router }) => {
+          router.get("/", (ctx: Oak.RouterContext) => {
+            ctx.throw(400, "foo");
+          });
+        },
+        listenOpts: { port: 0 },
+        assertionsDelegate: ({ url, controller, done }) =>
+          superdeno(url)
+            .get("/")
+            .expect(400, "foo", () => {
+              controller.abort();
+              done();
+            }),
+        done,
+      });
+    });
+  });
+
   describe(".end(cb)", () => {
     it("Oak: superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", async (
       done,
