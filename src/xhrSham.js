@@ -143,8 +143,8 @@ export class XMLHttpRequestSham {
 
       for (headerName in headers) {
         parsedHeaders[headerName.toLowerCase()] = parsedHeaders[
-          headerName.toLowerCase()
-        ]
+            headerName.toLowerCase()
+          ]
           ? [parsedHeaders[headerName.toLowerCase()], headers[headerName]].flat(
             1,
           )
@@ -259,7 +259,7 @@ export class XMLHttpRequestSham {
     } else {
       try {
         const body = typeof options.requestBody === "object" &&
-          options.requestBody !== null
+            options.requestBody !== null
           ? JSON.stringify(options.requestBody)
           : options.requestBody;
 

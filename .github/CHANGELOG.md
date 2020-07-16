@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [1.7.0] - 15-07-2020
+
+- feat: update to Deno `1.2.0`, std `0.61.0` and other dep upgrades.
+- tests: add patch for dispatcher bug in Deno, REF: <https://github.com/denoland/deno/issues/6616>.
+- chore: update formatting.
+
 ## [1.6.1] - 06-07-2020
 
 - fix: SuperDeno should permit and handle GET requests with body payloads.
@@ -56,7 +62,7 @@
 
 ## [1.1.2] - 01-06-2020
 
-- fix: subresource integrity check failed --lock=lock.json.
+- fix: sub-resource integrity check failed --lock=lock.json.
 
 ## [1.1.1] - 01-06-2020
 
