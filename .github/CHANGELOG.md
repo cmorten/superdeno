@@ -1,8 +1,8 @@
 # ChangeLog
 
-## [1.7.0] - 15-07-2020
+## [2.0.0] - 16-07-2020
 
-- feat: update to Deno `1.2.0`, std `0.61.0` and other dep upgrades.
+- feat: update to Deno `1.2.0` (breaking upgrade), std `0.61.0` and other dep upgrades.
 - tests: add patch for dispatcher bug in Deno, REF: <https://github.com/denoland/deno/issues/6616>.
 - chore: update formatting.
 
