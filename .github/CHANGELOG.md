@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [2.1.0] - 03-08-2020
+
+- chore: upgrade supported Deno and std module versions to `1.2.2` and `0.63.0`.
+- chore: fix modules to tagged versions as [commits and branches are no longer supported by Deno registry](https://deno.land/posts/registry2).
+- chore: automate typescript docs
+
 ## [2.0.0] - 16-07-2020
 
 - feat: update to Deno `1.2.0` (breaking upgrade), std `0.61.0` and other dep upgrades.
