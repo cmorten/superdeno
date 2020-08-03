@@ -254,9 +254,8 @@
     e.Vector.prototype.upsert = function (e, t, r) {
       this._magnitude = 0;
       var i = this.positionForIndex(e);
-      this.elements[i] == e
-        ? this.elements[i + 1] = r(this.elements[i + 1], t)
-        : this.elements.splice(i, 0, e, t);
+      this.elements[i] == e ? this.elements[i + 1] = r(this.elements[i + 1], t)
+      : this.elements.splice(i, 0, e, t);
     },
     e.Vector.prototype.magnitude = function () {
       if (this._magnitude) return this._magnitude;
@@ -963,9 +962,7 @@
         for (var f = 0; f < c.length; f++) {
           var p = c[f];
           if (
-            null == d[p] && (d[p] = 0),
-              d[p] += 1,
-              null == this.invertedIndex[p]
+            null == d[p] && (d[p] = 0), d[p] += 1, null == this.invertedIndex[p]
           ) {
             var y = Object.create(null);
             y._index = this.termIndex, this.termIndex += 1;
