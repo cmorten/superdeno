@@ -369,11 +369,11 @@
           var i, n, s, o, a, u, l;
           if (r.length < 3) return r;
           if (
-            "y" == (s = r.substr(0, 1)) &&
-            (r = s.toUpperCase() + r.substr(1)),
+            "y" == (s = r.substr(0, 1)) && (r = s.toUpperCase() + r.substr(1)),
               a = y,
-              (o = p).test(r) ? r = r.replace(o, "$1$2")
-              : a.test(r) && (r = r.replace(a, "$1$2")),
+              (o = p).test(r)
+                ? r = r.replace(o, "$1$2")
+                : a.test(r) && (r = r.replace(a, "$1$2")),
               a = v,
               (o = m).test(r)
           ) {
@@ -1083,8 +1083,7 @@
     e.MatchData.prototype.combine = function (e) {
       for (var t = Object.keys(e.metadata), r = 0; r < t.length; r++) {
         var i = t[r], n = Object.keys(e.metadata[i]);
-        null == this.metadata[i] &&
-          (this.metadata[i] = Object.create(null));
+        null == this.metadata[i] && (this.metadata[i] = Object.create(null));
         for (var s = 0; s < n.length; s++) {
           var o = n[s], a = Object.keys(e.metadata[i][o]);
           null == this.metadata[i][o] &&
@@ -1751,11 +1750,12 @@ var typedoc,
             oldValue,
             newValue,
           ) {
-            this.checkbox.checked = this.value,
-              document.documentElement.classList.toggle(
-                "toggle-" + this.key,
-                this.value != this.defaultValue,
-              );
+            this.checkbox &&
+              (this.checkbox.checked = this.value,
+                document.documentElement.classList.toggle(
+                  "toggle-" + this.key,
+                  this.value != this.defaultValue,
+                ));
           },
           FilterItemCheckbox.prototype.fromLocalStorage = function (value) {
             return "true" == value;
@@ -1869,8 +1869,7 @@ var typedoc,
       return __extends(MenuHighlight, _super),
         MenuHighlight.prototype.createAnchors = function () {
           var _this = this, base = window.location.href;
-          -1 != base.indexOf("#") &&
-          (base = base.substr(0, base.indexOf("#"))),
+          -1 != base.indexOf("#") && (base = base.substr(0, base.indexOf("#"))),
             this.el.querySelectorAll("a").forEach(function (el) {
               var href = el.href;
               if (
@@ -2020,7 +2019,7 @@ var typedoc,
                 item.classList.value = row.classes,
                   item.innerHTML = '\n                    <a href="' +
                     (this.base + row.url) + '" class="tsd-kind-icon">' + name +
-                    "'</a>\n                ",
+                    "</a>\n                ",
                   this.results.appendChild(item);
               }
             }
