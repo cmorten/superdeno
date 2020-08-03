@@ -1,0 +1,29 @@
+name: Publish TypeDocs
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  publish-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install deps
+        run: make deps
+      - name: Use Deno
+        uses: denolib/setup-deno@v2
+        with:
+          deno-version: 1.2.2
+      - run: make typedoc
+      - run: make ci
+      - name: Publish Updated Type Docs
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: publish typedocs
+          push_options: --force
