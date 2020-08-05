@@ -99,8 +99,8 @@
 				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
 					<h2>Getting Started</h2>
 				</a>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno@main/mod.ts&quot;</span>;
-<span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/opine@0.8.0/mod.ts&quot;</span>;
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno@2.1.1/mod.ts&quot;</span>;
+<span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/opine@0.20.2/mod.ts&quot;</span>;
 
 <span class="hljs-keyword">const</span> app = opine();
 
@@ -127,11 +127,9 @@ superdeno(app)
 				<p>This is a <a href="https://deno.land/">Deno</a> module available to import direct from this repo and via the <a href="https://deno.land/x">Deno Registry</a>.</p>
 				<p>Before importing, <a href="https://deno.land/#installation">download and install Deno</a>.</p>
 				<p>You can then import SuperDeno straight into your project:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno@main/mod.ts&quot;</span>;</code></pre>
-				<p>If you want to use a specific version of SuperDeno, just modify the import url to contain the version:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno@0.3.0/mod.ts&quot;</span>;</code></pre>
-				<p>Or if you want to use a specific commit of SuperDeno, just modify the import url to contain the commit hash:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno@c21f8d6/mod.ts&quot;</span>;</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno@2.1.1/mod.ts&quot;</span>;</code></pre>
+				<p>SuperDeno is also available on <a href="https://nest.land/package/superdeno">nest.land</a>, a package registry for Deno on the Blockchain.</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://x.nest.land/superdeno@2.1.1/mod.ts&quot;</span>;</code></pre>
 				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 					<h2>Example</h2>
 				</a>
@@ -165,7 +163,7 @@ Deno.test(<span class="hljs-string">&quot;it should support regular expressions&
     });
 });</code></pre>
 				<p>Here&#39;s an example of SuperDeno working with the Oak web framework:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@main/mod.ts&quot;</span>;
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@v6.0.1/mod.ts&quot;</span>;
 
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
 router.get(<span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-function">(<span class="hljs-params">ctx</span>) =&gt;</span> {
@@ -195,7 +193,7 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework&qu
 });</code></pre>
 				<p>If you are using the <a href="https://github.com/oakserver/oak/">Oak</a> web framework then it is recommended that you use the specialized <a href="https://github.com/asos-craigmorten/superoak">SuperOak</a> assertions library for reduced bootstrapping.</p>
 				<p>If you don&#39;t need to test the server setup side of your Oak application, or you are making use of the <code>app.handle()</code> method (for example for serverless apps) then you can write slightly less verbose tests for Oak:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@main/mod.ts&quot;</span>;
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@v6.0.1/mod.ts&quot;</span>;
 
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
 
@@ -223,7 +221,7 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework `a
 				</a>
 				<ul>
 					<li><a href="https://doc.deno.land/https/deno.land/x/superdeno/mod.ts">SuperDeno Deno Docs</a></li>
-					<li><del><a href="https://asos-craigmorten.github.io/superdeno/">SuperDeno Type Docs</a></del> - Unavailable while awaiting GitHub&#39;s support of alternatively named default branches.</li>
+					<li><a href="https://asos-craigmorten.github.io/superdeno/">SuperDeno Type Docs</a></li>
 					<li><a href="https://github.com/asos-craigmorten/superdeno/blob/main/LICENSE.md">License</a></li>
 					<li><a href="https://github.com/asos-craigmorten/superdeno/blob/main/.github/CHANGELOG.md">Changelog</a></li>
 				</ul>
