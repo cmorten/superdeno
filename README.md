@@ -35,8 +35,8 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 ## Getting Started
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@main/mod.ts";
-import { opine } from "https://deno.land/x/opine@0.8.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@2.1.1/mod.ts";
+import { opine } from "https://deno.land/x/opine@0.20.2/mod.ts";
 
 const app = opine();
 
@@ -69,19 +69,13 @@ Before importing, [download and install Deno](https://deno.land/#installation).
 You can then import SuperDeno straight into your project:
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@main/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@2.1.1/mod.ts";
 ```
 
-If you want to use a specific version of SuperDeno, just modify the import url to contain the version:
+SuperDeno is also available on [nest.land](https://nest.land/package/superdeno), a package registry for Deno on the Blockchain.
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@0.3.0/mod.ts";
-```
-
-Or if you want to use a specific commit of SuperDeno, just modify the import url to contain the commit hash:
-
-```ts
-import { superdeno } from "https://deno.land/x/superdeno@c21f8d6/mod.ts";
+import { opine } from "https://x.nest.land/superdeno@2.1.1/mod.ts";
 ```
 
 ## Example
@@ -127,7 +121,7 @@ Deno.test("it should support regular expressions", async () => {
 Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
-import { Application, Router } from "https://deno.land/x/oak@main/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v6.0.1/mod.ts";
 
 const router = new Router();
 router.get("/", (ctx) => {
@@ -162,7 +156,7 @@ If you are using the [Oak](https://github.com/oakserver/oak/) web framework then
 If you don't need to test the server setup side of your Oak application, or you are making use of the `app.handle()` method (for example for serverless apps) then you can write slightly less verbose tests for Oak:
 
 ```ts
-import { Application, Router } from "https://deno.land/x/oak@main/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v6.0.1/mod.ts";
 
 const router = new Router();
 
@@ -192,7 +186,7 @@ For further examples, see the [tests](./test) or the [supertest examples](https:
 ## Documentation
 
 - [SuperDeno Deno Docs](https://doc.deno.land/https/deno.land/x/superdeno/mod.ts)
-- ~[SuperDeno Type Docs](https://asos-craigmorten.github.io/superdeno/)~ - Unavailable while awaiting GitHub's support of alternatively named default branches.
+- [SuperDeno Type Docs](https://asos-craigmorten.github.io/superdeno/)
 - [License](https://github.com/asos-craigmorten/superdeno/blob/main/LICENSE.md)
 - [Changelog](https://github.com/asos-craigmorten/superdeno/blob/main/.github/CHANGELOG.md)
 
