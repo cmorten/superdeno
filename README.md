@@ -36,7 +36,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno@2.2.0/mod.ts";
-import { opine } from "https://deno.land/x/opine@0.20.2/mod.ts";
+import { opine } from "https://deno.land/x/opine@0.21.2/mod.ts";
 
 const app = opine();
 
@@ -97,8 +97,8 @@ Deno.test("GET /user responds with json", async () => {
 Here's an example of SuperDeno working with the Opine web framework:
 
 ```ts
-import { opine } from "https://deno.land/x/opine@0.8.0/mod.ts";
-import { expect } from "https://deno.land/x/expect@9effa6/mod.ts";
+import { opine } from "https://deno.land/x/opine@0.21.2/mod.ts";
+import { expect } from "https://deno.land/x/expect@v0.2.1/mod.ts";
 
 const app = opine();
 
@@ -121,7 +121,7 @@ Deno.test("it should support regular expressions", async () => {
 Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
-import { Application, Router } from "https://deno.land/x/oak@v6.0.1/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v6.0.2/mod.ts";
 
 const router = new Router();
 router.get("/", (ctx) => {
@@ -156,7 +156,7 @@ If you are using the [Oak](https://github.com/oakserver/oak/) web framework then
 If you don't need to test the server setup side of your Oak application, or you are making use of the `app.handle()` method (for example for serverless apps) then you can write slightly less verbose tests for Oak:
 
 ```ts
-import { Application, Router } from "https://deno.land/x/oak@v6.0.1/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v6.0.2/mod.ts";
 
 const router = new Router();
 
