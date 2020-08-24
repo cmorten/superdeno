@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [2.2.1] - 24-08-2020
+
+- feat: update to Deno `1.3.1`, std `0.66.0` and other dep upgrades.
+- fix: [#15] Error thrown on empty body responses (e.g. 304)
+
 ## [2.2.0] - 21-08-2020
 
 - feat: update to Deno `1.3.0`, std `0.65.0` and other dep upgrades.

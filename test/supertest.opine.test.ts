@@ -12,20 +12,16 @@ describe("superdeno(url)", () => {
       res.send("hello");
     });
 
-    // Temporary workaround for Deno HTTP dispatcher bug.
-    // REF: https://github.com/denoland/deno/issues/6616
-    setTimeout(() => {
-      const server = app.listen();
-      const address = server.listener.addr as Deno.NetAddr;
-      const url = `http://localhost:${address.port}`;
+    const server = app.listen();
+    const address = server.listener.addr as Deno.NetAddr;
+    const url = `http://localhost:${address.port}`;
 
-      superdeno(url)
-        .get("/")
-        .expect("hello", () => {
-          server.close();
-          done();
-        });
-    });
+    superdeno(url)
+      .get("/")
+      .expect("hello", () => {
+        server.close();
+        done();
+      });
   });
 
   describe(".end(cb)", () => {

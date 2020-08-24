@@ -283,7 +283,7 @@ export class XMLHttpRequestSham {
         // A naive approach to handle the response body. We should really
         // interrogate contentType etc.
         const buf = await response.arrayBuffer();
-        parsedResponse = decoder.decode(buf);
+        parsedResponse = buf === null ? null : decoder.decode(buf);
 
         // See if the response is JSON.
         try {
