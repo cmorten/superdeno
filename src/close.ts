@@ -1,4 +1,4 @@
-import { Listener, RequestHandler, Server } from "./types.ts";
+import type { Listener, RequestHandler, Server } from "./types.ts";
 
 /**
  * 
