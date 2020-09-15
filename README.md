@@ -35,8 +35,8 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 ## Getting Started
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@2.2.1/mod.ts";
-import { opine } from "https://deno.land/x/opine@0.21.2/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@2.3.0/mod.ts";
+import { opine } from "https://deno.land/x/opine@0.21.6/mod.ts";
 
 const app = opine();
 
@@ -69,13 +69,13 @@ Before importing, [download and install Deno](https://deno.land/#installation).
 You can then import SuperDeno straight into your project:
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@2.2.1/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@2.3.0/mod.ts";
 ```
 
 SuperDeno is also available on [nest.land](https://nest.land/package/superdeno), a package registry for Deno on the Blockchain.
 
 ```ts
-import { superdeno } from "https://x.nest.land/superdeno@2.2.1/mod.ts";
+import { superdeno } from "https://x.nest.land/superdeno@2.3.0/mod.ts";
 ```
 
 ## Example
@@ -97,7 +97,7 @@ Deno.test("GET /user responds with json", async () => {
 Here's an example of SuperDeno working with the Opine web framework:
 
 ```ts
-import { opine } from "https://deno.land/x/opine@0.21.2/mod.ts";
+import { opine } from "https://deno.land/x/opine@0.21.6/mod.ts";
 import { expect } from "https://deno.land/x/expect@v0.2.1/mod.ts";
 
 const app = opine();

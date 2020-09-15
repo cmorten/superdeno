@@ -8,7 +8,7 @@ import {
   assertEquals,
   util,
 } from "../deps.ts";
-import { Listener, Server } from "./types.ts";
+import type { Listener, Server } from "./types.ts";
 import { close } from "./close.ts";
 import { isServer, isListener, isString } from "./utils.ts";
 import { XMLHttpRequestSham } from "./xhrSham.js";

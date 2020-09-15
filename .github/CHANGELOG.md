@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [2.3.0] - 15-09-2020
+
+- feat: update to Deno `1.4.0`, std `0.69.0` and other dep upgrades.
+
 ## [2.2.1] - 24-08-2020
 
 - feat: update to Deno `1.3.1`, std `0.66.0` and other dep upgrades.

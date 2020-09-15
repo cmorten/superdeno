@@ -1,4 +1,4 @@
-import { HTTPOptions, HTTPSOptions } from "../deps.ts";
+import type { HTTPOptions, HTTPSOptions } from "../deps.ts";
 
 export interface RequestHandler {
   (
