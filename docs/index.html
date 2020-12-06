@@ -105,7 +105,7 @@
 <span class="hljs-keyword">const</span> app = opine();
 
 app.get(<span class="hljs-string">&quot;/user&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
-  res.setStatus(<span class="hljs-number">200</span>).json({ name: <span class="hljs-string">&quot;Deno&quot;</span> });
+  res.setStatus(<span class="hljs-number">200</span>).json({ <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Deno&quot;</span> });
 });
 
 superdeno(app)
@@ -191,7 +191,7 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework&qu
       });
   });
 
-  <span class="hljs-keyword">await</span> app.listen({ port: <span class="hljs-number">0</span>, signal });
+  <span class="hljs-keyword">await</span> app.listen({ <span class="hljs-attr">port</span>: <span class="hljs-number">0</span>, signal });
 });</code></pre>
 				<p>If you are using the <a href="https://github.com/oakserver/oak/">Oak</a> web framework then it is recommended that you use the specialized <a href="https://github.com/asos-craigmorten/superoak">SuperOak</a> assertions library for reduced bootstrapping.</p>
 				<p>If you don&#39;t need to test the server setup side of your Oak application, or you are making use of the <code>app.handle()</code> method (for example for serverless apps) then you can write slightly less verbose tests for Oak:</p>
