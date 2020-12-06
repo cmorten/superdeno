@@ -2,15 +2,10 @@
  * Port of supertest (https://github.com/visionmedia/supertest) for Deno
  */
 
-import {
-  superagent,
-  STATUS_TEXT,
-  assertEquals,
-  util,
-} from "../deps.ts";
+import { assertEquals, STATUS_TEXT, superagent, util } from "../deps.ts";
 import type { Listener, Server } from "./types.ts";
 import { close } from "./close.ts";
-import { isServer, isListener, isString } from "./utils.ts";
+import { isListener, isServer, isString } from "./utils.ts";
 import { XMLHttpRequestSham } from "./xhrSham.js";
 
 /**
@@ -70,7 +65,6 @@ export interface IRequest {
   query(val: object | string): this;
   redirects(n: number): this;
   responseType(type: string): this;
-  retry(count?: number, callback?: CallbackHandler): this;
   send(data?: string | object): this;
   serialize(serializer: any): this;
   set(field: object): this;
@@ -137,7 +131,7 @@ export interface IResponse {
 }
 
 /**
- * The handler function for callbacks within Deno `expect` and `end` methods.
+ * The handler function for callbacks within `end` method.
  */
 type CallbackHandler = (err: any, res: IResponse) => void;
 
@@ -227,12 +221,12 @@ export class Test extends SuperRequest {
    *
    *   .expect(fn)
    *
-   * @param {CallbackHandler} callback
+   * @param {ExpectChecker} callback
    * 
    * @returns {Test} for chaining
    * @public
    */
-  expect(callback: CallbackHandler): this;
+  expect(callback: ExpectChecker): this;
   /**
    * Expectations:
    *
@@ -260,19 +254,6 @@ export class Test extends SuperRequest {
    * @public
    */
   expect(status: number, body: any, callback?: CallbackHandler): this;
-  /**
-   * Expectations:
-   *
-   *   .expect(checkerFn)
-   *   .expect(checkerFn, fn)
-   *
-   * @param {ExpectChecker} checker
-   * @param {?CallbackHandler} callback
-   * 
-   * @returns {Test} for chaining
-   * @public
-   */
-  expect(checker: ExpectChecker, callback?: CallbackHandler): this;
   /**
    * Expectations:
    *

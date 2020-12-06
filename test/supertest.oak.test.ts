@@ -1,4 +1,4 @@
-import { Oak, expect } from "./deps.ts";
+import { expect, Oak } from "./deps.ts";
 import type { HTTPOptions, HTTPSOptions } from "../deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno, Test } from "../mod.ts";

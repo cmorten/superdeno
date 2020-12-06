@@ -1,4 +1,4 @@
-import { Opine, OpineTypes, expect } from "./deps.ts";
+import { expect, Opine, OpineTypes } from "./deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno, Test } from "../mod.ts";
 
