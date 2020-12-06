@@ -2,11 +2,11 @@
  * Port of supertest (https://github.com/visionmedia/supertest) for Deno
  */
 
-import { methods, serve, Response } from "../deps.ts";
+import { methods, Response, serve } from "../deps.ts";
 import { Test } from "./test.ts";
 import { close } from "./close.ts";
-import { isListener, isServer, isString, isResponse } from "./utils.ts";
-import type { RequestHandler, Listener, Server } from "./types.ts";
+import { isListener, isResponse, isServer, isString } from "./utils.ts";
+import type { Listener, RequestHandler, Server } from "./types.ts";
 
 /**
  * Provides methods for making requests to the configured server using the passed
