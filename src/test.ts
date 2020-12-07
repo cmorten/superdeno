@@ -1,5 +1,9 @@
 /**
- * Port of supertest (https://github.com/visionmedia/supertest) for Deno
+ * Port of supertest (https://github.com/visionmedia/supertest) for Deno.
+ * 
+ * Types adapted from:
+ * - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/superagent/index.d.ts
+ * - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/supertest/index.d.ts
  */
 
 import { assertEquals, STATUS_TEXT, superagent, util } from "../deps.ts";
@@ -9,78 +13,31 @@ import { isListener, isServer, isString } from "./utils.ts";
 import { XMLHttpRequestSham } from "./xhrSham.js";
 
 /**
- * The SuperDeno `Request` object as provided by superagent.
- * 
- * https://github.com/visionmedia/superagent
+ * Custom expectation checker.
  */
-export interface IRequest {
-  /**
-   * Initialize a new `Request` with the given `method` and `url`.
-   *
-   * @param {string} method
-   * @param {string} url
-   */
-  new (method: string, url: string): IRequest;
+type ExpectChecker = (res: IResponse) => any;
 
-  cookies: string;
-  method: string;
-  url: string;
+/**
+ * The handler function for callbacks within `end` method.
+ */
+type CallbackHandler = (err: any, res: IResponse) => void;
 
-  abort(): void;
-  accept(type: string): this;
-  attach(
-    field: string,
-    file: any,
-    options?: string | { filename?: string; contentType?: string },
-  ): this;
-  auth(
-    user: string,
-    pass: string,
-    options?: { type: "basic" | "auto" },
-  ): this;
-  auth(token: string, options: { type: "bearer" }): this;
-  buffer(val?: boolean): this;
-  ca(cert: any): this;
-  cert(cert: any): this;
-  clearTimeout(): this;
-  disableTLSCerts(): this;
-  end(callback?: CallbackHandler): void;
-  field(name: string, val: any): this;
-  field(fields: { [fieldName: string]: any }): this;
-  get(field: string): string;
-  key(cert: any): this;
-  ok(callback: (res: Response) => boolean): this;
-  on(name: "error", handler: (err: any) => void): this;
-  on(name: "progress", handler: (event: any) => void): this;
-  on(name: "response", handler: (response: any) => void): this;
-  on(name: string, handler: (event: any) => void): this;
-  parse(parser: any): this;
-  part(): this;
-  pfx(
-    cert: any | {
-      pfx: any;
-      passphrase: string;
-    },
-  ): this;
-  query(val: object | string): this;
-  redirects(n: number): this;
-  responseType(type: string): this;
-  send(data?: string | object): this;
-  serialize(serializer: any): this;
-  set(field: object): this;
-  set(field: string, val: string): this;
-  set(field: "Cookie", val: string[]): this;
-  timeout(ms: number | { deadline?: number; response?: number }): this;
-  trustLocalhost(enabled?: boolean): this;
-  type(val: string): this;
-  unset(field: string): this;
-  use(fn: any): this;
-  withCredentials(): this;
-  write(data: any, encoding?: string): this;
-  maxResponseSize(size: number): this;
-}
+type Serializer = (obj: any) => string;
 
-interface XMLHttpRequest {}
+type Parser = (str: string) => any;
+
+type MultipartValueSingle =
+  | Blob
+  | Uint8Array
+  | Deno.Reader
+  | string
+  | boolean
+  | number;
+
+type MultipartValue = MultipartValueSingle | MultipartValueSingle[];
+
+type HeaderValue = string | string[];
+type Header = { [key: string]: HeaderValue };
 
 /**
  * An HTTP error with additional properties of:
@@ -96,11 +53,6 @@ interface HTTPError extends Error {
   path: string;
 }
 
-/**
- * The SuperDeno `Response` object as provided by superagent.
- * 
- * https://github.com/visionmedia/superagent
- */
 export interface IResponse {
   accepted: boolean;
   badRequest: boolean;
@@ -110,9 +62,9 @@ export interface IResponse {
   error: false | HTTPError;
   files: any;
   forbidden: boolean;
-  get(header: string): string;
-  get(header: "Set-Cookie"): string[];
-  header: any;
+  get(header: string): HeaderValue;
+  header: Header;
+  headers: Header;
   info: boolean;
   links: object;
   noContent: boolean;
@@ -130,15 +82,77 @@ export interface IResponse {
   redirects: string[];
 }
 
-/**
- * The handler function for callbacks within `end` method.
- */
-type CallbackHandler = (err: any, res: IResponse) => void;
+export interface IRequest {
+  /**
+   * Initialize a new `Request` with the given `method` and `url`.
+   *
+   * @param {string} method
+   * @param {string} url
+   */
+  new (method: string, url: string): IRequest;
 
-/**
- * Custom expectation checker.
- */
-type ExpectChecker = (res: Response) => any;
+  agent(agent?: any): this;
+
+  cookies: string;
+  method: string;
+  url: string;
+
+  abort(): void;
+  accept(type: string): this;
+  attach(
+    field: string,
+    file: MultipartValueSingle,
+    options?: string | { filename?: string; contentType?: string },
+  ): this;
+  auth(user: string, pass: string, options?: { type: "basic" | "auto" }): this;
+  auth(token: string, options: { type: "bearer" }): this;
+  buffer(val?: boolean): this;
+  ca(cert: any | any[]): this;
+  cert(cert: any | any[]): this;
+  clearTimeout(): this;
+  disableTLSCerts(): this;
+  end(callback?: CallbackHandler): void;
+  field(name: string, val: MultipartValue): this;
+  field(fields: { [fieldName: string]: MultipartValue }): this;
+  get(field: string): string;
+  http2(enable?: boolean): this;
+  key(cert: any | any[]): this;
+  ok(callback: (res: IResponse) => boolean): this;
+  on(name: "error", handler: (err: any) => void): this;
+  on(name: "progress", handler: (event: ProgressEvent) => void): this;
+  on(name: "response", handler: (response: IResponse) => void): this;
+  on(name: string, handler: (event: any) => void): this;
+  parse(parser: Parser): this;
+  part(): this;
+  pfx(
+    cert: any | any[] | {
+      pfx: string | any;
+      passphrase: string;
+    },
+  ): this;
+  pipe(stream: any, options?: object): any;
+  query(val: object | string): this;
+  redirects(n: number): this;
+  responseType(type: string): this;
+  retry(count?: number, callback?: CallbackHandler): this;
+  send(data?: string | object): this;
+  serialize(serializer: Serializer): this;
+  set(field: object): this;
+  set(field: string, val: string): this;
+  set(field: "Cookie", val: string[]): this;
+  timeout(ms: number | { deadline?: number; response?: number }): this;
+  trustLocalhost(enabled?: boolean): this;
+  type(val: string): this;
+  unset(field: string): this;
+  use(fn: Plugin): this;
+  withCredentials(): this;
+  write(data: string | any, encoding?: string): boolean;
+  maxResponseSize(size: number): this;
+}
+
+type Plugin = (req: IRequest) => void;
+
+interface XMLHttpRequest {}
 
 /**
  * The XMLHttpRequest interface, required by superagent, is "polyfilled" with a sham
@@ -363,12 +377,12 @@ export class Test extends SuperRequest {
   /**
    * Perform assertions and invoke `fn(err, res)`.
    *
-   * @param {Error} [resError]
-   * @param {Function} res
+   * @param {HTTPError} [resError]
+   * @param {IResponse} res
    * @param {Function} fn
    * @private
    */
-  #assert = (resError: Error, res: any, fn?: Function): void => {
+  #assert = (resError: HTTPError, res: IResponse, fn?: Function): void => {
     let error;
 
     if (!res && resError) {
@@ -395,12 +409,12 @@ export class Test extends SuperRequest {
    * Perform assertions on a response body and return an Error upon failure.
    *
    * @param {any} body
-   * @param {any} res
+   * @param {IResponse} res
    * 
    * @returns {?Error}
    * @private
    */
-  #assertBody = function (body: any, res: any): Error | void {
+  #assertBody = function (body: any, res: IResponse): Error | void {
     const isregexp = body instanceof RegExp;
 
     // parsed
@@ -445,12 +459,15 @@ export class Test extends SuperRequest {
    * Perform assertions on a response header and return an Error upon failure.
    *
    * @param {any} header
-   * @param {any} res
+   * @param {IResponse} res
    * 
    * @returns {?Error}
    * @private
    */
-  #assertHeader = (header: any, res: any): Error | void => {
+  #assertHeader = (
+    header: { name: string; value: string | number | RegExp },
+    res: IResponse,
+  ): Error | void => {
     const field = header.name;
     const actual = res.headers[field.toLowerCase()];
     const fieldExpected = header.value;
@@ -468,7 +485,7 @@ export class Test extends SuperRequest {
     }
 
     if (fieldExpected instanceof RegExp) {
-      if (!fieldExpected.test(actual)) {
+      if (!fieldExpected.test(actual as string)) {
         return new Error(
           `expected "${field}" matching ${fieldExpected}, got "${actual}"`,
         );
@@ -484,12 +501,12 @@ export class Test extends SuperRequest {
    * Perform assertions on the response status and return an Error upon failure.
    *
    * @param {number} status
-   * @param {any} res
+   * @param {IResponse} res
    * 
    * @returns {?Error}
    * @private
    */
-  #assertStatus = (status: number, res: any): Error | void => {
+  #assertStatus = (status: number, res: IResponse): Error | void => {
     if (res.status !== status) {
       const a = STATUS_TEXT.get(status);
       const b = STATUS_TEXT.get(res.status);
@@ -502,12 +519,12 @@ export class Test extends SuperRequest {
    * Performs an assertion by calling a function and return an Error upon failure.
    *
    * @param {Function} fn
-   * @param {any} res
+   * @param {IResponse} res
    * 
    * @returns {?Error}
    * @private
    */
-  #assertFunction = (fn: Function, res: any): Error | void => {
+  #assertFunction = (fn: Function, res: IResponse): Error | void => {
     let err;
 
     try {
