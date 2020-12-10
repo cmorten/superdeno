@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [2.5.0] - 10-12-2020
+
+- feat: update to Deno `1.6.0`, std `0.80.0` and other dep upgrades.
+
 ## [2.4.1] - 07-12-2020
 
 - fix: improve types, including `res.header` and `res.headers`.
