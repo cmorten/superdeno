@@ -343,6 +343,11 @@ export class Test extends SuperRequest {
     delete (this as any).req;
     delete (this as any)._formData;
 
+    // TODO: headers
+    // TODO: origin change
+    // TODO: 3xx specific changes
+    // REF: https://github.com/visionmedia/superagent/blob/master/src/node/index.js#L477
+
     this.url = new URL(url, this.url).href;
     (this as any)._fullfilledPromise = Promise.resolve();
     (this as any)._endCalled = false;
