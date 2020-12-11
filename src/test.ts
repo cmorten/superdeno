@@ -82,7 +82,7 @@ export interface IResponse {
   redirects: string[];
 }
 
-export interface IRequest {
+export interface IRequest extends Promise<IResponse> {
   /**
    * Initialize a new `Request` with the given `method` and `url`.
    *
@@ -337,7 +337,7 @@ export class Test extends SuperRequest {
     return this;
   }
 
-  #redirect = (res: IResponse): this => {
+  #redirect = (res: IResponse, callback?: CallbackHandler): this => {
     const url = res.headers.location as string;
 
     delete (this as any).req;
@@ -349,14 +349,13 @@ export class Test extends SuperRequest {
     // REF: https://github.com/visionmedia/superagent/blob/master/src/node/index.js#L477
 
     this.url = new URL(url, this.url).href;
-    (this as any)._fullfilledPromise = Promise.resolve();
     (this as any)._endCalled = false;
     (this as any).qs = {};
     (this as any)._query = [];
     (this as any).emit("redirect", res);
     this.#redirectList.push(this.url);
 
-    this.end((this as any)._callback);
+    this.end(callback);
 
     return this;
   };
@@ -378,17 +377,17 @@ export class Test extends SuperRequest {
 
     end.call(
       self,
-      async function (err: any, res: any) {
+      function (err: any, res: any) {
         // Before we close, ensure that we have handled all
         // requested redirects
         const max: number = (self as any)._maxRedirects;
         const redirect = isRedirect(res?.statusCode);
 
         if (redirect && self.#redirects++ !== max) {
-          return self.#redirect(res);
+          return self.#redirect(res, callback);
         }
 
-        return await close(server, app, undefined, async () => {
+        return close(server, app, undefined, async () => {
           for (
             const promise of Object.values(
               (window as any)._xhrSham.promises,

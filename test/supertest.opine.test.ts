@@ -199,7 +199,7 @@ describe("superdeno(app)", () => {
       .expect("Hello", done);
   });
 
-  it("should default redirects to 0", (done) => {
+  it("superdeno(app): should default redirects to 0", (done) => {
     const app = opine();
 
     app.get("/", (req, res) => {
@@ -211,30 +211,63 @@ describe("superdeno(app)", () => {
       .expect(302, done);
   });
 
-  // TODO: why is this throwing "Error: Request has been terminated"
-  // instead of returning the 302 response!
-  // it("should handle intermediate redirects", (done) => {
-  //   const app = opine();
+  it("superdeno(app): promise form: should default redirects to 0", async () => {
+    const app = opine();
 
-  //   app.get("/login", (req, res) => {
-  //     res.end("Login");
-  //   });
+    app.get("/", (req, res) => {
+      res.redirect("/login");
+    });
 
-  //   app.get("/redirect", (req, res) => {
-  //     res.redirect("/login");
-  //   });
+    await superdeno(app)
+      .get("/")
+      .expect(302);
+  });
 
-  //   app.get("/", (req, res) => {
-  //     res.redirect("/redirect");
-  //   });
+  it("superdeno(app): .redirects(n): should handle intermediate redirects", (
+    done,
+  ) => {
+    const app = opine();
 
-  //   superdeno(app)
-  //     .get("/")
-  //     .redirects(1)
-  //     .expect(302, done);
-  // });
+    app.get("/login", (req, res) => {
+      res.end("Login");
+    });
 
-  it("should handle full redirects", (done) => {
+    app.get("/redirect", (req, res) => {
+      res.redirect("/login");
+    });
+
+    app.get("/", (req, res) => {
+      res.redirect("/redirect");
+    });
+
+    superdeno(app)
+      .get("/")
+      .redirects(1)
+      .expect(302, done);
+  });
+
+  it("superdeno(app): .redirects(n): promise form: should handle intermediate redirects", async () => {
+    const app = opine();
+
+    app.get("/login", (req, res) => {
+      res.end("Login");
+    });
+
+    app.get("/redirect", (req, res) => {
+      res.redirect("/login");
+    });
+
+    app.get("/", (req, res) => {
+      res.redirect("/redirect");
+    });
+
+    await superdeno(app)
+      .get("/")
+      .redirects(1)
+      .expect(302);
+  });
+
+  it("superdeno(app): .redirects(n): should handle full redirects", (done) => {
     const app = opine();
 
     app.get("/login", (req, res) => {
@@ -258,6 +291,30 @@ describe("superdeno(app)", () => {
         expect(res.text).toEqual("Login");
         done();
       });
+  });
+
+  it("superdeno(app): .redirects(n): promise form: should handle full redirects", async () => {
+    const app = opine();
+
+    app.get("/login", (req, res) => {
+      res.end("Login");
+    });
+
+    app.get("/redirect", (req, res) => {
+      res.redirect("/login");
+    });
+
+    app.get("/", (req, res) => {
+      res.redirect("/redirect");
+    });
+
+    const res = await superdeno(app)
+      .get("/")
+      .redirects(2);
+
+    expect(res).toBeDefined();
+    expect(res.status).toEqual(200);
+    expect(res.text).toEqual("Login");
   });
 
   // TODO: figure out the equivalent error scenario for Deno setup
