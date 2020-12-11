@@ -263,7 +263,7 @@ export class XMLHttpRequestSham {
           ? JSON.stringify(options.requestBody)
           : options.requestBody;
 
-        // We should the fetch promise into a polyfill promise cache
+        // We set the fetch promise into a polyfill promise cache
         // so that superdeno can await these promises before ending.
         // Not doing such results in Deno test complaining of unhandled
         // async operations.
@@ -273,6 +273,14 @@ export class XMLHttpRequestSham {
           body,
           signal: this.controller.signal,
           mode: "cors",
+          // Deviations from the fetch spec (https://fetch.spec.whatwg.org/)
+          // allow us to implement redirect logic into superdeno
+          // via the `manual` redirect setting, which returns a
+          // `basic` response instead of a `opaqueredirect` one.
+          // REF:
+          // - https://github.com/denoland/deno/pull/8353
+          // - https://deno.land/manual/runtime/web_platform_apis#spec-deviations
+          redirect: "manual",
         });
 
         // Wait on the response, and then read the buffer.
