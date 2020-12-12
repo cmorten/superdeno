@@ -10,7 +10,7 @@ import { assertEquals, STATUS_TEXT, superagent, util } from "../deps.ts";
 import type { Listener, Server } from "./types.ts";
 import { close } from "./close.ts";
 import { isListener, isServer, isString } from "./utils.ts";
-import { XMLHttpRequestSham } from "./xhrSham.js";
+import { exposeSham, XMLHttpRequestSham } from "./xhrSham.js";
 
 /**
  * Custom expectation checker.
@@ -76,6 +76,7 @@ export interface IResponse {
   status: number;
   statusCode: number;
   statusType: number;
+  statusText: string;
   text: string;
   type: string;
   unauthorized: boolean;
@@ -154,6 +155,32 @@ export interface IRequest extends Promise<IResponse> {
 type Plugin = (req: IRequest) => void;
 
 interface XMLHttpRequest {}
+
+/**
+ * Allow us to hang off our internal xhr sham promises without
+ * exposing the internals to the consumer.
+ */
+const SHAM_SYMBOL = Symbol("SHAM_SYMBOL");
+exposeSham(SHAM_SYMBOL);
+
+/**
+ * Ensures all promises within the xhr sham have completed.
+ * 
+ * @private
+ */
+async function completeXhrPromises() {
+  for (
+    const promise of Object.values(
+      (window as any)[SHAM_SYMBOL].promises,
+    )
+  ) {
+    if (promise) {
+      try {
+        await promise;
+      } catch (_) {}
+    }
+  }
+}
 
 /**
  * The XMLHttpRequest interface, required by superagent, is "polyfilled" with a sham
@@ -342,7 +369,10 @@ export class Test extends SuperRequest {
     const url = res.headers.location as string;
 
     if (!url) {
-      callback?.(new Error("No location header for redirect"), res);
+      close(this.#server, this.app, undefined, async () => {
+        await completeXhrPromises();
+        callback?.(new Error("No location header for redirect"), res);
+      });
 
       return this;
     }
@@ -408,8 +438,6 @@ export class Test extends SuperRequest {
    */
   end(callback?: CallbackHandler): this {
     const self = this;
-    const server = this.#server;
-    const app = this.app;
     const end = SuperRequest.prototype.end;
 
     end.call(
@@ -417,28 +445,15 @@ export class Test extends SuperRequest {
       function (err: any, res: any) {
         // Before we close, ensure that we have handled all
         // requested redirects
-        const max: number = (self as any)._maxRedirects;
         const redirect = isRedirect(res?.statusCode);
+        const max: number = (self as any)._maxRedirects;
 
         if (redirect && self.#redirects++ !== max) {
           return self.#redirect(res, callback);
         }
 
-        return close(server, app, undefined, async () => {
-          for (
-            const promise of Object.values(
-              (window as any)._xhrSham.promises,
-            )
-          ) {
-            if (promise) {
-              try {
-                await promise;
-                // Handled in the sham, we just want to make sure it's
-                // definitely done here so we don't leak async descriptors.
-              } catch (_) {}
-            }
-          }
-
+        return close(self.#server, self.app, undefined, async () => {
+          await completeXhrPromises();
           self.#assert(err, res, callback);
         });
       },

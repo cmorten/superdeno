@@ -2,9 +2,20 @@ import { mergeDescriptors } from "../deps.ts";
 
 const decoder = new TextDecoder("utf-8");
 
-window._xhrSham = window._xhrSham || {};
-window._xhrSham.idSequence = 0;
-window._xhrSham.promises = {};
+let SHAM_SYMBOL = Symbol("SHAM_SYMBOL");
+
+function setupSham(symbol) {
+  window[symbol] = window[symbol] || {};
+  window[symbol].idSequence = 0;
+  window[symbol].promises = {};
+}
+
+setupSham(SHAM_SYMBOL);
+
+export const exposeSham = (symbol) => {
+  SHAM_SYMBOL = symbol;
+  setupSham(SHAM_SYMBOL);
+};
 
 /**
  * A polyfill for XMLHttpRequest.
@@ -15,7 +26,7 @@ window._xhrSham.promises = {};
  */
 export class XMLHttpRequestSham {
   constructor() {
-    this.id = (++window._xhrSham.idSequence).toString(36);
+    this.id = (++window[SHAM_SYMBOL].idSequence).toString(36);
     this.origin = null;
     this.onreadystatechange = () => {};
     this.readyState = 0;
@@ -195,7 +206,7 @@ export class XMLHttpRequestSham {
       // in this implementation. TBC whether this is accurate.
       // To prevent a memory leak we clean up our promise from the
       // cache now that it _must_ be resolved.
-      delete window._xhrSham.promises[self.id];
+      delete window[SHAM_SYMBOL].promises[self.id];
 
       xhrResponse.responseHeaders = xhrResponse.getAllResponseHeaders();
       onStateChange(xhrResponse);
@@ -267,7 +278,7 @@ export class XMLHttpRequestSham {
         // so that superdeno can await these promises before ending.
         // Not doing such results in Deno test complaining of unhandled
         // async operations.
-        window._xhrSham.promises[self.id] = fetch(options.url, {
+        window[SHAM_SYMBOL].promises[self.id] = fetch(options.url, {
           method: options.method,
           headers: options.requestHeaders,
           body,
@@ -284,7 +295,7 @@ export class XMLHttpRequestSham {
         });
 
         // Wait on the response, and then read the buffer.
-        response = await window._xhrSham.promises[self.id];
+        response = await window[SHAM_SYMBOL].promises[self.id];
 
         mergeDescriptors(xhr, response, false);
 
