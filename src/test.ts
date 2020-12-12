@@ -74,6 +74,7 @@ export interface IResponse {
   redirect: boolean;
   serverError: boolean;
   status: number;
+  statusCode: number;
   statusType: number;
   text: string;
   type: string;
@@ -340,18 +341,54 @@ export class Test extends SuperRequest {
   #redirect = (res: IResponse, callback?: CallbackHandler): this => {
     const url = res.headers.location as string;
 
-    delete (this as any).req;
+    if (!url) {
+      callback?.(new Error("No location header for redirect"), res);
+
+      return this;
+    }
+
+    const parsedUrl = new URL(url, this.url);
+    const changesOrigin = parsedUrl.host !== new URL(this.url).host;
+
+    let headers = (this as any)._header;
+
+    // implementation of 302 following defacto standard
+    if (res.statusCode === 301 || res.statusCode === 302) {
+      // strip Content-* related fields in case of POST etc.
+      headers = cleanHeader(headers, changesOrigin);
+
+      // force GET
+      this.method = this.method === "HEAD" ? "HEAD" : "GET";
+
+      // clear data
+      (this as any)._data = null;
+    }
+
+    // 303 is always GET
+    if (res.statusCode === 303) {
+      // strip Content-* related fields in case of POST etc.
+      headers = cleanHeader(headers, changesOrigin);
+
+      // force method
+      this.method = "GET";
+
+      // clear data
+      (this as any)._data = null;
+    }
+
+    // 307 preserves method
+    // 308 preserves method
+    delete headers.host;
+
     delete (this as any)._formData;
 
-    // TODO: headers
-    // TODO: origin change
-    // TODO: 3xx specific changes
-    // REF: https://github.com/visionmedia/superagent/blob/master/src/node/index.js#L477
+    initHeaders(this);
 
-    this.url = new URL(url, this.url).href;
     (this as any)._endCalled = false;
+    this.url = parsedUrl.href;
     (this as any).qs = {};
     (this as any)._query = [];
+    this.set(headers);
     (this as any).emit("redirect", res);
     this.#redirectList.push(this.url);
 
@@ -603,4 +640,37 @@ function error(msg: string, expected: any, actual: any): Error {
  */
 function isRedirect(code: number = 0) {
   return [301, 302, 303, 305, 307, 308].includes(code);
+}
+
+/**
+ * Strip content related fields from `header`.
+ *
+ * @param {object} header
+ * 
+ * @returns {object} header
+ * @private
+ */
+function cleanHeader(header: Header, changesOrigin: boolean) {
+  delete header["content-type"];
+  delete header["content-length"];
+  delete header["transfer-encoding"];
+  delete header.host;
+
+  if (changesOrigin) {
+    delete header.authorization;
+    delete header.cookie;
+  }
+
+  return header;
+}
+
+/**
+ * Initialize internal header tracking properties on a request instance.
+ *
+ * @param {object} req the instance
+ * @private
+ */
+function initHeaders(req: any) {
+  req._header = {};
+  req.header = {};
 }
