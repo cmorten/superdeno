@@ -1,12 +1,16 @@
-import { expect, Oak } from "./deps.ts";
+import { expect, getFreePort, Oak } from "./deps.ts";
 import type { HTTPOptions, HTTPSOptions } from "../deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno, Test } from "../mod.ts";
 
 const { Application, Router } = Oak;
 
+function random(min: number, max: number): number {
+  return Math.round(Math.random() * (max - min)) + min;
+}
+
 const bootstrapOakServerTest = async (
-  { configureApp, listenOpts, assertionsDelegate, done }: {
+  { configureApp, assertionsDelegate, done }: {
     configureApp: (
       { app, router }: { app: Oak.Application; router: Oak.Router },
     ) => void;
@@ -18,7 +22,6 @@ const bootstrapOakServerTest = async (
         done: () => void;
       },
     ) => void;
-    listenOpts: HTTPOptions | HTTPSOptions;
     done: () => void;
   },
 ) => {
@@ -32,6 +35,7 @@ const bootstrapOakServerTest = async (
 
   const controller = new AbortController();
   const { signal } = controller;
+  const freePort = await getFreePort(random(1024, 49151));
 
   app.addEventListener("listen", ({ hostname, port, secure }: any) => {
     const protocol = secure ? "https" : "http";
@@ -40,7 +44,7 @@ const bootstrapOakServerTest = async (
     assertionsDelegate({ app, url, controller, done });
   });
 
-  await app.listen({ ...listenOpts, signal });
+  await app.listen({ hostname: "127.0.0.1", port: freePort, signal });
 };
 
 describe("Oak: superdeno(url)", () => {
@@ -53,7 +57,6 @@ describe("Oak: superdeno(url)", () => {
           ctx.response.body = "hello";
         });
       },
-      listenOpts: { port: 0 },
       assertionsDelegate: ({ url, controller, done }) =>
         superdeno(url)
           .get("/")
@@ -75,7 +78,6 @@ describe("Oak: superdeno(url)", () => {
             ctx.response.body = "foo";
           });
         },
-        listenOpts: { port: 0 },
         assertionsDelegate: ({ url, controller, done }) =>
           superdeno(url)
             .get("/")
@@ -96,7 +98,6 @@ describe("Oak: superdeno(url)", () => {
             ctx.throw(400, "foo");
           });
         },
-        listenOpts: { port: 0 },
         assertionsDelegate: ({ url, controller, done }) =>
           superdeno(url)
             .get("/")
@@ -119,7 +120,6 @@ describe("Oak: superdeno(url)", () => {
             ctx.response.body = "hello";
           });
         },
-        listenOpts: { port: 0 },
         assertionsDelegate: ({ url, controller, done }) => {
           const test = superdeno(url).get("/");
 

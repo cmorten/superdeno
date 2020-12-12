@@ -35,7 +35,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 ## Getting Started
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@2.5.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@3.0.0/mod.ts";
 import { opine } from "https://deno.land/x/opine@0.22.1/mod.ts";
 
 const app = opine();
@@ -69,13 +69,13 @@ Before importing, [download and install Deno](https://deno.land/#installation).
 You can then import SuperDeno straight into your project:
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@2.5.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@3.0.0/mod.ts";
 ```
 
 SuperDeno is also available on [nest.land](https://nest.land/package/superdeno), a package registry for Deno on the Blockchain.
 
 ```ts
-import { superdeno } from "https://x.nest.land/superdeno@2.5.0/mod.ts";
+import { superdeno } from "https://x.nest.land/superdeno@3.0.0/mod.ts";
 ```
 
 ## Example
@@ -98,7 +98,7 @@ Here's an example of SuperDeno working with the Opine web framework:
 
 ```ts
 import { opine } from "https://deno.land/x/opine@0.22.1/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@2.5.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@3.0.0/mod.ts";
 export { expect } from "https://x.nest.land/expect@0.2.4/mod.ts";
 
 const app = opine();
@@ -123,7 +123,7 @@ Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
 import { Application, Router } from "https://deno.land/x/oak@v6.2.0/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@2.5.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@3.0.0/mod.ts";
 
 const router = new Router();
 router.get("/", (ctx) => {
@@ -159,7 +159,7 @@ If you don't need to test the server setup side of your Oak application, or you 
 
 ```ts
 import { Application, Router } from "https://deno.land/x/oak@v6.2.0/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@2.5.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@3.0.0/mod.ts";
 
 const router = new Router();
 

@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [3.0.0] - 12-12-2020
+
+- feat: **BREAKING CHANGE** support [superagent `.redirects(n)` API](https://visionmedia.github.io/superagent/#following-redirects), with a default of `0`.
+
+The consequence of supporting the `.redirects(n)` API is that superdeno follows a default of `0` redirects, for parity with [supertest](https://github.com/visionmedia/supertest/blob/master/lib/test.js#L32). If your test requires superdeno to follow multiple redirects, specify the number of redirects required in `.redirects(n)`, or use `-1` to have superdeno follow all redirects.
+
 ## [2.5.0] - 10-12-2020
 
 - feat: update to Deno `1.6.0`, std `0.80.0` and other dep upgrades.
