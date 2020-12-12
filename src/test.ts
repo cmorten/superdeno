@@ -10,7 +10,7 @@ import { assertEquals, STATUS_TEXT, superagent, util } from "../deps.ts";
 import type { Listener, Server } from "./types.ts";
 import { close } from "./close.ts";
 import { isListener, isServer, isString } from "./utils.ts";
-import { XMLHttpRequestSham } from "./xhrSham.js";
+import { exposeSham, XMLHttpRequestSham } from "./xhrSham.js";
 
 /**
  * Custom expectation checker.
@@ -74,7 +74,9 @@ export interface IResponse {
   redirect: boolean;
   serverError: boolean;
   status: number;
+  statusCode: number;
   statusType: number;
+  statusText: string;
   text: string;
   type: string;
   unauthorized: boolean;
@@ -82,7 +84,7 @@ export interface IResponse {
   redirects: string[];
 }
 
-export interface IRequest {
+export interface IRequest extends Promise<IResponse> {
   /**
    * Initialize a new `Request` with the given `method` and `url`.
    *
@@ -155,6 +157,32 @@ type Plugin = (req: IRequest) => void;
 interface XMLHttpRequest {}
 
 /**
+ * Allow us to hang off our internal xhr sham promises without
+ * exposing the internals to the consumer.
+ */
+const SHAM_SYMBOL = Symbol("SHAM_SYMBOL");
+exposeSham(SHAM_SYMBOL);
+
+/**
+ * Ensures all promises within the xhr sham have completed.
+ * 
+ * @private
+ */
+async function completeXhrPromises() {
+  for (
+    const promise of Object.values(
+      (window as any)[SHAM_SYMBOL].promises,
+    )
+  ) {
+    if (promise) {
+      try {
+        await promise;
+      } catch (_) {}
+    }
+  }
+}
+
+/**
  * The XMLHttpRequest interface, required by superagent, is "polyfilled" with a sham
  * that wraps `fetch`.
  */
@@ -172,6 +200,8 @@ const SuperRequest: IRequest = (superagent as any).Request;
  */
 export class Test extends SuperRequest {
   #asserts!: any[];
+  #redirects: number;
+  #redirectList: string[];
   #server!: Server;
 
   public app: string | Listener | Server;
@@ -186,6 +216,8 @@ export class Test extends SuperRequest {
   ) {
     super(method.toUpperCase(), path);
     this.redirects(0);
+    this.#redirects = 0;
+    this.#redirectList = [];
 
     this.app = app;
     this.#asserts = [];
@@ -333,6 +365,68 @@ export class Test extends SuperRequest {
     return this;
   }
 
+  #redirect = (res: IResponse, callback?: CallbackHandler): this => {
+    const url = res.headers.location as string;
+
+    if (!url) {
+      close(this.#server, this.app, undefined, async () => {
+        await completeXhrPromises();
+        callback?.(new Error("No location header for redirect"), res);
+      });
+
+      return this;
+    }
+
+    const parsedUrl = new URL(url, this.url);
+    const changesOrigin = parsedUrl.host !== new URL(this.url).host;
+
+    let headers = (this as any)._header;
+
+    // implementation of 302 following defacto standard
+    if (res.statusCode === 301 || res.statusCode === 302) {
+      // strip Content-* related fields in case of POST etc.
+      headers = cleanHeader(headers, changesOrigin);
+
+      // force GET
+      this.method = this.method === "HEAD" ? "HEAD" : "GET";
+
+      // clear data
+      (this as any)._data = null;
+    }
+
+    // 303 is always GET
+    if (res.statusCode === 303) {
+      // strip Content-* related fields in case of POST etc.
+      headers = cleanHeader(headers, changesOrigin);
+
+      // force method
+      this.method = "GET";
+
+      // clear data
+      (this as any)._data = null;
+    }
+
+    // 307 preserves method
+    // 308 preserves method
+    delete headers.host;
+
+    delete (this as any)._formData;
+
+    initHeaders(this);
+
+    (this as any)._endCalled = false;
+    this.url = parsedUrl.href;
+    (this as any).qs = {};
+    (this as any)._query = [];
+    this.set(headers);
+    (this as any).emit("redirect", res);
+    this.#redirectList.push(this.url);
+
+    this.end(callback);
+
+    return this;
+  };
+
   /**
    * Defer invoking superagent's `.end()` until
    * the server is listening.
@@ -344,28 +438,22 @@ export class Test extends SuperRequest {
    */
   end(callback?: CallbackHandler): this {
     const self = this;
-    const server = this.#server;
-    const app = this.app;
     const end = SuperRequest.prototype.end;
 
     end.call(
-      this,
-      async (err: any, res: any) => {
-        return await close(server, app, undefined, async () => {
-          for (
-            const promise of Object.values(
-              (window as any)._xhrSham.promises,
-            )
-          ) {
-            if (promise) {
-              try {
-                await promise;
-                // Handled in the sham, we just want to make sure it's
-                // definitely done here so we don't leak async descriptors.
-              } catch (_) {}
-            }
-          }
+      self,
+      function (err: any, res: any) {
+        // Before we close, ensure that we have handled all
+        // requested redirects
+        const redirect = isRedirect(res?.statusCode);
+        const max: number = (self as any)._maxRedirects;
 
+        if (redirect && self.#redirects++ !== max) {
+          return self.#redirect(res, callback);
+        }
+
+        return close(self.#server, self.app, undefined, async () => {
+          await completeXhrPromises();
           self.#assert(err, res, callback);
         });
       },
@@ -555,4 +643,49 @@ function error(msg: string, expected: any, actual: any): Error {
   (err as any).showDiff = true;
 
   return err;
+}
+
+/**
+ * Check if we should follow the redirect `code`.
+ *
+ * @param {number} code
+ * 
+ * @returns {boolean}
+ * @private
+ */
+function isRedirect(code: number = 0) {
+  return [301, 302, 303, 305, 307, 308].includes(code);
+}
+
+/**
+ * Strip content related fields from `header`.
+ *
+ * @param {object} header
+ * 
+ * @returns {object} header
+ * @private
+ */
+function cleanHeader(header: Header, changesOrigin: boolean) {
+  delete header["content-type"];
+  delete header["content-length"];
+  delete header["transfer-encoding"];
+  delete header.host;
+
+  if (changesOrigin) {
+    delete header.authorization;
+    delete header.cookie;
+  }
+
+  return header;
+}
+
+/**
+ * Initialize internal header tracking properties on a request instance.
+ *
+ * @param {object} req the instance
+ * @private
+ */
+function initHeaders(req: any) {
+  req._header = {};
+  req.header = {};
 }
