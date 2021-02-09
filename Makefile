@@ -26,7 +26,7 @@ lint:
 	@deno lint --unstable ${FILES_TO_FORMAT}
 
 lock:
-	@deno run --lock-write --reload mod.ts
+	@deno run --lock=lock.json --lock-write --reload mod.ts
 
 precommit:
 	@make typedoc
