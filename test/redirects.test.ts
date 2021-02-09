@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 import { expect, Opine } from "./deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno } from "../mod.ts";
@@ -9,7 +11,9 @@ const allPromises = async () => {
   for (const promise of promises) {
     try {
       await promise;
-    } catch (e) {}
+    } catch {
+      // swallow
+    }
   }
   promises = [];
 };
@@ -120,7 +124,9 @@ const setup = () => {
   app.get("/bad-redirect", async (req, res) => {
     try {
       await res.setStatus(307).end();
-    } catch (e) {}
+    } catch {
+      // swallow
+    }
   });
 
   const called: any = {};

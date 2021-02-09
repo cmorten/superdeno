@@ -1,9 +1,9 @@
 /** 
  * Version of SuperDeno.
  */
-export const VERSION: string = "3.0.0";
+export const VERSION = "3.1.0";
 
 /**
  * Supported versions of Deno.
  */
-export const DENO_SUPPORTED_VERSIONS: string[] = ["1.6.0"];
+export const DENO_SUPPORTED_VERSIONS = ["1.7.2"];

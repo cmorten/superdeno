@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [3.1.0] - 09-02-2021
+
+- fix: override superagent's `getXHR` method to prevent need to supply superfluous `--location <href>` flag.
+
 ## [3.0.0] - 12-12-2020
 
 - feat: **BREAKING CHANGE** support [superagent `.redirects(n)` API](https://visionmedia.github.io/superagent/#following-redirects), with a default of `0`.
