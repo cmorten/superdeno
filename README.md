@@ -17,6 +17,12 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
    <a href="https://GitHub.com/asos-craigmorten/superdeno/graphs/commit-activity"><img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="SuperDeno is maintained" /></a>
    <a href="http://hits.dwyl.com/asos-craigmorten/superdeno"><img src="http://hits.dwyl.com/asos-craigmorten/superdeno.svg" alt="SuperDeno repository visit count" /></a>
 </p>
+<p align="center">
+   <a href="https://deno-visualizer.danopia.net/shields/setup/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Flatest-version%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno latest /x/ version" /></a>
+   <a href="https://deno-visualizer.danopia.net/shields/setup/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fdep-count%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency count" /></a>
+   <a href="https://deno-visualizer.danopia.net/shields/setup/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fupdates%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency outdatedness" /></a>
+   <a href="https://deno-visualizer.danopia.net/shields/setup/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fcache-size%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno cached size" /></a>
+</p>
 
 ---
 
