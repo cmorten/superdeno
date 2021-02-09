@@ -6,11 +6,12 @@
  * - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/supertest/index.d.ts
  */
 
-import { assertEquals, STATUS_TEXT, superagent, util } from "../deps.ts";
 import type { Listener, Server } from "./types.ts";
+import { assertEquals, STATUS_TEXT, util } from "../deps.ts";
+import { superagent } from "./superagent.ts";
 import { close } from "./close.ts";
 import { isListener, isServer, isString } from "./utils.ts";
-import { exposeSham, XMLHttpRequestSham } from "./xhrSham.js";
+import { exposeSham } from "./xhrSham.js";
 
 /**
  * Custom expectation checker.
@@ -52,6 +53,8 @@ interface HTTPError extends Error {
   method: string;
   path: string;
 }
+
+interface XMLHttpRequest {}
 
 export interface IResponse {
   accepted: boolean;
@@ -154,8 +157,6 @@ export interface IRequest extends Promise<IResponse> {
 
 type Plugin = (req: IRequest) => void;
 
-interface XMLHttpRequest {}
-
 /**
  * Allow us to hang off our internal xhr sham promises without
  * exposing the internals to the consumer.
@@ -177,7 +178,9 @@ async function completeXhrPromises() {
     if (promise) {
       try {
         await promise;
-      } catch (_) {}
+      } catch {
+        // swallow
+      }
     }
   }
 }
@@ -186,7 +189,7 @@ async function completeXhrPromises() {
  * The XMLHttpRequest interface, required by superagent, is "polyfilled" with a sham
  * that wraps `fetch`.
  */
-(window as any).XMLHttpRequest = XMLHttpRequestSham;
+// (window as any).XMLHttpRequest = XMLHttpRequestSham;
 
 /**
  * The superagent Request class.
@@ -653,7 +656,7 @@ function error(msg: string, expected: any, actual: any): Error {
  * @returns {boolean}
  * @private
  */
-function isRedirect(code: number = 0) {
+function isRedirect(code = 0) {
   return [301, 302, 303, 305, 307, 308].includes(code);
 }
 

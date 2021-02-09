@@ -1,5 +1,6 @@
+// deno-lint-ignore-file no-explicit-any
+
 import { expect, getFreePort, Oak } from "./deps.ts";
-import type { HTTPOptions, HTTPSOptions } from "../deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno, Test } from "../mod.ts";
 
