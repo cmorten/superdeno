@@ -437,7 +437,7 @@ describe("superdeno(app)", () => {
       });
     });
 
-    it("superdeno(app): .end(fn): should handle an undefined Response", async (
+    it("superdeno(app): .end(fn): should handle an undefined Response", (
       done,
     ) => {
       const app = opine();
@@ -446,7 +446,9 @@ describe("superdeno(app)", () => {
         setTimeout(async () => {
           try {
             await res.end();
-          } catch (_) {}
+          } catch {
+            // swallow
+          }
         }, 20);
       });
 

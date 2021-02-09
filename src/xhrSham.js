@@ -245,14 +245,14 @@ export class XMLHttpRequestSham {
       this.responseXML = null;
       this.status = 0;
       this.statusCode = 0;
-      this.statusText = message;
+      this.statusText = errorMessage;
     };
 
     let headers;
     if (options.requestHeaders) {
       headers = this.parseHeaders(options.requestHeaders);
 
-      for (let headerName in headers) {
+      for (const headerName in headers) {
         xhr.setRequestHeader(headerName, headers[headerName]);
       }
     }
@@ -308,7 +308,9 @@ export class XMLHttpRequestSham {
         try {
           JSON.parse(parsedResponse);
           isJson = true;
-        } catch (_) {}
+        } catch {
+          // swallow
+        }
 
         // For when should have already aborted, but our sham implementation
         // isn't quite up to scratch.

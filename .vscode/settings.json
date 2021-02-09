@@ -1,10 +1,10 @@
 {
   "deno.enable": true,
   "[typescript]": {
-    "editor.defaultFormatter": "axetroy.vscode-deno"
+    "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "axetroy.vscode-deno"
+    "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

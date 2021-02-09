@@ -1,14 +1,13 @@
 import { expect, Opine } from "./deps.ts";
-import { Server } from "../deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno } from "../mod.ts";
 const { opine } = Opine;
 
-let server: Server;
+let server: any;
 let address: Deno.NetAddr;
 let base: string;
 
-let server2: Server;
+let server2: any;
 let address2: Deno.NetAddr;
 let base2: string;
 
