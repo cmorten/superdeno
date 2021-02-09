@@ -11,7 +11,7 @@ ci:
 	@make test
 
 deps:
-	@npm install -g typescript typedoc
+	@npm install -g typescript typedoc@0.19.2
 
 doc:
 	@deno doc ./mod.ts
