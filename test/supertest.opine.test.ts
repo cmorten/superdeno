@@ -558,7 +558,7 @@ describe("superdeno(app)", () => {
           .get("/")
           .expect(200, "")
           .end((err, res) => {
-            expect(err.message).toEqual("expected '' response body, got 'foo'");
+            expect(err.message).toEqual('expected "" response body, got "foo"');
             done();
           });
       });
@@ -582,7 +582,7 @@ describe("superdeno(app)", () => {
         .expect("hey")
         .end((err, res) => {
           expect(err.message).toEqual(
-            "expected 'hey' response body, got '{\"foo\":\"bar\"}'",
+            'expected "hey" response body, got \'{"foo":"bar"}\'',
           );
           done();
         });
@@ -643,7 +643,7 @@ describe("superdeno(app)", () => {
         .expect({ foo: "baz" })
         .end((err, res) => {
           expect(err.message).toEqual(
-            "expected { foo: 'baz' } response body, got { foo: 'bar' }",
+            'expected { foo: "baz" } response body, got { foo: "bar" }',
           );
 
           superdeno(app)
@@ -692,7 +692,7 @@ describe("superdeno(app)", () => {
         )
         .end((err, res) => {
           expect(err.message).toEqual(
-            "expected { stringValue: 'foo',\n  numberValue: 3,\n  nestedObject: { innerString: 5 } } response body, got { stringValue: 'foo',\n  numberValue: 3,\n  nestedObject: { innerString: '5' } }",
+            'expected { stringValue: "foo", numberValue: 3, nestedObject: { innerString: 5 } } response body, got { stringValue: "foo", numberValue: 3, nestedObject: { innerString: "5" } }',
           ); // eslint-disable-line max-len
 
           superdeno(app)
@@ -721,7 +721,7 @@ describe("superdeno(app)", () => {
         .get("/")
         .expect(/^bar/)
         .end((err, res) => {
-          expect(err.message).toEqual("expected body 'foobar' to match /^bar/");
+          expect(err.message).toEqual('expected body "foobar" to match /^bar/');
           done();
         });
     });
@@ -742,7 +742,7 @@ describe("superdeno(app)", () => {
         .expect("hey deno")
         .end((err, res) => {
           expect(err.message).toEqual(
-            "expected 'hey' response body, got 'hey deno'",
+            'expected "hey" response body, got "hey deno"',
           );
           done();
         });
