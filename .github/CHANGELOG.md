@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [3.1.1] - 10-02-2021
+
+- feat: `await` the closing of the server to aid consumers in avoiding leaking async ops when performing async cleanup.
+
 ## [3.1.0] - 09-02-2021
 
 - fix: override superagent's `getXHR` method to prevent need to supply superfluous `--location <href>` flag.
