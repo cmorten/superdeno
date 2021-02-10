@@ -7,7 +7,7 @@
  */
 
 import type { Listener, Server } from "./types.ts";
-import { assertEquals, STATUS_TEXT, util } from "../deps.ts";
+import { assertEquals, STATUS_TEXT } from "../deps.ts";
 import { superagent } from "./superagent.ts";
 import { close } from "./close.ts";
 import { isListener, isServer, isString } from "./utils.ts";
@@ -513,8 +513,8 @@ export class Test extends SuperRequest {
       try {
         assertEquals(body, res.body);
       } catch (err) {
-        const a = (util as any).inspect(body);
-        const b = (util as any).inspect(res.body);
+        const a = Deno.inspect(body);
+        const b = Deno.inspect(res.body);
 
         return error(
           `expected ${a} response body, got ${b}`,
@@ -524,8 +524,8 @@ export class Test extends SuperRequest {
       }
     } else if (body !== res.text) {
       // string
-      const a = (util as any).inspect(body);
-      const b = (util as any).inspect(res.text);
+      const a = Deno.inspect(body);
+      const b = Deno.inspect(res.text);
 
       // regexp
       if (isregexp) {
