@@ -238,7 +238,7 @@ Perform the request and invoke `fn(err, res)`.
 
 ## Notes
 
-This is a port (not fork) of [supertest](https://github.com/visionmedia/supertest) to TypeScript + Deno, which fulfills this motivation currently for Node. This module also includes a XHR sham so [superagent](https://visionmedia.github.io/superagent/) client mode can be used directly.
+This is a port of [supertest](https://github.com/visionmedia/supertest) to TypeScript + Deno, which fulfills this motivation currently for Node. This module also includes a XHR sham so [superagent](https://visionmedia.github.io/superagent/) client mode can be used directly.
 
 ## Contributing
 
