@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [4.0.0] - 10-02-2021
+
+- refactor: use JSPM production url for superagent
+- [#25] Use Deno.inspect instead of npm package (#26) 
+- docs: fix up docs to ease contributions
+
 ## [3.1.1] - 10-02-2021
 
 - feat: `await` the closing of the server to aid consumers in avoiding leaking async ops when performing async cleanup.
