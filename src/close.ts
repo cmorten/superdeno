@@ -18,7 +18,7 @@ export const close = async (
 
   if (server) {
     try {
-      server.close();
+      await server.close();
     } catch (err) {
       // Server might have been already closed
       if (!(err instanceof Deno.errors.BadResource)) {
