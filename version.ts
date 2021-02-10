@@ -1,7 +1,7 @@
 /** 
  * Version of SuperDeno.
  */
-export const VERSION = "3.1.1";
+export const VERSION = "4.0.0";
 
 /**
  * Supported versions of Deno.
