@@ -83,6 +83,7 @@
 				</p>
 				<p align="center">
 					<a href="https://deno.land/x/superdeno"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Flatest-version%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno latest /x/ version" /></a>
+					<a href="https://github.com/denoland/deno/blob/main/Releases.md"><img src="https://img.shields.io/badge/deno-^1.8.0-brightgreen?logo=deno" alt="Minimum supported Deno version" /></a>
 					<a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fdep-count%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency count" /></a>
 					<a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fupdates%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency outdatedness" /></a>
 					<a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fcache-size%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno cached size" /></a>
@@ -123,27 +124,41 @@ superdeno(app)
     <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
   });
 </code></pre>
-				<p>Looking to test an Oak web server? Check out <a href="https://github.com/asos-craigmorten/superoak">SuperOak</a>!</p>
+				<p>Looking to test an Oak web server? Check out
+				<a href="https://github.com/asos-craigmorten/superoak">SuperOak</a>!</p>
 				<a href="#about" id="about" style="color: inherit; text-decoration: none;">
 					<h2>About</h2>
 				</a>
-				<p>The motivation of this module is to provide a high-level abstraction for testing HTTP in Deno, while still allowing you to drop down to the lower-level API provided by <a href="https://visionmedia.github.io/superagent/">superagent</a>.</p>
+				<p>The motivation of this module is to provide a high-level abstraction for testing
+					HTTP in Deno, while still allowing you to drop down to the lower-level API
+				provided by <a href="https://visionmedia.github.io/superagent/">superagent</a>.</p>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
-				<p>This is a <a href="https://deno.land/">Deno</a> module available to import direct from this repo and via the <a href="https://deno.land/x">Deno Registry</a>.</p>
+				<p>This is a <a href="https://deno.land/">Deno</a> module available to import direct from this
+				repo and via the <a href="https://deno.land/x">Deno Registry</a>.</p>
 				<p>Before importing, <a href="https://deno.land/#installation">download and install Deno</a>.</p>
 				<p>You can then import SuperDeno straight into your project:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno@4.1.0/mod.ts&quot;</span>;
 </code></pre>
-				<p>SuperDeno is also available on <a href="https://nest.land/package/superdeno">nest.land</a>, a package registry for Deno on the Blockchain.</p>
+				<p>SuperDeno is also available on <a href="https://nest.land/package/superdeno">nest.land</a>,
+				a package registry for Deno on the Blockchain.</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://x.nest.land/superdeno@4.1.0/mod.ts&quot;</span>;
 </code></pre>
 				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 					<h2>Example</h2>
 				</a>
-				<p>You may pass a url string, <a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#Server"><code>http.Server</code></a>, a request handling function, or an object that implements an <code>app.listen()</code> method (which mirrors the <a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#serve"><code>http.serve</code></a> interface) to <code>superdeno()</code> - if SuperDeno identifies that a server is not already listening for connections, then one is bound to an ephemeral port for you so there is no need to keep track of ports.</p>
-				<p>SuperDeno works with any Deno test framework. Here&#39;s an example with Deno&#39;s built-in test framework, note how you can pass <code>done</code> straight to any of the <code>.expect()</code> calls:</p>
+				<p>You may pass a url string,
+					<a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#Server"><code>http.Server</code></a>, a
+					request handling function, or an object that implements an <code>app.listen()</code> method
+					(which mirrors the
+					<a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#serve"><code>http.serve</code></a>
+					interface) to <code>superdeno()</code> - if SuperDeno identifies that a server is not
+					already listening for connections, then one is bound to an ephemeral port for
+				you so there is no need to keep track of ports.</p>
+				<p>SuperDeno works with any Deno test framework. Here&#39;s an example with Deno&#39;s
+					built-in test framework, note how you can pass <code>done</code> straight to any of the
+				<code>.expect()</code> calls:</p>
 				<pre><code class="language-ts">Deno.test(<span class="hljs-string">&quot;GET /user responds with json&quot;</span>, <span class="hljs-keyword">async</span> () =&gt; {
   <span class="hljs-keyword">await</span> superdeno(app)
     .get(<span class="hljs-string">&quot;/user&quot;</span>)
@@ -169,7 +184,7 @@ Deno.test(<span class="hljs-string">&quot;it should support regular expressions&
     .expect(<span class="hljs-string">&quot;Content-Type&quot;</span>, <span class="hljs-regexp">/^application/</span>)
     .end(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
       expect(err.message).toEqual(
-        <span class="hljs-string">&#x27;expected &quot;Content-Type&quot; matching /^application/, got &quot;text/html; charset=utf-8&quot;&#x27;</span>
+        <span class="hljs-string">&#x27;expected &quot;Content-Type&quot; matching /^application/, got &quot;text/html; charset=utf-8&quot;&#x27;</span>,
       );
     });
 });
@@ -205,8 +220,13 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework&qu
   <span class="hljs-keyword">await</span> app.listen({ <span class="hljs-attr">port</span>: <span class="hljs-number">0</span>, signal });
 });
 </code></pre>
-				<p>If you are using the <a href="https://github.com/oakserver/oak/">Oak</a> web framework then it is recommended that you use the specialized <a href="https://github.com/asos-craigmorten/superoak">SuperOak</a> assertions library for reduced bootstrapping.</p>
-				<p>If you don&#39;t need to test the server setup side of your Oak application, or you are making use of the <code>app.handle()</code> method (for example for serverless apps) then you can write slightly less verbose tests for Oak:</p>
+				<p>If you are using the <a href="https://github.com/oakserver/oak/">Oak</a> web framework then
+					it is recommended that you use the specialized
+					<a href="https://github.com/asos-craigmorten/superoak">SuperOak</a> assertions library for
+				reduced bootstrapping.</p>
+				<p>If you don&#39;t need to test the server setup side of your Oak application, or you
+					are making use of the <code>app.handle()</code> method (for example for serverless apps)
+				then you can write slightly less verbose tests for Oak:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@v6.5.0/mod.ts&quot;</span>;
 <span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno@4.1.0/mod.ts&quot;</span>;
 
@@ -230,8 +250,11 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework `a
     .expect(<span class="hljs-string">&quot;Hello Deno!&quot;</span>);
 });
 </code></pre>
-				<p>In this case, SuperDeno handles the setup and closing of the server for you, so you can focus on just testing your middleware.</p>
-				<p>For further examples, see the <a href="./test">tests</a> or the <a href="https://github.com/visionmedia/supertest#example">supertest examples</a> for inspiration.</p>
+				<p>In this case, SuperDeno handles the setup and closing of the server for you, so
+				you can focus on just testing your middleware.</p>
+				<p>For further examples, see the <a href="./test">tests</a> or the
+					<a href="https://github.com/visionmedia/supertest#example">supertest examples</a> for
+				inspiration.</p>
 				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
 					<h2>Documentation</h2>
 				</a>
@@ -244,7 +267,9 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework `a
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
-				<p>You may use any <a href="http://github.com/visionmedia/superagent">superagent</a> client (browser) methods and perform assertions in the <code>.end()</code> callback for lower-level needs.</p>
+				<p>You may use any <a href="http://github.com/visionmedia/superagent">superagent</a> client
+					(browser) methods and perform assertions in the <code>.end()</code> callback for
+				lower-level needs.</p>
 				<a href="#expectstatus-fn" id="expectstatus-fn" style="color: inherit; text-decoration: none;">
 					<h3>.expect(status[, fn])</h3>
 				</a>
@@ -256,7 +281,8 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework `a
 				<a href="#expectbody-fn" id="expectbody-fn" style="color: inherit; text-decoration: none;">
 					<h3>.expect(body[, fn])</h3>
 				</a>
-				<p>Assert response <code>body</code> text with a string, regular expression, or parsed body object.</p>
+				<p>Assert response <code>body</code> text with a string, regular expression, or parsed body
+				object.</p>
 				<a href="#expectfield-value-fn" id="expectfield-value-fn" style="color: inherit; text-decoration: none;">
 					<h3>.expect(field, value[, fn])</h3>
 				</a>
@@ -264,7 +290,8 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework `a
 				<a href="#expectfunctionres-" id="expectfunctionres-" style="color: inherit; text-decoration: none;">
 					<h3>.expect(function(res) {})</h3>
 				</a>
-				<p>Pass a custom assertion function. It&#39;ll be given the response object to check. If the check fails, throw an error.</p>
+				<p>Pass a custom assertion function. It&#39;ll be given the response object to check.
+				If the check fails, throw an error.</p>
 				<pre><code class="language-ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hasPreviousAndNextKeys</span>(<span class="hljs-params">res</span>) </span>{
   <span class="hljs-keyword">if</span> (!(<span class="hljs-string">&quot;next&quot;</span> <span class="hljs-keyword">in</span> res.parsedBody)) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&quot;missing next key&quot;</span>);
   <span class="hljs-keyword">if</span> (!(<span class="hljs-string">&quot;prev&quot;</span> <span class="hljs-keyword">in</span> res.parsedBody)) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&quot;missing prev key&quot;</span>);
@@ -279,7 +306,11 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework `a
 				<a href="#notes" id="notes" style="color: inherit; text-decoration: none;">
 					<h2>Notes</h2>
 				</a>
-				<p>This is a port of <a href="https://github.com/visionmedia/supertest">supertest</a> to TypeScript + Deno, which fulfills this motivation currently for Node. This module also includes a XHR sham so <a href="https://visionmedia.github.io/superagent/">superagent</a> client mode can be used directly.</p>
+				<p>This is a port of <a href="https://github.com/visionmedia/supertest">supertest</a> to
+					TypeScript + Deno, which fulfills this motivation currently for Node. This
+					module also includes a XHR sham so
+					<a href="https://visionmedia.github.io/superagent/">superagent</a> client mode can be used
+				directly.</p>
 				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
 					<h2>Contributing</h2>
 				</a>
@@ -288,9 +319,14 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework `a
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This library is a port of <a href="https://github.com/visionmedia/supertest">supertest</a> whose license and copyrights are available at <a href="./SUPERTEST_LICENSE.md">SUPERTEST_LICENSE</a> in the root of this repository, and covers all files within the <a href="./src">source</a> directory which detail that the file is a port.</p>
+				<p>This library is a port of <a href="https://github.com/visionmedia/supertest">supertest</a>
+					whose license and copyrights are available at
+					<a href="./SUPERTEST_LICENSE.md">SUPERTEST_LICENSE</a> in the root of this repository, and
+					covers all files within the <a href="./src">source</a> directory which detail that the file
+				is a port.</p>
 				<p>SuperDeno is licensed under the <a href="./LICENSE.md">MIT License</a>.</p>
-				<p>Icon designed and created by <a href="https://www.linkedin.com/in/hannah-morten-b1218017a/">Hannah Morten</a>.</p>
+				<p>Icon designed and created by
+				<a href="https://www.linkedin.com/in/hannah-morten-b1218017a/">Hannah Morten</a>.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
