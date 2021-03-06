@@ -1,24 +1,38 @@
 # ChangeLog
 
+## [4.1.0] - 06-03-2021
+
+- feat: Support Deno 1.8.0 and std 0.89.0
+- chore: upgrade dependencies
+
 ## [4.0.0] - 10-02-2021
 
 - refactor: use JSPM production url for superagent
-- [#25] Use Deno.inspect instead of npm package (#26) 
+- [#25] Use Deno.inspect instead of npm package (#26)
 - docs: fix up docs to ease contributions
 
 ## [3.1.1] - 10-02-2021
 
-- feat: `await` the closing of the server to aid consumers in avoiding leaking async ops when performing async cleanup.
+- feat: `await` the closing of the server to aid consumers in avoiding leaking
+  async ops when performing async cleanup.
 
 ## [3.1.0] - 09-02-2021
 
-- fix: override superagent's `getXHR` method to prevent need to supply superfluous `--location <href>` flag.
+- fix: override superagent's `getXHR` method to prevent need to supply
+  superfluous `--location <href>` flag.
 
 ## [3.0.0] - 12-12-2020
 
-- feat: **BREAKING CHANGE** support [superagent `.redirects(n)` API](https://visionmedia.github.io/superagent/#following-redirects), with a default of `0`.
+- feat: **BREAKING CHANGE** support
+  [superagent `.redirects(n)` API](https://visionmedia.github.io/superagent/#following-redirects),
+  with a default of `0`.
 
-The consequence of supporting the `.redirects(n)` API is that superdeno follows a default of `0` redirects, for parity with [supertest](https://github.com/visionmedia/supertest/blob/master/lib/test.js#L32). If your test requires superdeno to follow multiple redirects, specify the number of redirects required in `.redirects(n)`, or use `-1` to have superdeno follow all redirects.
+The consequence of supporting the `.redirects(n)` API is that superdeno follows
+a default of `0` redirects, for parity with
+[supertest](https://github.com/visionmedia/supertest/blob/master/lib/test.js#L32).
+If your test requires superdeno to follow multiple redirects, specify the number
+of redirects required in `.redirects(n)`, or use `-1` to have superdeno follow
+all redirects.
 
 ## [2.5.0] - 10-12-2020
 
@@ -62,13 +76,17 @@ The consequence of supporting the `.redirects(n)` API is that superdeno follows 
 ## [2.1.0] - 03-08-2020
 
 - chore: upgrade supported Deno and std module versions to `1.2.2` and `0.63.0`.
-- chore: fix modules to tagged versions as [commits and branches are no longer supported by Deno registry](https://deno.land/posts/registry2).
+- chore: fix modules to tagged versions as
+  [commits and branches are no longer supported by Deno
+  registry](https://deno.land/posts/registry2).
 - chore: automate typescript docs
 
 ## [2.0.0] - 16-07-2020
 
-- feat: update to Deno `1.2.0` (breaking upgrade), std `0.61.0` and other dep upgrades.
-- tests: add patch for dispatcher bug in Deno, REF: <https://github.com/denoland/deno/issues/6616>.
+- feat: update to Deno `1.2.0` (breaking upgrade), std `0.61.0` and other dep
+  upgrades.
+- tests: add patch for dispatcher bug in Deno, REF:
+  <https://github.com/denoland/deno/issues/6616>.
 - chore: update formatting.
 
 ## [1.6.1] - 06-07-2020

@@ -1,7 +1,7 @@
 # Security Policies and Procedures
 
-This document outlines security procedures and general policies for the superdeno
-project.
+This document outlines security procedures and general policies for the
+superdeno project.
 
 - [Reporting a Bug](#reporting-a-bug)
 - [Disclosure Policy](#disclosure-policy)
@@ -10,16 +10,16 @@ project.
 ## Reporting a Bug
 
 The superdeno team and community take all security bugs in superdeno seriously.
-Thank you for improving the security of superdeno. We appreciate your efforts and
-responsible disclosure and will make every effort to acknowledge your
+Thank you for improving the security of superdeno. We appreciate your efforts
+and responsible disclosure and will make every effort to acknowledge your
 contributions.
 
 Report security bugs by emailing the lead maintainer in the
 [CODEOWNERS](./.github/CODEOWNERS.md) file.
 
 The lead maintainer will acknowledge your email, and will send a response
-indicating the next steps in handling your report. After the initial reply
-to your report, the maintainer team will endeavor to keep you informed of the
+indicating the next steps in handling your report. After the initial reply to
+your report, the maintainer team will endeavor to keep you informed of the
 progress towards a fix and full announcement, and may ask for additional
 information or guidance.
 
@@ -28,8 +28,8 @@ the module.
 
 ## Disclosure Policy
 
-When the maintainer team receives a security bug report, they will assign it to a
-primary handler. This person will coordinate the fix and release process,
+When the maintainer team receives a security bug report, they will assign it to
+a primary handler. This person will coordinate the fix and release process,
 involving the following steps:
 
 - Confirm the problem and determine the affected versions.
