@@ -1,18 +1,18 @@
 {
-    "name": "superdeno",
-    "description": "HTTP assertions for Deno made easy via superagent.",
-    "version": "4.0.0",
-    "repository": "https://github.com/asos-craigmorten/superdeno",
-    "stable": true,
-    "files": [
-        "./mod.ts",
-        "./deps.ts",
-        "./version.ts",
-        "./lock.json",
-        "./src/**/*",
-        "./README.md",
-        "./LICENSE.md",
-        "./SUPERTEST_LICENSE.md",
-        "./.github/CHANGELOG.md"
-    ]
+  "name": "superdeno",
+  "description": "HTTP assertions for Deno made easy via superagent.",
+  "version": "4.1.0",
+  "repository": "https://github.com/asos-craigmorten/superdeno",
+  "stable": true,
+  "files": [
+    "./mod.ts",
+    "./deps.ts",
+    "./version.ts",
+    "./lock.json",
+    "./src/**/*",
+    "./README.md",
+    "./LICENSE.md",
+    "./SUPERTEST_LICENSE.md",
+    "./.github/CHANGELOG.md"
+  ]
 }

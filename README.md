@@ -19,6 +19,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 </p>
 <p align="center">
    <a href="https://deno.land/x/superdeno"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Flatest-version%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno latest /x/ version" /></a>
+   <a href="https://github.com/denoland/deno/blob/main/Releases.md"><img src="https://img.shields.io/badge/deno-^1.8.0-brightgreen?logo=deno" alt="Minimum supported Deno version" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fdep-count%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency count" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fupdates%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency outdatedness" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fcache-size%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno cached size" /></a>
@@ -41,8 +42,8 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 ## Getting Started
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@4.0.0/mod.ts";
-import { opine } from "https://deno.land/x/opine@1.1.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.1.0/mod.ts";
+import { opine } from "https://deno.land/x/opine@1.2.0/mod.ts";
 
 const app = opine();
 
@@ -60,35 +61,49 @@ superdeno(app)
   });
 ```
 
-Looking to test an Oak web server? Check out [SuperOak](https://github.com/asos-craigmorten/superoak)!
+Looking to test an Oak web server? Check out
+[SuperOak](https://github.com/asos-craigmorten/superoak)!
 
 ## About
 
-The motivation of this module is to provide a high-level abstraction for testing HTTP in Deno, while still allowing you to drop down to the lower-level API provided by [superagent](https://visionmedia.github.io/superagent/).
+The motivation of this module is to provide a high-level abstraction for testing
+HTTP in Deno, while still allowing you to drop down to the lower-level API
+provided by [superagent](https://visionmedia.github.io/superagent/).
 
 ## Installation
 
-This is a [Deno](https://deno.land/) module available to import direct from this repo and via the [Deno Registry](https://deno.land/x).
+This is a [Deno](https://deno.land/) module available to import direct from this
+repo and via the [Deno Registry](https://deno.land/x).
 
 Before importing, [download and install Deno](https://deno.land/#installation).
 
 You can then import SuperDeno straight into your project:
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@4.0.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.1.0/mod.ts";
 ```
 
-SuperDeno is also available on [nest.land](https://nest.land/package/superdeno), a package registry for Deno on the Blockchain.
+SuperDeno is also available on [nest.land](https://nest.land/package/superdeno),
+a package registry for Deno on the Blockchain.
 
 ```ts
-import { superdeno } from "https://x.nest.land/superdeno@4.0.0/mod.ts";
+import { superdeno } from "https://x.nest.land/superdeno@4.1.0/mod.ts";
 ```
 
 ## Example
 
-You may pass a url string, [`http.Server`](https://doc.deno.land/https/deno.land/std/http/mod.ts#Server), a request handling function, or an object that implements an `app.listen()` method (which mirrors the [`http.serve`](https://doc.deno.land/https/deno.land/std/http/mod.ts#serve) interface) to `superdeno()` - if SuperDeno identifies that a server is not already listening for connections, then one is bound to an ephemeral port for you so there is no need to keep track of ports.
+You may pass a url string,
+[`http.Server`](https://doc.deno.land/https/deno.land/std/http/mod.ts#Server), a
+request handling function, or an object that implements an `app.listen()` method
+(which mirrors the
+[`http.serve`](https://doc.deno.land/https/deno.land/std/http/mod.ts#serve)
+interface) to `superdeno()` - if SuperDeno identifies that a server is not
+already listening for connections, then one is bound to an ephemeral port for
+you so there is no need to keep track of ports.
 
-SuperDeno works with any Deno test framework. Here's an example with Deno's built-in test framework, note how you can pass `done` straight to any of the `.expect()` calls:
+SuperDeno works with any Deno test framework. Here's an example with Deno's
+built-in test framework, note how you can pass `done` straight to any of the
+`.expect()` calls:
 
 ```ts
 Deno.test("GET /user responds with json", async () => {
@@ -103,8 +118,8 @@ Deno.test("GET /user responds with json", async () => {
 Here's an example of SuperDeno working with the Opine web framework:
 
 ```ts
-import { opine } from "https://deno.land/x/opine@1.1.0/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@4.0.0/mod.ts";
+import { opine } from "https://deno.land/x/opine@1.2.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.1.0/mod.ts";
 export { expect } from "https://x.nest.land/expect@0.2.4/mod.ts";
 
 const app = opine();
@@ -119,7 +134,7 @@ Deno.test("it should support regular expressions", async () => {
     .expect("Content-Type", /^application/)
     .end((err) => {
       expect(err.message).toEqual(
-        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
+        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"',
       );
     });
 });
@@ -129,7 +144,7 @@ Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
 import { Application, Router } from "https://deno.land/x/oak@v6.5.0/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@4.0.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.1.0/mod.ts";
 
 const router = new Router();
 router.get("/", (ctx) => {
@@ -159,13 +174,18 @@ Deno.test("it should support the Oak framework", () => {
 });
 ```
 
-If you are using the [Oak](https://github.com/oakserver/oak/) web framework then it is recommended that you use the specialized [SuperOak](https://github.com/asos-craigmorten/superoak) assertions library for reduced bootstrapping.
+If you are using the [Oak](https://github.com/oakserver/oak/) web framework then
+it is recommended that you use the specialized
+[SuperOak](https://github.com/asos-craigmorten/superoak) assertions library for
+reduced bootstrapping.
 
-If you don't need to test the server setup side of your Oak application, or you are making use of the `app.handle()` method (for example for serverless apps) then you can write slightly less verbose tests for Oak:
+If you don't need to test the server setup side of your Oak application, or you
+are making use of the `app.handle()` method (for example for serverless apps)
+then you can write slightly less verbose tests for Oak:
 
 ```ts
 import { Application, Router } from "https://deno.land/x/oak@v6.5.0/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@4.0.0/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.1.0/mod.ts";
 
 const router = new Router();
 
@@ -188,9 +208,12 @@ Deno.test("it should support the Oak framework `app.handle` method", async () =>
 });
 ```
 
-In this case, SuperDeno handles the setup and closing of the server for you, so you can focus on just testing your middleware.
+In this case, SuperDeno handles the setup and closing of the server for you, so
+you can focus on just testing your middleware.
 
-For further examples, see the [tests](./test) or the [supertest examples](https://github.com/visionmedia/supertest#example) for inspiration.
+For further examples, see the [tests](./test) or the
+[supertest examples](https://github.com/visionmedia/supertest#example) for
+inspiration.
 
 ## Documentation
 
@@ -201,7 +224,9 @@ For further examples, see the [tests](./test) or the [supertest examples](https:
 
 ## API
 
-You may use any [superagent](http://github.com/visionmedia/superagent) client (browser) methods and perform assertions in the `.end()` callback for lower-level needs.
+You may use any [superagent](http://github.com/visionmedia/superagent) client
+(browser) methods and perform assertions in the `.end()` callback for
+lower-level needs.
 
 ### .expect(status[, fn])
 
@@ -213,7 +238,8 @@ Assert response `status` code and `body`.
 
 ### .expect(body[, fn])
 
-Assert response `body` text with a string, regular expression, or parsed body object.
+Assert response `body` text with a string, regular expression, or parsed body
+object.
 
 ### .expect(field, value[, fn])
 
@@ -221,7 +247,8 @@ Assert header `field` `value` with a string or regular expression.
 
 ### .expect(function(res) {})
 
-Pass a custom assertion function. It'll be given the response object to check. If the check fails, throw an error.
+Pass a custom assertion function. It'll be given the response object to check.
+If the check fails, throw an error.
 
 ```ts
 function hasPreviousAndNextKeys(res) {
@@ -238,7 +265,11 @@ Perform the request and invoke `fn(err, res)`.
 
 ## Notes
 
-This is a port of [supertest](https://github.com/visionmedia/supertest) to TypeScript + Deno, which fulfills this motivation currently for Node. This module also includes a XHR sham so [superagent](https://visionmedia.github.io/superagent/) client mode can be used directly.
+This is a port of [supertest](https://github.com/visionmedia/supertest) to
+TypeScript + Deno, which fulfills this motivation currently for Node. This
+module also includes a XHR sham so
+[superagent](https://visionmedia.github.io/superagent/) client mode can be used
+directly.
 
 ## Contributing
 
@@ -248,8 +279,13 @@ This is a port of [supertest](https://github.com/visionmedia/supertest) to TypeS
 
 ## License
 
-This library is a port of [supertest](https://github.com/visionmedia/supertest) whose license and copyrights are available at [SUPERTEST_LICENSE](./SUPERTEST_LICENSE.md) in the root of this repository, and covers all files within the [source](./src) directory which detail that the file is a port.
+This library is a port of [supertest](https://github.com/visionmedia/supertest)
+whose license and copyrights are available at
+[SUPERTEST_LICENSE](./SUPERTEST_LICENSE.md) in the root of this repository, and
+covers all files within the [source](./src) directory which detail that the file
+is a port.
 
 SuperDeno is licensed under the [MIT License](./LICENSE.md).
 
-Icon designed and created by [Hannah Morten](https://www.linkedin.com/in/hannah-morten-b1218017a/).
+Icon designed and created by
+[Hannah Morten](https://www.linkedin.com/in/hannah-morten-b1218017a/).
