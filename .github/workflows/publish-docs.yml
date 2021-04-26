@@ -19,7 +19,7 @@ jobs:
       - name: Use Deno
         uses: denolib/setup-deno@v2
         with:
-          deno-version: 1.8.0
+          deno-version: 1.9.2
       - run: make typedoc
       - run: make ci
       - name: Publish Updated Type Docs

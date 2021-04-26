@@ -144,29 +144,41 @@ describe("superdeno(app)", () => {
       .expect("john", done);
   });
 
-  it("superdeno(app): should work with .send() on GET given RFCs 7230-7237", (
-    done,
-  ) => {
-    const app = opine();
+  /**
+   * Deno 1.9.2 does not allow HEAD / GET requests to have a body.
+   * 
+   * TypeError: HEAD and GET requests may not have a body.
+   *     at new Request (deno:op_crates/fetch/23_request.js)
+   *     at fetch (deno:op_crates/fetch/26_fetch.js)
+   */
+  // it("superdeno(app): should not work with .send() on GET given RFCs 7230-7237", (
+  //   done,
+  // ) => {
+  //   const app = opine();
 
-    app.use(json());
+  //   app.use(json());
 
-    app.get("/", (req, res) => {
-      res.send(req.parsedBody.name);
-    });
+  //   app.get("/", (req, res) => {
+  //     res.send(req.parsedBody.name);
+  //   });
 
-    superdeno(app)
-      .get("/")
-      .send({ name: "john" })
-      .expect("john", done);
-  });
+  //   superdeno(app)
+  //     .get("/")
+  //     .send({ name: "john" })
+  //     .expect("john", done);
+  // });
 
   it("superdeno(app): should handle headers correctly", (done) => {
     const app = opine();
 
+    // TODO: re-introduce additional cookies once
+    // https://github.com/asos-craigmorten/opine/issues/117 is resolved.
+    //
+    // Tracked in https://github.com/asos-craigmorten/superdeno/issues/28
+
     app.get("/", (req, res) => {
-      res.cookie({ name: "foo", value: "bar" });
-      res.cookie({ name: "user", value: "deno" });
+      // res.cookie({ name: "foo", value: "bar" });
+      // res.cookie({ name: "user", value: "deno" });
       res.set("Set-Cookie", "fizz=buzz");
       res.set("X-Tested-With", "SuperDeno");
       res.type("application/json");
@@ -178,10 +190,11 @@ describe("superdeno(app)", () => {
       .expect(function (res) {
         expect(res.headers).toEqual({
           "content-length": "0",
-          "x-powered-by": "Opine",
-          "set-cookie": "foo=bar; Path=/, user=deno; Path=/, fizz=buzz",
-          "x-tested-with": "SuperDeno",
           "content-type": "application/json; charset=utf-8",
+          "set-cookie": "fizz=buzz",
+          // "set-cookie": "foo=bar; Path=/, user=deno; Path=/, fizz=buzz",
+          "x-powered-by": "Opine",
+          "x-tested-with": "SuperDeno",
         });
       })
       .expect(200, done);

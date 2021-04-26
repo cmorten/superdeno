@@ -1,5 +1,3 @@
-import { mergeDescriptors } from "../deps.ts";
-
 const decoder = new TextDecoder("utf-8");
 
 let SHAM_SYMBOL = Symbol("SHAM_SYMBOL");
@@ -297,7 +295,12 @@ export class XMLHttpRequestSham {
         // Wait on the response, and then read the buffer.
         response = await window[SHAM_SYMBOL].promises[self.id];
 
-        mergeDescriptors(xhr, response, false);
+        // Manually transfer over properties, getPropertyDescriptors / prototype access now
+        // restricted in Deno. REF: https://github.com/denoland/deno/releases/tag/v1.9.0
+        xhr.headers = response.headers;
+        xhr.ok = response.ok;
+        xhr.redirected = response.redirected;
+        xhr.url = response.url;
 
         // A naive approach to handle the response body. We should really
         // interrogate contentType etc.
