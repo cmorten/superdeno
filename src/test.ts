@@ -1,6 +1,6 @@
 /**
  * Port of supertest (https://github.com/visionmedia/supertest) for Deno.
- * 
+ *
  * Types adapted from:
  * - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/superagent/index.d.ts
  * - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/supertest/index.d.ts
@@ -166,7 +166,7 @@ exposeSham(SHAM_SYMBOL);
 
 /**
  * Ensures all promises within the xhr sham have completed.
- * 
+ *
  * @private
  */
 async function completeXhrPromises() {
@@ -249,7 +249,7 @@ export class Test extends SuperRequest {
    * @param {string} path
    * @param {?string} host
    * @param {?boolean} secure
-   * 
+   *
    * @returns {string} URL address
    * @private
    */
@@ -271,7 +271,7 @@ export class Test extends SuperRequest {
    *   .expect(fn)
    *
    * @param {ExpectChecker} callback
-   * 
+   *
    * @returns {Test} for chaining
    * @public
    */
@@ -284,7 +284,7 @@ export class Test extends SuperRequest {
    *
    * @param {number} status
    * @param {?CallbackHandler} callback
-   * 
+   *
    * @returns {Test} for chaining
    * @public
    */
@@ -298,7 +298,7 @@ export class Test extends SuperRequest {
    * @param {number} status
    * @param {any} body
    * @param {?CallbackHandler} callback
-   * 
+   *
    * @returns {Test} for chaining
    * @public
    */
@@ -312,7 +312,7 @@ export class Test extends SuperRequest {
    *
    * @param {string|RegExp|Object} body
    * @param {?CallbackHandler} callback
-   * 
+   *
    * @returns {Test} for chaining
    * @public
    */
@@ -326,7 +326,7 @@ export class Test extends SuperRequest {
    * @param {string} field
    * @param {string|RegExp|Object} value
    * @param {?CallbackHandler} callback
-   * 
+   *
    * @returns {Test} for chaining
    * @public
    */
@@ -435,7 +435,7 @@ export class Test extends SuperRequest {
    * the server is listening.
    *
    * @param {CallbackHandler} fn
-   * 
+   *
    * @returns {Test} for chaining
    * @public
    */
@@ -501,7 +501,7 @@ export class Test extends SuperRequest {
    *
    * @param {any} body
    * @param {IResponse} res
-   * 
+   *
    * @returns {?Error}
    * @private
    */
@@ -551,7 +551,7 @@ export class Test extends SuperRequest {
    *
    * @param {any} header
    * @param {IResponse} res
-   * 
+   *
    * @returns {?Error}
    * @private
    */
@@ -593,7 +593,7 @@ export class Test extends SuperRequest {
    *
    * @param {number} status
    * @param {IResponse} res
-   * 
+   *
    * @returns {?Error}
    * @private
    */
@@ -611,7 +611,7 @@ export class Test extends SuperRequest {
    *
    * @param {Function} fn
    * @param {IResponse} res
-   * 
+   *
    * @returns {?Error}
    * @private
    */
@@ -634,7 +634,7 @@ export class Test extends SuperRequest {
  * @param {string} msg
  * @param {any} expected
  * @param {any} actual
- * 
+ *
  * @returns {Error}
  * @private
  */
@@ -652,7 +652,7 @@ function error(msg: string, expected: any, actual: any): Error {
  * Check if we should follow the redirect `code`.
  *
  * @param {number} code
- * 
+ *
  * @returns {boolean}
  * @private
  */
@@ -664,7 +664,7 @@ function isRedirect(code = 0) {
  * Strip content related fields from `header`.
  *
  * @param {object} header
- * 
+ *
  * @returns {object} header
  * @private
  */

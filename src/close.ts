@@ -1,9 +1,9 @@
 import type { Listener, RequestHandler, Server } from "./types.ts";
 
 /**
- * 
- * @param {Server} server 
- * @param {string|RequestHandler|Listener|Server} app 
+ *
+ * @param {Server} server
+ * @param {string|RequestHandler|Listener|Server} app
  * @param {?Error} err
  * @param {?Function} callback
  * @private
