@@ -11,7 +11,7 @@ const allPromises = async () => {
   for (const promise of promises) {
     try {
       await promise;
-    } catch {
+    } catch (_) {
       // swallow
     }
   }
@@ -124,7 +124,7 @@ const setup = () => {
   app.get("/bad-redirect", async (req, res) => {
     try {
       await res.setStatus(307).end();
-    } catch {
+    } catch (_) {
       // swallow
     }
   });

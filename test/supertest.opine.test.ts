@@ -425,13 +425,18 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      app.get("/", (req, res) => {
+      let resolver: (value?: unknown) => void;
+      const timeoutPromise = new Promise((resolve) => resolver = resolve);
+
+      app.get("/", (_req, res) => {
         setTimeout(async () => {
           try {
             await res.end();
-          } catch {
+          } catch (_) {
             // swallow
           }
+
+          resolver();
         }, 20);
       });
 
@@ -440,9 +445,10 @@ describe("superdeno(app)", () => {
       const url = `http://localhost:${address.port}`;
 
       superdeno(url).get("/").timeout(1)
-        .expect(200, (err, res) => {
+        .expect(200, async (err, _res) => {
           expect(err).toBeInstanceOf(Error);
           server.close();
+          await timeoutPromise;
           done();
         });
     });

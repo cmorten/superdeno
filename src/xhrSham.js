@@ -311,7 +311,7 @@ export class XMLHttpRequestSham {
         try {
           JSON.parse(parsedResponse);
           isJson = true;
-        } catch {
+        } catch (_) {
           // swallow
         }
 

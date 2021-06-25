@@ -178,7 +178,7 @@ async function completeXhrPromises() {
     if (promise) {
       try {
         await promise;
-      } catch {
+      } catch (_) {
         // swallow
       }
     }
