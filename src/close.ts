@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import type { Listener, RequestHandler, Server } from "./types.ts";
 
 /**
@@ -12,7 +13,7 @@ export const close = async (
   server: Server,
   app: string | RequestHandler | Listener | Server,
   serverErr?: any,
-  callback?: Function,
+  callback?: (serverErr: any, error: any) => any,
 ) => {
   let error;
 

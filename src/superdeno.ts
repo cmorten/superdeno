@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 /**
  * Port of supertest (https://github.com/visionmedia/supertest) for Deno
  */
