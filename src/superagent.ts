@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { superagent as _superagent } from "../deps.ts";
 import { XMLHttpRequestSham } from "./xhrSham.js";
 

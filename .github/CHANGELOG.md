@@ -3,6 +3,8 @@
 ## [4.3.0] - 25-06-2021
 
 - feat: Support Deno `1.11.2` and std `0.99.0` and other deps upgrades
+- test: fix leaky test
+- ci: enable linting
 
 ## [4.2.1] - 26-04-2021
 

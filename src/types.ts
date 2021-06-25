@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import type { HTTPOptions, HTTPSOptions } from "../deps.ts";
 
 export interface RequestHandler {

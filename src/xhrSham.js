@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-this-alias
 const decoder = new TextDecoder("utf-8");
 
 let SHAM_SYMBOL = Symbol("SHAM_SYMBOL");
@@ -322,7 +323,7 @@ export class XMLHttpRequestSham {
 
           return xhr.onreadystatechange();
         }
-      } catch (err) {
+      } catch (_) {
         // Error because it aborted
         if (this.aborted) {
           xhr.setAbortedResponse();

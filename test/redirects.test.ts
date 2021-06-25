@@ -24,12 +24,12 @@ const setup = () => {
   app.use(json());
   app.use(urlencoded({ extended: true }));
 
-  app.use((req, res, next) => {
+  app.use((_req, res, next) => {
     res.set("Cache-Control", "no-cache, no-store");
     next();
   });
 
-  app.post("/movie", (req, res) => {
+  app.post("/movie", (_req, res) => {
     res.redirect("/movies/all/0");
   });
 
@@ -53,24 +53,26 @@ const setup = () => {
     res.setStatus(200).send("first movie page");
   });
 
-  app.get("/movies/random", (req, res) => {
+  app.get("/movies/random", (_req, res) => {
     res.redirect("/movie/4");
   });
 
-  app.get("/movie/4", (req, res) => {
+  app.get("/movie/4", (_req, res) => {
     promises.push(
       new Promise((resolve) =>
         setTimeout(async () => {
           try {
             await res.end("not-so-random movie");
-          } catch (e) {}
+          } catch (_) {
+            // swallow
+          }
           resolve(true);
         }, 250)
       ),
     );
   });
 
-  app.get("/cookie-redirect", (req, res) => {
+  app.get("/cookie-redirect", (_req, res) => {
     res.set("Set-Cookie", "replaced=yes");
     res.append("Set-Cookie", "from-redir=1");
     res.redirect(303, "/show-cookies");
@@ -81,15 +83,15 @@ const setup = () => {
     res.send(req.headers.get("cookie"));
   });
 
-  app.put("/redirect-303", (req, res) => {
+  app.put("/redirect-303", (_req, res) => {
     res.redirect(303, "/reply-method");
   });
 
-  app.put("/redirect-307", (req, res) => {
+  app.put("/redirect-307", (_req, res) => {
     res.redirect(307, "/reply-method");
   });
 
-  app.put("/redirect-308", (req, res) => {
+  app.put("/redirect-308", (_req, res) => {
     res.redirect(308, "/reply-method");
   });
 
@@ -97,23 +99,23 @@ const setup = () => {
     res.send(`method=${req.method.toLowerCase()}`);
   });
 
-  app.get("/smudgie", (req, res) => {
+  app.get("/smudgie", (_req, res) => {
     res.send("smudgie");
   });
 
-  app.get("/relative", (req, res) => {
+  app.get("/relative", (_req, res) => {
     res.redirect("smudgie");
   });
 
-  app.get("/relative/sub", (req, res) => {
+  app.get("/relative/sub", (_req, res) => {
     res.redirect("../smudgie");
   });
 
-  app.get("/header", (req, res) => {
+  app.get("/header", (_req, res) => {
     res.redirect("/header/2");
   });
 
-  app.post("/header", (req, res) => {
+  app.post("/header", (_req, res) => {
     res.redirect("/header/2");
   });
 
@@ -121,7 +123,7 @@ const setup = () => {
     res.send(Object.fromEntries(req.headers.entries()));
   });
 
-  app.get("/bad-redirect", async (req, res) => {
+  app.get("/bad-redirect", async (_req, res) => {
     try {
       await res.setStatus(307).end();
     } catch (_) {
@@ -174,7 +176,7 @@ describe("request", function () {
         .on("redirect", (res) => {
           redirects.push(res.headers.location);
         })
-        .end((err, res) => {
+        .end((_err, res) => {
           try {
             const arr = [];
             arr.push("/movies");
@@ -197,7 +199,7 @@ describe("request", function () {
           .get("/header")
           .set("X-Foo", "bar")
           .redirects(-1)
-          .end((err, res) => {
+          .end((_err, res) => {
             try {
               expect(res.body).toBeDefined();
               expect(res.body["x-foo"]).toEqual("bar");
@@ -215,7 +217,7 @@ describe("request", function () {
           .get("/movies/random")
           .redirects(-1)
           .timeout(100)
-          .end(async (err, res) => {
+          .end(async (err, _res) => {
             await allPromises();
 
             try {
@@ -237,7 +239,7 @@ describe("request", function () {
           .get(`/error/redirect/${id}`)
           .redirects(-1)
           .retry(2)
-          .end((err, res) => {
+          .end((_err, res) => {
             expect(res.ok).toBeTruthy();
             expect(res.text).toEqual("first movie page");
             done();
@@ -276,7 +278,7 @@ describe("request", function () {
           .on("redirect", (res) => {
             redirects.push(res.headers.location);
           })
-          .end((err, res) => {
+          .end((_err, res) => {
             try {
               const arr = ["/movies", "/movies/all", "/movies/all/0"];
               expect(redirects).toEqual(arr);
@@ -298,7 +300,7 @@ describe("request", function () {
           .set("X-Foo", "bar")
           .set("X-Bar", "baz")
           .send("hey")
-          .end((err, res) => {
+          .end((_err, res) => {
             try {
               expect(res.body).not.toBeNull();
               expect(res.body["x-foo"]).toEqual("bar");
@@ -326,7 +328,7 @@ describe("request", function () {
             query.push(res.headers.query);
             redirects.push(res.headers.location);
           })
-          .end((err, res) => {
+          .end((_err, res) => {
             try {
               const arr = [];
               arr.push("/movies");
@@ -349,7 +351,7 @@ describe("request", function () {
         superdeno(app)
           .get("/bad-redirect")
           .redirects(-1)
-          .end((err, res) => {
+          .end((err, _res) => {
             try {
               expect(err.message).toEqual("No location header for redirect");
               done();
@@ -371,7 +373,7 @@ describe("request", function () {
             .on("redirect", (res) => {
               redirects.push(res.headers.location);
             })
-            .end((err, res) => {
+            .end((_err, res) => {
               try {
                 expect(redirects).toEqual(["smudgie"]);
                 expect(res.text).toEqual("smudgie");
@@ -393,7 +395,7 @@ describe("request", function () {
             .on("redirect", (res) => {
               redirects.push(res.headers.location);
             })
-            .end((err, res) => {
+            .end((_err, res) => {
               try {
                 expect(redirects).toEqual(["../smudgie"]);
                 expect(res.text).toEqual("smudgie");
@@ -419,7 +421,7 @@ describe("request", function () {
         .on("redirect", (res) => {
           redirects.push(res.headers.location);
         })
-        .end((err, res) => {
+        .end((_err, res) => {
           try {
             const arr = [];
             expect(res.redirect).toBeDefined();

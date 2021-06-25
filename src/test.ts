@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any no-empty-interface no-misused-new ban-types no-this-alias
 /**
  * Port of supertest (https://github.com/visionmedia/supertest) for Deno.
  *
@@ -184,12 +185,6 @@ async function completeXhrPromises() {
     }
   }
 }
-
-/**
- * The XMLHttpRequest interface, required by superagent, is "polyfilled" with a sham
- * that wraps `fetch`.
- */
-// (window as any).XMLHttpRequest = XMLHttpRequestSham;
 
 /**
  * The superagent Request class.
@@ -512,7 +507,7 @@ export class Test extends SuperRequest {
     if (typeof body === "object" && !isregexp) {
       try {
         assertEquals(body, res.body);
-      } catch (err) {
+      } catch (_) {
         const a = Deno.inspect(body);
         const b = Deno.inspect(res.body);
 

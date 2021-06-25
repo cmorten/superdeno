@@ -7,6 +7,7 @@ build:
 
 ci:
 	@make fmt-check
+	@make lint
 	@make build
 	@make test
 

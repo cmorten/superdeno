@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 export const isString = (thing: any): boolean => typeof thing === "string";
 
 export const isListener = (thing: any): boolean => thing?.listen;
