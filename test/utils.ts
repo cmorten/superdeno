@@ -5,9 +5,9 @@ export const TEST_TIMEOUT = 10000;
 
 /**
  * A no-op _describe_ method.
- * 
- * @param name 
- * @param fn 
+ *
+ * @param name
+ * @param fn
  */
 export async function describe(name: string, fn: () => void | Promise<void>) {
   fn();
@@ -15,9 +15,9 @@ export async function describe(name: string, fn: () => void | Promise<void>) {
 
 /**
  * An _it_ wrapper around `Deno.test`.
- * 
- * @param name 
- * @param fn 
+ *
+ * @param name
+ * @param fn
  */
 export async function it(
   name: string,

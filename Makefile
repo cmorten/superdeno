@@ -1,6 +1,6 @@
 .PHONY: build ci deps doc fmt fmt-check lint lock precommit test typedoc
 
-FILES_TO_FORMAT = ./src ./test ./deps.ts ./mod.ts ./version.ts
+FILES_TO_FORMAT = ./src ./test ./deps.ts ./mod.ts ./version.ts ./lock.json
 
 build:
 	@deno run --reload mod.ts

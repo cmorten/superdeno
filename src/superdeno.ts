@@ -45,16 +45,16 @@ export interface SuperDeno {
  * Takes a a url string, [`http.Server`](https://doc.deno.land/https/deno.land/std/http/mod.ts#Server),
  * a request handling function, or an object that implements an `app.listen()` method (which mirrors
  * the [`http.serve`](https://doc.deno.land/https/deno.land/std/http/mod.ts#serve) interface).
- * 
+ *
  * Accepts an optional second argument of `secure` to determine whether connections should be over _HTTPS_
  * (`true`) or _HTTP_ (`false`)
- * 
+ *
  * If SuperDeno identifies that a server is not already listening for connections, then one is bound to
  * an ephemeral port for you so there is no need to keep track of ports.
- * 
- * @param {string|RequestHandler|Listener|Server} app 
- * @param {?boolean} secure 
- * 
+ *
+ * @param {string|RequestHandler|Listener|Server} app
+ * @param {?boolean} secure
+ *
  * @returns {SuperDeno}
  * @public
  */

@@ -18,7 +18,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 </p>
 <p align="center">
    <a href="https://deno.land/x/superdeno"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Flatest-version%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno latest /x/ version" /></a>
-   <a href="https://github.com/denoland/deno/blob/main/Releases.md"><img src="https://img.shields.io/badge/deno-^1.9.2-brightgreen?logo=deno" alt="Minimum supported Deno version" /></a>
+   <a href="https://github.com/denoland/deno/blob/main/Releases.md"><img src="https://img.shields.io/badge/deno-^1.11.2-brightgreen?logo=deno" alt="Minimum supported Deno version" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fdep-count%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency count" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fupdates%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency outdatedness" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fcache-size%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno cached size" /></a>
@@ -41,7 +41,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 ## Getting Started
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@4.2.1/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.3.0/mod.ts";
 import { opine } from "https://deno.land/x/opine@1.3.3/mod.ts";
 
 const app = opine();
@@ -79,14 +79,14 @@ Before importing, [download and install Deno](https://deno.land/#installation).
 You can then import SuperDeno straight into your project:
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno@4.2.1/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.3.0/mod.ts";
 ```
 
 SuperDeno is also available on [nest.land](https://nest.land/package/superdeno),
 a package registry for Deno on the Blockchain.
 
 ```ts
-import { superdeno } from "https://x.nest.land/superdeno@4.2.1/mod.ts";
+import { superdeno } from "https://x.nest.land/superdeno@4.3.0/mod.ts";
 ```
 
 ## Example
@@ -118,7 +118,7 @@ Here's an example of SuperDeno working with the Opine web framework:
 
 ```ts
 import { opine } from "https://deno.land/x/opine@1.3.3/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@4.2.1/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.3.0/mod.ts";
 export { expect } from "https://x.nest.land/expect@0.2.4/mod.ts";
 
 const app = opine();
@@ -143,7 +143,7 @@ Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
 import { Application, Router } from "https://deno.land/x/oak@v6.5.0/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@4.2.1/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.3.0/mod.ts";
 
 const router = new Router();
 router.get("/", (ctx) => {
@@ -184,7 +184,7 @@ then you can write slightly less verbose tests for Oak:
 
 ```ts
 import { Application, Router } from "https://deno.land/x/oak@v6.5.0/mod.ts";
-import { superdeno } from "https://deno.land/x/superdeno@4.2.1/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.3.0/mod.ts";
 
 const router = new Router();
 
