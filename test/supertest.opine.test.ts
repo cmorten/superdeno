@@ -425,19 +425,22 @@ describe("superdeno(app)", () => {
     ) => {
       const app = opine();
 
-      let resolver: (value?: unknown) => void;
-      const timeoutPromise = new Promise((resolve) => resolver = resolve);
+      let timeoutPromise: Promise<unknown>;
 
-      app.get("/", (_req, res) => {
-        setTimeout(async () => {
-          try {
-            await res.end();
-          } catch (_) {
-            // swallow
-          }
+      app.get("/", async (_req, res) => {
+        timeoutPromise = new Promise((resolve) => {
+          setTimeout(async () => {
+            try {
+              await res.end();
+            } catch (_) {
+              // swallow
+            }
 
-          resolver();
-        }, 20);
+            resolve(true);
+          }, 20);
+        });
+
+        await timeoutPromise;
       });
 
       const server = app.listen();
