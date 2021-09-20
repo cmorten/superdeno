@@ -1,15 +1,15 @@
-import type { Server } from "../deps.ts";
+import type { ServerLike } from "../src/types.ts";
 import { expect, Opine } from "./deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno } from "../mod.ts";
 
 const { opine } = Opine;
 
-let server: Server;
+let server: ServerLike;
 let address: Deno.NetAddr;
 let base: string;
 
-let server2: Server;
+let server2: ServerLike;
 let address2: Deno.NetAddr;
 let base2: string;
 
