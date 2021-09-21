@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;superdeno&quot; | superdeno</title>
+	<title>ListenerLike | superdeno</title>
 	<meta name="description" content="Documentation for superdeno">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,73 +54,62 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_superdeno_.html">&quot;superdeno&quot;</a>
+					<a href="../modules/_types_.html">&quot;types&quot;</a>
+				</li>
+				<li>
+					<a href="_types_.listenerlike.html">ListenerLike</a>
 				</li>
 			</ul>
-			<h1>Module &quot;superdeno&quot;</h1>
+			<h1>Interface ListenerLike</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">ListenerLike</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
+							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_superdeno_.superdeno.html" class="tsd-kind-icon">Super<wbr>Deno</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Functions</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_superdeno_.html#superdeno-1" class="tsd-kind-icon">superdeno</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_types_.listenerlike.html#listen" class="tsd-kind-icon">listen</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="superdeno-1" class="tsd-anchor"></a>
-					<h3>superdeno</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">superdeno<span class="tsd-signature-symbol">(</span>app<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_types_.requesthandlerlike.html" class="tsd-signature-type">RequestHandlerLike</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_types_.listenerlike.html" class="tsd-signature-type">ListenerLike</a><span class="tsd-signature-symbol"> | </span><a href="_types_.html#serverlike" class="tsd-signature-type">ServerLike</a>, secure<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_superdeno_.superdeno.html" class="tsd-signature-type">SuperDeno</a></li>
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="listen" class="tsd-anchor"></a>
+					<h3>listen</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">listen<span class="tsd-signature-symbol">(</span>addr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#serverlike" class="tsd-signature-type">ServerLike</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/asos-craigmorten/superdeno/blob/3b5984b/src/superdeno.ts#L62">home/runner/work/superdeno/superdeno/src/superdeno.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/asos-craigmorten/superdeno/blob/3b5984b/src/types.ts#L23">home/runner/work/superdeno/superdeno/src/types.ts:23</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Takes a a url string, <a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#Server"><code>http.Server</code></a>,
-										a request handling function, or an object that implements an <code>app.listen()</code> method (which mirrors
-									the <a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#serve"><code>http.serve</code></a> interface).</p>
-								</div>
-								<p>Accepts an optional second argument of <code>secure</code> to determine whether connections should be over <em>HTTPS</em>
-								(<code>true</code>) or <em>HTTP</em> (<code>false</code>)</p>
-								<p>If SuperDeno identifies that a server is not already listening for connections, then one is bound to
-								an ephemeral port for you so there is no need to keep track of ports.</p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>app: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_types_.requesthandlerlike.html" class="tsd-signature-type">RequestHandlerLike</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_types_.listenerlike.html" class="tsd-signature-type">ListenerLike</a><span class="tsd-signature-symbol"> | </span><a href="_types_.html#serverlike" class="tsd-signature-type">ServerLike</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> secure: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
+									<h5>addr: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_superdeno_.superdeno.html" class="tsd-signature-type">SuperDeno</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_types_.html#serverlike" class="tsd-signature-type">ServerLike</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -133,32 +122,50 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="_close_.html">&quot;close&quot;</a>
+						<a href="../modules/_close_.html">&quot;close&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="_superagent_.html">&quot;superagent&quot;</a>
+						<a href="../modules/_superagent_.html">&quot;superagent&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_superdeno_.html">&quot;superdeno&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_test_.html">&quot;test&quot;</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="_superdeno_.html">&quot;superdeno&quot;</a>
+						<a href="../modules/_types_.html">&quot;types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="_test_.html">&quot;test&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="_types_.html">&quot;types&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="_utils_.html">&quot;utils&quot;</a>
+						<a href="../modules/_utils_.html">&quot;utils&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/_superdeno_.superdeno.html" class="tsd-kind-icon">Super<wbr>Deno</a>
+						<a href="_types_.legacyserverlike.html" class="tsd-kind-icon">Legacy<wbr>Server<wbr>Like</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_superdeno_.html#superdeno-1" class="tsd-kind-icon">superdeno</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="_types_.listenerlike.html" class="tsd-kind-icon">Listener<wbr>Like</a>
+						<ul>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_types_.listenerlike.html#listen" class="tsd-kind-icon">listen</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_types_.nativeserverlike.html" class="tsd-kind-icon">Native<wbr>Server<wbr>Like</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_types_.requesthandlerlike.html" class="tsd-kind-icon">Request<wbr>Handler<wbr>Like</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_types_.html#serverlike" class="tsd-kind-icon">Server<wbr>Like</a>
 					</li>
 				</ul>
 			</nav>
@@ -176,6 +183,7 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
