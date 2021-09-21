@@ -1,26 +1,23 @@
-// deno-lint-ignore-file no-explicit-any
-export const isString = (thing: any): boolean => typeof thing === "string";
+import type {
+  LegacyServerLike,
+  ListenerLike,
+  NativeServerLike,
+  ServerLike,
+} from "./types.ts";
 
-export const isListener = (thing: any): boolean => thing?.listen;
+export const isString = (thing: unknown): thing is string =>
+  typeof thing === "string";
 
-export const isServer = (thing: any): boolean =>
-  thing?.close && thing?.listener;
+export const isListener = (thing: unknown): thing is ListenerLike =>
+  thing instanceof Object && thing !== null && "listen" in thing;
 
-const isReader = (thing: any): boolean => thing?.read;
+export const isServer = (thing: unknown): thing is ServerLike =>
+  thing instanceof Object && thing !== null && "close" in thing;
 
-export const isResponse = (thing: any): boolean => {
-  if (typeof thing !== "object") {
-    return false;
-  } else if (thing.status && typeof thing.status !== "number") {
-    return false;
-  } else if (thing.headers && !(thing.headers instanceof Headers)) {
-    return false;
-  } else if (
-    thing.body && !(thing.body instanceof Uint8Array) &&
-    !isReader(thing.body) && typeof thing.body !== "string"
-  ) {
-    return false;
-  }
+export const isStdLegacyServer = (thing: unknown): thing is LegacyServerLike =>
+  isServer(thing) &&
+  "listener" in thing;
 
-  return true;
-};
+export const isStdNativeServer = (thing: unknown): thing is NativeServerLike =>
+  isServer(thing) &&
+  "addrs" in thing;

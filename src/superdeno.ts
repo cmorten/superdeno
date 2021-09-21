@@ -3,11 +3,11 @@
  * Port of supertest (https://github.com/visionmedia/supertest) for Deno
  */
 
-import { methods, Response, serve } from "../deps.ts";
+import { methods, Server } from "../deps.ts";
 import { Test } from "./test.ts";
 import { close } from "./close.ts";
-import { isListener, isResponse, isServer, isString } from "./utils.ts";
-import type { Listener, RequestHandler, Server } from "./types.ts";
+import { isListener, isServer, isString } from "./utils.ts";
+import type { ListenerLike, RequestHandlerLike, ServerLike } from "./types.ts";
 
 /**
  * Provides methods for making requests to the configured server using the passed
@@ -53,27 +53,32 @@ export interface SuperDeno {
  * If SuperDeno identifies that a server is not already listening for connections, then one is bound to
  * an ephemeral port for you so there is no need to keep track of ports.
  *
- * @param {string|RequestHandler|Listener|Server} app
+ * @param {string|RequestHandlerLike|ListenerLike|ServerLike} app
  * @param {?boolean} secure
  *
  * @returns {SuperDeno}
  * @public
  */
 export function superdeno(
-  app: string | RequestHandler | Listener | Server,
+  app: string | RequestHandlerLike | ListenerLike | ServerLike,
   secure?: boolean,
 ): SuperDeno {
   const obj: Record<string, any> = {};
 
   let managedServer: Server | undefined;
   if (!isString(app) && !isListener(app) && !isServer(app)) {
-    managedServer = serve({ port: 0 }) as Server;
+    managedServer = new Server({
+      addr: ":0",
+      handler(request) {
+        return app(request);
+      },
+    });
   }
 
   methods.forEach((method) => {
     obj[method] = (url: string) => {
       return new Test(
-        managedServer || app as string | Listener | Server,
+        (managedServer ?? app) as string | ListenerLike | ServerLike,
         method,
         url,
         undefined,
@@ -85,15 +90,9 @@ export function superdeno(
   if (isServer(managedServer)) {
     (async () => {
       try {
-        for await (const request of managedServer as Server) {
-          const response = await (app as RequestHandler)(request);
-
-          if (isResponse(response)) {
-            await request.respond(response as Response);
-          }
-        }
+        await managedServer.listenAndServe();
       } catch (err) {
-        await close(managedServer as Server, app, err);
+        await close(managedServer, app, err);
       }
     })();
   }
