@@ -1,6 +1,6 @@
-.PHONY: build ci deps doc fmt fmt-check lint lock precommit test typedoc
+.PHONY: build ci deps doc fmt fmt-check lint precommit test typedoc
 
-FILES_TO_FORMAT = ./src ./test ./deps.ts ./mod.ts ./version.ts ./lock.json
+FILES_TO_FORMAT = ./src ./test ./deps.ts ./mod.ts ./version.ts
 
 build:
 	@deno run --reload mod.ts
@@ -26,17 +26,14 @@ fmt-check:
 lint:
 	@deno lint --unstable ${FILES_TO_FORMAT}
 
-lock:
-	@deno run --lock=lock.json --lock-write --reload mod.ts
-
 precommit:
 	@make typedoc
 	@make fmt
 	@make fmt
-	@make lock
 
 test:
-	@deno test --allow-net --allow-read --allow-env
+	@deno test --allow-net --allow-read --allow-env --no-check --doc
+	@deno test --allow-net --allow-read --allow-env --no-check --doc --unstable
 
 typedoc:
 	@rm -rf docs

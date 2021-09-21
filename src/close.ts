@@ -1,17 +1,16 @@
 // deno-lint-ignore-file no-explicit-any
-import type { Listener, RequestHandler, Server } from "./types.ts";
+import type { ListenerLike, RequestHandlerLike, ServerLike } from "./types.ts";
 
 /**
- *
- * @param {Server} server
- * @param {string|RequestHandler|Listener|Server} app
+ * @param {ServerLike} server
+ * @param {string|RequestHandlerLike|ListenerLike|Server} app
  * @param {?Error} err
  * @param {?Function} callback
  * @private
  */
 export const close = async (
-  server: Server,
-  app: string | RequestHandler | Listener | Server,
+  server: ServerLike,
+  app: string | RequestHandlerLike | ListenerLike | ServerLike,
   serverErr?: any,
   callback?: (serverErr: any, error: any) => any,
 ) => {

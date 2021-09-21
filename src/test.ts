@@ -7,11 +7,11 @@
  * - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/supertest/index.d.ts
  */
 
-import type { Listener, Server } from "./types.ts";
+import type { ListenerLike, ServerLike } from "./types.ts";
 import { assertEquals, STATUS_TEXT } from "../deps.ts";
 import { superagent } from "./superagent.ts";
 import { close } from "./close.ts";
-import { isListener, isServer, isString } from "./utils.ts";
+import { isListener, isServer, isStdNativeServer, isString } from "./utils.ts";
 import { exposeSham } from "./xhrSham.js";
 
 /**
@@ -200,13 +200,13 @@ export class Test extends SuperRequest {
   #asserts!: any[];
   #redirects: number;
   #redirectList: string[];
-  #server!: Server;
+  #server!: ServerLike;
 
-  public app: string | Listener | Server;
+  public app: string | ListenerLike | ServerLike;
   public url: string;
 
   constructor(
-    app: string | Listener | Server,
+    app: string | ListenerLike | ServerLike,
     method: string,
     path: string,
     host?: string,
@@ -223,11 +223,28 @@ export class Test extends SuperRequest {
     if (isString(app)) {
       this.url = `${app}${path}`;
     } else {
-      if (isServer(app)) {
-        this.#server = app as Server;
+      if (isStdNativeServer(app)) {
+        const listenAndServePromise = app.listenAndServe().catch((err) =>
+          close(app, app, err)
+        );
+
+        this.#server = {
+          async close() {
+            try {
+              app.close();
+              await listenAndServePromise;
+            } catch {
+              // swallow error
+            }
+          },
+          addrs: app.addrs,
+          async listenAndServe() {},
+        };
+      } else if (isServer(app)) {
+        this.#server = app as ServerLike;
       } else if (isListener(app)) {
         secure = false;
-        this.#server = (app as Listener).listen({ port: 0 });
+        this.#server = (app as ListenerLike).listen(":0");
       } else {
         throw new Error(
           "superdeno is unable to identify or create a valid test server",
@@ -253,7 +270,10 @@ export class Test extends SuperRequest {
     host?: string,
     secure?: boolean,
   ) => {
-    const address = this.#server.listener.addr as Deno.NetAddr;
+    const address =
+      ("addrs" in this.#server
+        ? this.#server.addrs[0]
+        : this.#server.listener.addr) as Deno.NetAddr;
     const port = address.port;
     const protocol = secure ? "https" : "http";
 
@@ -501,10 +521,10 @@ export class Test extends SuperRequest {
    * @private
    */
   #assertBody = function (body: any, res: IResponse): Error | void {
-    const isregexp = body instanceof RegExp;
+    const isRegExp = body instanceof RegExp;
 
     // parsed
-    if (typeof body === "object" && !isregexp) {
+    if (typeof body === "object" && !isRegExp) {
       try {
         assertEquals(body, res.body);
       } catch (_) {
@@ -523,7 +543,7 @@ export class Test extends SuperRequest {
       const b = Deno.inspect(res.text);
 
       // regexp
-      if (isregexp) {
+      if (isRegExp) {
         if (!body.test(res.text)) {
           return error(
             `expected body ${b} to match ${body}`,

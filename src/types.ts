@@ -1,18 +1,24 @@
 // deno-lint-ignore-file no-explicit-any
-import type { HTTPOptions, HTTPSOptions } from "../deps.ts";
 
-export interface RequestHandler {
+export interface RequestHandlerLike {
   (
     req: any,
   ): Promise<any> | Promise<void> | any | void;
 }
 
-export interface Server {
+export interface LegacyServerLike {
+  listener: Deno.Listener;
   close(): void;
-  listener: any;
-  [Symbol.asyncIterator](): any;
 }
 
-export interface Listener {
-  listen(addr: string | HTTPOptions | HTTPSOptions): Server;
+export interface NativeServerLike {
+  readonly addrs: Deno.Addr[];
+  listenAndServe(): Promise<void>;
+  close(): void;
+}
+
+export type ServerLike = LegacyServerLike | NativeServerLike;
+
+export interface ListenerLike {
+  listen(addr: string): ServerLike;
 }
