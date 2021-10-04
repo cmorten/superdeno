@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [4.6.0] - 04-10-2021
+
+- deps: bump deps and replace std@0.106 with http_legacy.ts (#34) 
+- ci: support Deno `1.14.2` in CI
+- ci: bump `eggs` CLI to `0.3.9`
+
 ## [4.5.0] - 21-09-2021
 
 - feat: Support Deno `1.14.0` and std `0.107.0` and other deps upgrades
