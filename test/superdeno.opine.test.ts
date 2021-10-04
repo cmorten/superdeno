@@ -91,11 +91,12 @@ describe("superdeno(app)", () => {
       res.send("hey");
     });
 
-    const server = app.listen(4001);
+    const server = app.listen(4002);
 
-    superdeno("http://localhost:4001")
+    superdeno("http://localhost:4002")
       .get("/")
-      .end((_err, res) => {
+      .end((err, res) => {
+        if (err) throw err;
         expect(res.status).toEqual(200);
         expect(res.text).toEqual("hey");
         server.close();
