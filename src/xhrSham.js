@@ -268,10 +268,12 @@ export class XMLHttpRequestSham {
       return xhr.onreadystatechange();
     } else {
       try {
-        const body = typeof options.requestBody === "object" &&
-            options.requestBody !== null
-          ? JSON.stringify(options.requestBody)
-          : options.requestBody;
+        const body =
+          typeof options.requestBody === "object" &&
+          !(options.requestBody instanceof FormData) &&
+          options.requestBody !== null
+            ? JSON.stringify(options.requestBody)
+            : options.requestBody;
 
         // We set the fetch promise into a polyfill promise cache
         // so that superdeno can await these promises before ending.
