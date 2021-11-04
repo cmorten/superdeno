@@ -44,7 +44,7 @@ const setupOpine = () => {
   return app;
 };
 
-describe("post multipart/form-data", async () => {
+describe("post multipart/form-data", () => {
   it("should work with oak", async () => {
     const app = setupOak();
 
