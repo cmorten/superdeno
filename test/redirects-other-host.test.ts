@@ -61,9 +61,7 @@ const teardown = () => {
 
 describe("request.get", () => {
   describe("on 301 redirect", () => {
-    it("request.get: on 301 redirect: should follow Location with a GET request", (
-      done,
-    ) => {
+    it("request.get: on 301 redirect: should follow Location with a GET request", (done) => {
       setup();
 
       superdeno(base)
@@ -80,9 +78,7 @@ describe("request.get", () => {
   });
 
   describe("on 302 redirect", () => {
-    it("request.get: on 302 redirect: should follow Location with a GET request", (
-      done,
-    ) => {
+    it("request.get: on 302 redirect: should follow Location with a GET request", (done) => {
       setup();
 
       superdeno(base)
@@ -99,9 +95,7 @@ describe("request.get", () => {
   });
 
   describe("on 303 redirect", () => {
-    it("request.get: on 303 redirect: should follow Location with a GET request", (
-      done,
-    ) => {
+    it("request.get: on 303 redirect: should follow Location with a GET request", (done) => {
       setup();
 
       superdeno(base)
@@ -118,9 +112,7 @@ describe("request.get", () => {
   });
 
   describe("on 307 redirect", () => {
-    it("request.get: on 307 redirect: should follow Location with a GET request", (
-      done,
-    ) => {
+    it("request.get: on 307 redirect: should follow Location with a GET request", (done) => {
       setup();
 
       superdeno(base)
@@ -137,9 +129,7 @@ describe("request.get", () => {
   });
 
   describe("on 308 redirect", () => {
-    it("request.get: on 308 redirect: should follow Location with a GET request", (
-      done,
-    ) => {
+    it("request.get: on 308 redirect: should follow Location with a GET request", (done) => {
       setup();
 
       superdeno(base)
@@ -158,9 +148,7 @@ describe("request.get", () => {
 
 describe("request.post", () => {
   describe("on 301 redirect", () => {
-    it("request.post: on 301 redirect: should follow Location with a GET request", (
-      done,
-    ) => {
+    it("request.post: on 301 redirect: should follow Location with a GET request", (done) => {
       setup();
 
       superdeno(base)
@@ -176,9 +164,7 @@ describe("request.post", () => {
     });
 
     describe("on 302 redirect", () => {
-      it("request.post: on 302 redirect: should follow Location with a GET request", (
-        done,
-      ) => {
+      it("request.post: on 302 redirect: should follow Location with a GET request", (done) => {
         setup();
 
         superdeno(base)
@@ -195,9 +181,7 @@ describe("request.post", () => {
     });
 
     describe("on 303 redirect", () => {
-      it("request.post: on 303 redirect: should follow Location with a GET request", (
-        done,
-      ) => {
+      it("request.post: on 303 redirect: should follow Location with a GET request", (done) => {
         setup();
 
         superdeno(base)
@@ -214,9 +198,7 @@ describe("request.post", () => {
     });
 
     describe("on 307 redirect", () => {
-      it("request.post: on 307 redirect: should follow Location with a POST request", (
-        done,
-      ) => {
+      it("request.post: on 307 redirect: should follow Location with a POST request", (done) => {
         setup();
 
         superdeno(base)
@@ -233,9 +215,7 @@ describe("request.post", () => {
     });
 
     describe("on 308 redirect", () => {
-      it("request.post: on 308 redirect: should follow Location with a POST request", (
-        done,
-      ) => {
+      it("request.post: on 308 redirect: should follow Location with a POST request", (done) => {
         setup();
 
         superdeno(base)

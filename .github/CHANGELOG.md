@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [4.6.1] - 05-11-2021
+
+- [#36] fix: process FormData correctly (#37) @c0per
+- feat: Support Deno `1.15.3` and std `0.113.0` and other deps upgrades
+
 ## [4.6.0] - 04-10-2021
 
 - deps: bump deps and replace std@0.106 with http_legacy.ts (#34) 
