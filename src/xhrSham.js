@@ -269,6 +269,7 @@ export class XMLHttpRequestSham {
     } else {
       try {
         const body = typeof options.requestBody === "object" &&
+            !(options.requestBody instanceof FormData) &&
             options.requestBody !== null
           ? JSON.stringify(options.requestBody)
           : options.requestBody;
