@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.109.0/http/server_legacy.ts";
+import { serve } from "https://deno.land/std@0.113.0/http/server_legacy.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno } from "../mod.ts";
 

@@ -49,9 +49,7 @@ const bootstrapOakServerTest = async (
 };
 
 describe("Oak: superdeno(url)", () => {
-  it("Oak: superdeno(url): should support open `superdeno(url)` format for web frameworks such as Oak", async (
-    done,
-  ) => {
+  it("Oak: superdeno(url): should support open `superdeno(url)` format for web frameworks such as Oak", async (done) => {
     await bootstrapOakServerTest({
       configureApp: ({ router }) => {
         router.get("/", (ctx: Oak.RouterContext) => {
@@ -70,9 +68,7 @@ describe("Oak: superdeno(url)", () => {
   });
 
   describe(".expect(status, body[, fn])", () => {
-    it("Oak: superdeno(url): .expect(status, body[, fn]): should assert the response body and status", async (
-      done,
-    ) => {
+    it("Oak: superdeno(url): .expect(status, body[, fn]): should assert the response body and status", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
           router.get("/", (ctx: Oak.RouterContext) => {
@@ -90,9 +86,7 @@ describe("Oak: superdeno(url)", () => {
       });
     });
 
-    it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", async (
-      done,
-    ) => {
+    it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
           router.get("/", (ctx: Oak.RouterContext) => {
@@ -112,9 +106,7 @@ describe("Oak: superdeno(url)", () => {
   });
 
   describe(".end(cb)", () => {
-    it("Oak: superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", async (
-      done,
-    ) => {
+    it("Oak: superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
           router.get("/", (ctx: Oak.RouterContext) => {
