@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [4.7.0] - 21-11-2021
+
+- feat: Support Deno `1.16.2` and std `0.115.1` and other deps upgrades
+- fix: improved `Server` determination
+
 ## [4.6.1] - 05-11-2021
 
 - [#36] fix: process FormData correctly (#37) @c0per
