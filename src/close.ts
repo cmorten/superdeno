@@ -29,13 +29,13 @@ export const close = async (
 
   if (serverErr) {
     console.error(
-      "SuperDeno experienced an unexpected server error",
+      "SuperDeno experienced an unexpected server error.",
       serverErr,
     );
   }
   if (error) {
     console.error(
-      "SuperDeno experienced an unexpected error closing the server",
+      "SuperDeno experienced an unexpected error closing the server.",
       error,
     );
   }
