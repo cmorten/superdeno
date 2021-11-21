@@ -228,8 +228,8 @@ export class XMLHttpRequestSham {
       this.statusText = "aborted";
     };
 
-    xhr.setErrorResponse = function () {
-      const errorMessage = this.message;
+    xhr.setErrorResponse = function (error) {
+      const errorMessage = this.message ?? error.message;
 
       // TODO: this needs work.
       //
@@ -324,13 +324,13 @@ export class XMLHttpRequestSham {
 
           return xhr.onreadystatechange();
         }
-      } catch (_) {
+      } catch (error) {
         // Error because it aborted
         if (this.aborted) {
           xhr.setAbortedResponse();
         } else {
           // Or genuine error
-          xhr.setErrorResponse();
+          xhr.setErrorResponse(error);
         }
 
         return xhr.onreadystatechange();

@@ -42,6 +42,17 @@ export interface SuperDeno {
   unsubscribe(url: string): Test;
 }
 
+async function startManagedServer(
+  managedServer: Server,
+  app: RequestHandlerLike,
+) {
+  try {
+    await managedServer.listenAndServe();
+  } catch (error) {
+    await close(managedServer, app, error);
+  }
+}
+
 /**
  * Takes a a url string, [`http.Server`](https://doc.deno.land/https/deno.land/std/http/mod.ts#Server),
  * a request handling function, or an object that implements an `app.listen()` method (which mirrors
@@ -66,11 +77,21 @@ export function superdeno(
   const obj: Record<string, any> = {};
 
   let managedServer: Server | undefined;
+
   if (!isString(app) && !isListener(app) && !isServer(app)) {
     managedServer = new Server({
       addr: ":0",
-      handler(request) {
-        return app(request);
+      async handler(request) {
+        try {
+          return await app(request);
+        } catch (error) {
+          console.error(
+            "SuperDeno experienced an unexpected server error with the underlying app handler.",
+            error,
+          );
+
+          throw error;
+        }
       },
     });
   }
@@ -87,14 +108,8 @@ export function superdeno(
     };
   });
 
-  if (isServer(managedServer)) {
-    (async () => {
-      try {
-        await managedServer.listenAndServe();
-      } catch (err) {
-        await close(managedServer, app, err);
-      }
-    })();
+  if (typeof managedServer !== "undefined") {
+    startManagedServer(managedServer, app as RequestHandlerLike);
   }
 
   return obj as SuperDeno;
