@@ -5,7 +5,7 @@ import { superdeno } from "../mod.ts";
 describe("std: superdeno", () => {
   it("std: superdeno(server): should support `superdeno(server)`", async () => {
     const server = new Server({
-      addr: "127.0.0.1:0",
+      port: 0,
       handler() {
         return new Response("hello");
       },
@@ -18,7 +18,7 @@ describe("std: superdeno", () => {
 
   it("std: superdeno(url): should support `superdeno(url)`", async () => {
     const server = new Server({
-      addr: "127.0.0.1:0",
+      port: 0,
       handler() {
         return new Response("hello");
       },
