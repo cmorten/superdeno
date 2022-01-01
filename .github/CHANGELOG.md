@@ -3,7 +3,7 @@
 ## [4.7.2] - 01-12-2022
 
 - [#38] Resolve op_sleep issues (#39)
-- feat: support Deno `1.17.1` and std `0.115.1` and other deps upgrades
+- feat: support Deno `1.17.1` and std `0.119.0` and other deps upgrades
 
 ## [4.7.1] - 21-11-2021
 
