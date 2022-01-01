@@ -1,6 +1,6 @@
 # ChangeLog
 
-## [4.7.2] - 01-12-2022
+## [4.7.2] - 01-01-2022
 
 - [#38] Resolve op_sleep issues (#39)
 - feat: support Deno `1.17.1` and std `0.119.0` and other deps upgrades
