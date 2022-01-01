@@ -8,12 +8,12 @@ describe("superdeno(url)", () => {
   it("superdeno(url): should support `superdeno(url)`", (done) => {
     const app = opine();
 
-    app.get("/", (_req, res) => {
-      res.send("hello");
+    app.get("/", async (_req, res) => {
+      await res.send("hello");
     });
 
     const server = app.listen();
-    const address = server.listener.addr as Deno.NetAddr;
+    const address = server.addrs[0] as Deno.NetAddr;
     const url = `http://localhost:${address.port}`;
 
     superdeno(url)
@@ -33,7 +33,7 @@ describe("superdeno(url)", () => {
       });
 
       const server = app.listen(0);
-      const address = server.listener.addr as Deno.NetAddr;
+      const address = server.addrs[0] as Deno.NetAddr;
       const url = `http://localhost:${address.port}`;
 
       const test = superdeno(url).get("/");
@@ -71,7 +71,7 @@ describe("superdeno(app)", () => {
       res.send("hey");
     });
 
-    const server = app.listen(4000);
+    const server = app.listen(0);
 
     superdeno(server)
       .get("/")
@@ -157,15 +157,11 @@ describe("superdeno(app)", () => {
 
     superdeno(app)
       .get("/")
-      .expect(function (res) {
-        expect(res.headers).toEqual({
-          "content-length": "0",
-          "content-type": "application/json; charset=utf-8",
-          "set-cookie": "foo=bar; Path=/, user=deno; Path=/, fizz=buzz",
-          "x-powered-by": "Opine",
-          "x-tested-with": "SuperDeno",
-        });
-      })
+      .expect("content-length", "0")
+      .expect("content-type", "application/json; charset=utf-8")
+      .expect("set-cookie", "foo=bar; Path=/, user=deno; Path=/, fizz=buzz")
+      .expect("x-powered-by", "Opine")
+      .expect("x-tested-with", "SuperDeno")
       .expect(200, done);
   });
 
@@ -445,7 +441,7 @@ describe("superdeno(app)", () => {
       });
 
       const server = app.listen();
-      const address = server.listener.addr as Deno.NetAddr;
+      const address = server.addrs[0] as Deno.NetAddr;
       const url = `http://localhost:${address.port}`;
 
       superdeno(url).get("/").timeout(1)

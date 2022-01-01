@@ -80,7 +80,7 @@ export function superdeno(
 
   if (!isString(app) && !isListener(app) && !isServer(app)) {
     managedServer = new Server({
-      addr: ":0",
+      port: 0,
       async handler(request) {
         try {
           return await app(request);

@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [4.7.2] - 01-12-2022
+
+- [#38] Resolve op_sleep issues (#39)
+- feat: support Deno `1.17.1` and std `0.115.1` and other deps upgrades
+
 ## [4.7.1] - 21-11-2021
 
 - feat: add `console.error` logging for errors thrown by provided app handler to help debugging.

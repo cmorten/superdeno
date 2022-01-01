@@ -46,11 +46,11 @@ const setup = () => {
   });
 
   server = app.listen();
-  address = server.listener.addr as Deno.NetAddr;
+  address = server.addrs[0] as Deno.NetAddr;
   base = `http://localhost:${address.port}`;
 
   server2 = app2.listen();
-  address2 = server2.listener.addr as Deno.NetAddr;
+  address2 = server2.addrs[0] as Deno.NetAddr;
   base2 = `http://localhost:${address2.port}`;
 };
 
