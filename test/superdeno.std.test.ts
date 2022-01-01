@@ -26,7 +26,7 @@ describe("std: superdeno", () => {
 
     const serverPromise = server.listenAndServe();
     const address = server.addrs[0] as Deno.NetAddr;
-    const url = `http://${address.hostname}:${address.port}`;
+    const url = `http://127.0.0.1:${address.port}`;
 
     await superdeno(url)
       .get("/")
