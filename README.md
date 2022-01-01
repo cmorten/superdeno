@@ -18,7 +18,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 </p>
 <p align="center">
    <a href="https://deno.land/x/superdeno"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Flatest-version%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno latest /x/ version" /></a>
-   <a href="https://github.com/denoland/deno/blob/main/Releases.md"><img src="https://img.shields.io/badge/deno-^1.16.2-brightgreen?logo=deno" alt="Minimum supported Deno version" /></a>
+   <a href="https://github.com/denoland/deno/blob/main/Releases.md"><img src="https://img.shields.io/badge/deno-^1.17.1-brightgreen?logo=deno" alt="Minimum supported Deno version" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fdep-count%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency count" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fupdates%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency outdatedness" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fcache-size%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno cached size" /></a>
@@ -85,7 +85,7 @@ import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
 SuperDeno is also available on [nest.land](https://nest.land/package/superdeno),
 a package registry for Deno on the Blockchain.
 
-> Note: All examples in this README are using the unversioned form of the import URL. In production you should always use the versioned import form such as `https://deno.land/x/superdeno@4.7.1/mod.ts`.
+> Note: All examples in this README are using the unversioned form of the import URL. In production you should always use the versioned import form such as `https://deno.land/x/superdeno@4.7.2/mod.ts`.
 
 ## Example
 

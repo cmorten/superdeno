@@ -1,7 +1,7 @@
 /**
  * Test timeout.
  */
-export const TEST_TIMEOUT = 10000;
+export const TEST_TIMEOUT = 3000;
 
 /**
  * A no-op _describe_ method.
@@ -9,11 +9,11 @@ export const TEST_TIMEOUT = 10000;
  * @param name
  * @param fn
  */
-export async function describe(_name: string, fn: () => void | Promise<void>) {
-  await fn();
+export function describe(_name: string, fn: () => void | Promise<void>) {
+  return fn();
 }
 
-type DoneFunction = (err?: unknown) => void;
+export type Done = (err?: unknown) => void;
 
 /**
  * An _it_ wrapper around `Deno.test`.
@@ -23,43 +23,68 @@ type DoneFunction = (err?: unknown) => void;
  */
 export function it(
   name: string,
-  fn: (done: DoneFunction) => void | Promise<void>,
+  fn: (done: Done) => void | Promise<void>,
+  options?: Partial<Deno.TestDefinition>,
 ) {
-  Deno.test(name, async () => {
-    let done: DoneFunction = (err) => {
-      if (err) throw err;
-    };
-    let race: Promise<unknown> = Promise.resolve();
+  Deno.test({
+    ...options,
+    name,
+    fn: async () => {
+      let testError: unknown;
 
-    if (fn.length === 1) {
-      let resolve: (value?: unknown) => void;
-      const donePromise = new Promise((r) => {
-        resolve = r;
-      });
+      let done: Done = (err?: unknown) => {
+        if (err) {
+          testError = err;
+        }
+      };
 
+      let race: Promise<unknown> = Promise.resolve();
       let timeoutId: number;
 
-      race = Promise.race([
-        new Promise((_, reject) =>
-          timeoutId = setTimeout(() => {
-            reject(
-              new Error(
-                `test "${name}" failed to complete by calling "done" within ${TEST_TIMEOUT}ms.`,
-              ),
-            );
-          }, TEST_TIMEOUT)
-        ),
-        donePromise,
-      ]);
+      if (fn.length === 1) {
+        let resolve: (value?: unknown) => void;
+        const donePromise = new Promise((r) => {
+          resolve = r;
+        });
 
-      done = (err) => {
+        race = Promise.race([
+          new Promise((_, reject) =>
+            timeoutId = setTimeout(() => {
+              clearTimeout(timeoutId);
+
+              reject(
+                new Error(
+                  `test "${name}" failed to complete by calling "done" within ${TEST_TIMEOUT}ms.`,
+                ),
+              );
+            }, TEST_TIMEOUT)
+          ),
+          donePromise,
+        ]);
+
+        done = (err?: unknown) => {
+          clearTimeout(timeoutId);
+          resolve();
+
+          if (err) {
+            testError = err;
+          }
+        };
+      }
+
+      await fn(done);
+      await race;
+
+      if (timeoutId!) {
         clearTimeout(timeoutId);
-        resolve();
-        if (err) throw err;
-      };
-    }
+      }
 
-    await fn(done);
-    await race;
+      // REF: https://github.com/denoland/deno/blob/987716798fb3bddc9abc7e12c25a043447be5280/ext/timers/01_timers.js#L353
+      await new Promise((resolve) => setTimeout(resolve, 20));
+
+      if (testError) {
+        throw testError;
+      }
+    },
   });
 }
