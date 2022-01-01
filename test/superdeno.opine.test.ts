@@ -321,12 +321,24 @@ describe("superdeno(app)", () => {
         res.send("superdeno FTW!");
       });
 
+      let doneCount = 0;
+
       superdeno(app)
         .get("/")
-        .end(() => {});
+        .end(() => {
+          doneCount++;
+
+          if (doneCount === 2) {
+            done();
+          }
+        });
 
       app.on("close", () => {
-        done();
+        doneCount++;
+
+        if (doneCount === 2) {
+          done();
+        }
       });
     });
 
