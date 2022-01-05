@@ -1,2 +1,1 @@
-- @asos-craigmorten
-- @cmorten
+* @cmorten
