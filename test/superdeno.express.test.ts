@@ -1,19 +1,21 @@
-import { expect, Opine } from "./deps.ts";
-import { describe, it } from "./utils.ts";
+import { getFreePort } from "../deps.ts";
+import { expect, express } from "./deps.ts";
+import { describe, it, random } from "./utils.ts";
 import { superdeno, Test } from "../mod.ts";
 
-const { opine, json } = Opine;
+const { json } = express;
 
 describe("superdeno(url)", () => {
-  it("superdeno(url): should support `superdeno(url)`", (done) => {
-    const app = opine();
+  it("superdeno(url): should support `superdeno(url)`", async (done) => {
+    const app = express();
 
-    app.get("/", async (_req, res) => {
-      await res.send("hello");
+    app.get("/", (_req, res) => {
+      res.send("hello");
     });
 
-    const server = app.listen();
-    const address = server.addrs[0] as Deno.NetAddr;
+    const freePort = await getFreePort(random(1024, 49151));
+    const server = app.listen(freePort);
+    const address = server.address();
     const url = `http://localhost:${address.port}`;
 
     superdeno(url)
@@ -25,15 +27,16 @@ describe("superdeno(url)", () => {
   });
 
   describe(".end(cb)", () => {
-    it("superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", (done) => {
-      const app = opine();
+    it("superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", async (done) => {
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("hello");
       });
 
-      const server = app.listen(0);
-      const address = server.addrs[0] as Deno.NetAddr;
+      const freePort = await getFreePort(random(1024, 49151));
+      const server = app.listen(freePort);
+      const address = server.address();
       const url = `http://localhost:${address.port}`;
 
       const test = superdeno(url).get("/");
@@ -49,7 +52,7 @@ describe("superdeno(url)", () => {
 
 describe("superdeno(app)", () => {
   it("superdeno(app): should fire up the app on an ephemeral port", (done) => {
-    const app = opine();
+    const app = express();
 
     app.get("/", (_req, res) => {
       res.send("hey");
@@ -64,14 +67,15 @@ describe("superdeno(app)", () => {
       });
   });
 
-  it("superdeno(app): should work with an active server", (done) => {
-    const app = opine();
+  it("superdeno(app): should work with an active server", async (done) => {
+    const app = express();
 
     app.get("/", (_req, res) => {
       res.send("hey");
     });
 
-    const server = app.listen(0);
+    const freePort = await getFreePort(random(1024, 49151));
+    const server = app.listen(freePort);
 
     superdeno(server)
       .get("/")
@@ -82,16 +86,17 @@ describe("superdeno(app)", () => {
       });
   });
 
-  it("superdeno(app): should work with remote server", (done) => {
-    const app = opine();
+  it("superdeno(app): should work with remote server", async (done) => {
+    const app = express();
 
     app.get("/", (_req, res) => {
       res.send("hey");
     });
 
-    const server = app.listen(4002);
+    const freePort = await getFreePort(random(1024, 49151));
+    const server = app.listen(freePort);
 
-    superdeno("http://localhost:4002")
+    superdeno(`http://localhost:${freePort}`)
       .get("/")
       .end((err, res) => {
         if (err) throw err;
@@ -102,39 +107,13 @@ describe("superdeno(app)", () => {
       });
   });
 
-  // TODO: https test.
-  // it("superdeno(app): should work with a https server", (done) => {
-  //   const certFile = "test/fixtures/RootCA.pem";
-  //   const keyFile = "test/fixtures/RootCA.key";
-
-  //   const app = opine();
-
-  //   app.get("/", (req, res) => {
-  //     res.send("hey");
-  //   });
-
-  //   const server = app.listen(
-  //     { port: 4001, certFile, keyFile },
-  //   );
-
-  //   superdeno(server, true)
-  //     .get("/")
-  //     .end((err, res) => {
-  //       if (err) return done(err);
-  //       expect(res.status).toEqual(200);
-  //       expect(res.text).toEqual("hey");
-  //       server.close();
-  //       done();
-  //     });
-  // });
-
   it("superdeno(app): should work with .send() on POST", (done) => {
-    const app = opine();
+    const app = express();
 
     app.use(json());
 
     app.post("/", (req, res) => {
-      res.send(req.parsedBody.name);
+      res.send(req.body.name);
     });
 
     superdeno(app)
@@ -144,32 +123,32 @@ describe("superdeno(app)", () => {
   });
 
   it("superdeno(app): should handle headers correctly", (done) => {
-    const app = opine();
+    const app = express();
 
     app.get("/", (_req, res) => {
-      res.cookie({ name: "foo", value: "bar" });
-      res.cookie({ name: "user", value: "deno" });
+      res.cookie("foo", "bar");
+      res.cookie("user", "deno");
       res.append("Set-Cookie", "fizz=buzz");
       res.set("X-Tested-With", "SuperDeno");
       res.type("application/json");
-      res.end();
+      res.send();
     });
 
     superdeno(app)
       .get("/")
       .expect("content-length", "0")
       .expect("content-type", "application/json; charset=utf-8")
-      .expect("set-cookie", "foo=bar; Path=/, user=deno; Path=/, fizz=buzz")
-      .expect("x-powered-by", "Opine")
+      .expect("set-cookie", "foo=bar; Path=/,user=deno; Path=/,fizz=buzz")
+      .expect("x-powered-by", "Express")
       .expect("x-tested-with", "SuperDeno")
       .expect(200, done);
   });
 
   it("superdeno(app): should work when unbuffered", (done) => {
-    const app = opine();
+    const app = express();
 
     app.get("/", (_req, res) => {
-      res.end("Hello");
+      res.send("Hello");
     });
 
     superdeno(app)
@@ -178,7 +157,7 @@ describe("superdeno(app)", () => {
   });
 
   it("superdeno(app): should default redirects to 0", (done) => {
-    const app = opine();
+    const app = express();
 
     app.get("/", (_req, res) => {
       res.redirect("/login");
@@ -190,7 +169,7 @@ describe("superdeno(app)", () => {
   });
 
   it("superdeno(app): promise form: should default redirects to 0", async () => {
-    const app = opine();
+    const app = express();
 
     app.get("/", (_req, res) => {
       res.redirect("/login");
@@ -202,10 +181,10 @@ describe("superdeno(app)", () => {
   });
 
   it("superdeno(app): .redirects(n): should handle intermediate redirects", (done) => {
-    const app = opine();
+    const app = express();
 
     app.get("/login", (_req, res) => {
-      res.end("Login");
+      res.send("Login");
     });
 
     app.get("/redirect", (_req, res) => {
@@ -223,10 +202,10 @@ describe("superdeno(app)", () => {
   });
 
   it("superdeno(app): .redirects(n): promise form: should handle intermediate redirects", async () => {
-    const app = opine();
+    const app = express();
 
     app.get("/login", (_req, res) => {
-      res.end("Login");
+      res.send("Login");
     });
 
     app.get("/redirect", (_req, res) => {
@@ -244,10 +223,10 @@ describe("superdeno(app)", () => {
   });
 
   it("superdeno(app): .redirects(n): should handle full redirects", (done) => {
-    const app = opine();
+    const app = express();
 
     app.get("/login", (_req, res) => {
-      res.end("Login");
+      res.send("Login");
     });
 
     app.get("/redirect", (_req, res) => {
@@ -270,10 +249,10 @@ describe("superdeno(app)", () => {
   });
 
   it("superdeno(app): .redirects(n): promise form: should handle full redirects", async () => {
-    const app = opine();
+    const app = express();
 
     app.get("/login", (_req, res) => {
-      res.end("Login");
+      res.send("Login");
     });
 
     app.get("/redirect", (_req, res) => {
@@ -295,7 +274,7 @@ describe("superdeno(app)", () => {
 
   // TODO: figure out the equivalent error scenario for Deno setup
   // it('should handle socket errors', (done) => {
-  //   const app = opine();
+  //   const app = express();
 
   //   app.get('/', (req, res) => {
   //     res.destroy();
@@ -311,7 +290,7 @@ describe("superdeno(app)", () => {
 
   describe(".end(fn)", () => {
     it("superdeno(app): .end(fn): should close server", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("superdeno FTW!");
@@ -339,7 +318,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .end(fn): should wait for server to close before invoking fn", (done) => {
-      const app = opine();
+      const app = express();
       let closed = false;
 
       app.get("/", (_req, res) => {
@@ -359,7 +338,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .end(fn): should support nested requests", (done) => {
-      const app = opine();
+      const app = express();
       const test = superdeno(app);
 
       app.get("/", (_req, res) => {
@@ -381,7 +360,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .end(fn): should include the response in the error callback", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("whatever");
@@ -402,7 +381,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .end(fn): should set `this` to the test object when calling the error callback", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("whatever");
@@ -420,7 +399,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .end(fn): should handle an undefined Response", (done) => {
-      const app = opine();
+      const app = express();
 
       let timeoutPromise: Promise<unknown>;
 
@@ -428,7 +407,7 @@ describe("superdeno(app)", () => {
         timeoutPromise = new Promise((resolve) => {
           setTimeout(async () => {
             try {
-              await res.end();
+              await res.send();
             } catch (_) {
               // swallow
             }
@@ -441,7 +420,7 @@ describe("superdeno(app)", () => {
       });
 
       const server = app.listen();
-      const address = server.addrs[0] as Deno.NetAddr;
+      const address = server.address();
       const url = `http://localhost:${address.port}`;
 
       superdeno(url).get("/").timeout(1)
@@ -456,7 +435,7 @@ describe("superdeno(app)", () => {
 
   describe(".expect(status[, fn])", () => {
     it("superdeno(app): .expect(status[, fn]): should assert the response status", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("hey");
@@ -474,7 +453,7 @@ describe("superdeno(app)", () => {
 
   describe(".expect(status)", () => {
     it("superdeno(app): .expect(status): should assert only status", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("hey");
@@ -487,7 +466,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(status): should assert only error status'", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.sendStatus(400);
@@ -502,7 +481,7 @@ describe("superdeno(app)", () => {
 
   describe(".expect(status, body[, fn])", () => {
     it("superdeno(app): .expect(status, body[, fn]): should assert the response body and status", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("foo");
@@ -514,10 +493,10 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
-        res.setStatus(400).send("foo");
+        res.status(400).send("foo");
       });
 
       superdeno(app)
@@ -527,7 +506,7 @@ describe("superdeno(app)", () => {
 
     describe("when the body argument is an empty string", () => {
       it("superdeno(app): .expect(status, body[, fn]): should not quietly pass on failure", (done) => {
-        const app = opine();
+        const app = express();
 
         app.get("/", (_req, res) => {
           res.send("foo");
@@ -546,7 +525,7 @@ describe("superdeno(app)", () => {
 
   describe(".expect(body[, fn])", () => {
     it("superdeno(app): .expect(body[, fn]): should assert the response body", (done) => {
-      const app = opine();
+      const app = express();
 
       app.set("json spaces", 0);
 
@@ -566,12 +545,12 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(body[, fn]): should assert the status before the body", (done) => {
-      const app = opine();
+      const app = express();
 
       app.set("json spaces", 0);
 
       app.get("/", (_req, res) => {
-        res.setStatus(500).send({ message: "something went wrong" });
+        res.status(500).send({ message: "something went wrong" });
       });
 
       superdeno(app)
@@ -587,7 +566,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(body[, fn]): should assert the response text", (done) => {
-      const app = opine();
+      const app = express();
 
       app.set("json spaces", 0);
 
@@ -601,7 +580,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(body[, fn]): should assert the parsed response body", (done) => {
-      const app = opine();
+      const app = express();
 
       app.set("json spaces", 0);
 
@@ -625,9 +604,9 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(body[, fn]): should test response object types", (done) => {
-      const app = opine();
+      const app = express();
       app.get("/", (_req, res) => {
-        res.setStatus(200).json({ stringValue: "foo", numberValue: 3 });
+        res.status(200).json({ stringValue: "foo", numberValue: 3 });
       });
 
       superdeno(app)
@@ -636,9 +615,9 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(body[, fn]): should deep test response object types", (done) => {
-      const app = opine();
+      const app = express();
       app.get("/", (_req, res) => {
-        res.setStatus(200)
+        res.status(200)
           .json(
             {
               stringValue: "foo",
@@ -676,7 +655,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(body[, fn]): should support regular expressions", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("foobar");
@@ -692,7 +671,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(body[, fn]): should assert response body multiple times", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("hey deno");
@@ -712,7 +691,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(body[, fn]): should assert response body multiple times with no exception", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("hey deno");
@@ -728,7 +707,7 @@ describe("superdeno(app)", () => {
 
   describe(".expect(field, value[, fn])", () => {
     it("superdeno(app): .expect(field, value[, fn]): should assert the header field presence", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send({ foo: "bar" });
@@ -744,7 +723,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(field, value[, fn]): should assert the header field value", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send({ foo: "bar" });
@@ -763,7 +742,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(field, value[, fn]): should assert multiple fields", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("hey");
@@ -777,7 +756,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(field, value[, fn]): should support regular expressions", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("hey");
@@ -796,7 +775,7 @@ describe("superdeno(app)", () => {
     });
 
     it("superdeno(app): .expect(field, value[, fn]): should support numbers", (done) => {
-      const app = opine();
+      const app = express();
 
       app.get("/", (_req, res) => {
         res.send("hey");
@@ -814,7 +793,7 @@ describe("superdeno(app)", () => {
     });
 
     describe("handling arbitrary expect functions", () => {
-      const app = opine();
+      const app = express();
       app.get("/", (_req, res) => {
         res.send("hey");
       });
@@ -910,7 +889,7 @@ describe("superdeno(app)", () => {
 
     describe("handling multiple assertions per field", () => {
       it("superdeno(app): .expect(field, value[, fn]): should work", (done) => {
-        const app = opine();
+        const app = express();
         app.get("/", (_req, res) => {
           res.send("hey");
         });
@@ -923,7 +902,7 @@ describe("superdeno(app)", () => {
       });
 
       it("superdeno(app): .expect(field, value[, fn]): should return an error if the first one fails", (done) => {
-        const app = opine();
+        const app = express();
         app.get("/", (_req, res) => {
           res.send("hey");
         });
@@ -942,7 +921,7 @@ describe("superdeno(app)", () => {
       });
 
       it("superdeno(app): .expect(field, value[, fn]): should return an error if a middle one fails", (done) => {
-        const app = opine();
+        const app = express();
         app.get("/", (_req, res) => {
           res.send("hey");
         });
@@ -962,7 +941,7 @@ describe("superdeno(app)", () => {
       });
 
       it("superdeno(app): .expect(field, value[, fn]): should return an error if the last one fails", (done) => {
-        const app = opine();
+        const app = express();
         app.get("/", (_req, res) => {
           res.send("hey");
         });

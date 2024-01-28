@@ -3,6 +3,7 @@
 export interface RequestHandlerLike {
   (
     req: any,
+    ...args: any[]
   ): Promise<any> | Promise<void> | any | void;
 }
 
@@ -17,8 +18,22 @@ export interface NativeServerLike {
   close(): void;
 }
 
-export type ServerLike = LegacyServerLike | NativeServerLike;
+export interface ExpressServerLike {
+  address(): any;
+  listening: boolean;
+  close(): void;
+  once(eventName: string, listener: () => void): void;
+}
+
+export type ServerLike =
+  | LegacyServerLike
+  | NativeServerLike
+  | ExpressServerLike;
 
 export interface ListenerLike {
   listen(addr: string): ServerLike;
+}
+
+export interface ExpressListenerLike {
+  listen(port: number, callback: () => void): ServerLike;
 }
