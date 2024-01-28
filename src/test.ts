@@ -7,12 +7,28 @@
  * - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/supertest/index.d.ts
  */
 
-import type { ListenerLike, ServerLike } from "./types.ts";
-import { assertEquals, STATUS_TEXT, StatusCode } from "../deps.ts";
+import type {
+  ExpressListenerLike,
+  ExpressServerLike,
+  ListenerLike,
+  ServerLike,
+} from "./types.ts";
+import { assertEquals, getFreePort, STATUS_TEXT, StatusCode } from "../deps.ts";
 import { superagent } from "./superagent.ts";
 import { close } from "./close.ts";
-import { isListener, isServer, isStdNativeServer, isString } from "./utils.ts";
+import {
+  isExpressListener,
+  isExpressServer,
+  isListener,
+  isServer,
+  isStdNativeServer,
+  isString,
+} from "./utils.ts";
 import { exposeSham } from "./xhrSham.js";
+
+export function random(min: number, max: number): number {
+  return Math.round(Math.random() * (max - min)) + min;
+}
 
 /**
  * Custom expectation checker.
@@ -201,9 +217,11 @@ export class Test extends SuperRequest {
   #redirects: number;
   #redirectList: string[];
   #server!: ServerLike;
+  #serverSetupPromise: Promise<void>;
+  #urlSetupPromise: Promise<void>;
 
   public app: string | ListenerLike | ServerLike;
-  public url: string;
+  public url!: string;
 
   constructor(
     app: string | ListenerLike | ServerLike,
@@ -220,8 +238,21 @@ export class Test extends SuperRequest {
     this.app = app;
     this.#asserts = [];
 
+    let serverSetupPromiseResolver!: () => void;
+    let addressSetupPromiseResolver!: () => void;
+
+    this.#serverSetupPromise = new Promise<void>((resolve) => {
+      serverSetupPromiseResolver = resolve;
+    });
+    this.#urlSetupPromise = new Promise<void>((resolve) => {
+      addressSetupPromiseResolver = resolve;
+    });
+
     if (isString(app)) {
       this.url = `${app}${path}`;
+
+      serverSetupPromiseResolver();
+      addressSetupPromiseResolver();
     } else {
       if (isStdNativeServer(app)) {
         const listenAndServePromise = app.listenAndServe().catch((err) =>
@@ -240,18 +271,60 @@ export class Test extends SuperRequest {
           addrs: app.addrs,
           async listenAndServe() {},
         };
+
+        serverSetupPromiseResolver();
+      } else if (isExpressServer(app)) {
+        this.#server = app as ExpressServerLike;
+
+        const expressResolver = async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1));
+          serverSetupPromiseResolver();
+        };
+
+        if (!this.#server.listening) {
+          (this.#server as ExpressServerLike).once(
+            "listening",
+            expressResolver,
+          );
+        } else {
+          expressResolver();
+        }
       } else if (isServer(app)) {
         this.#server = app as ServerLike;
+
+        serverSetupPromiseResolver();
+      } else if (isExpressListener(app)) {
+        secure = false;
+
+        const expressResolver = async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1));
+          serverSetupPromiseResolver();
+        };
+
+        getFreePort(random(1024, 49151)).then(
+          (freePort) => {
+            this.#server = (app as ExpressListenerLike).listen(
+              freePort,
+              expressResolver,
+            );
+          },
+        );
       } else if (isListener(app)) {
         secure = false;
+
         this.#server = (app as ListenerLike).listen(":0");
+
+        serverSetupPromiseResolver();
       } else {
+        serverSetupPromiseResolver();
+        addressSetupPromiseResolver();
+
         throw new Error(
           "superdeno is unable to identify or create a valid test server",
         );
       }
 
-      this.url = this.#serverAddress(path, host, secure);
+      this.#setServerAddress(addressSetupPromiseResolver, path, host, secure);
     }
   }
 
@@ -265,19 +338,28 @@ export class Test extends SuperRequest {
    * @returns {string} URL address
    * @private
    */
-  #serverAddress = (
+  #setServerAddress = async (
+    addressSetupPromiseResolver: () => void,
     path: string,
     host?: string,
     secure?: boolean,
   ) => {
+    await this.#serverSetupPromise;
+
     const address =
       ("addrs" in this.#server
         ? this.#server.addrs[0]
+        : "address" in this.#server
+        ? this.#server.address()
         : this.#server.listener.addr) as Deno.NetAddr;
+
     const port = address.port;
     const protocol = secure ? "https" : "http";
+    const url = `${protocol}://${(host || "127.0.0.1")}:${port}${path}`;
 
-    return `${protocol}://${(host || "127.0.0.1")}:${port}${path}`;
+    this.url = url;
+
+    addressSetupPromiseResolver();
   };
 
   /**
@@ -455,29 +537,33 @@ export class Test extends SuperRequest {
    * @public
    */
   end(callback?: CallbackHandler): this {
-    const self = this;
-    const end = SuperRequest.prototype.end;
+    Promise.allSettled([this.#serverSetupPromise, this.#urlSetupPromise]).then(
+      () => {
+        const self = this;
+        const end = SuperRequest.prototype.end;
 
-    end.call(
-      self,
-      function (err: any, res: any) {
-        // Before we close, ensure that we have handled all
-        // requested redirects
-        const redirect = isRedirect(res?.statusCode);
-        const max: number = (self as any)._maxRedirects;
+        end.call(
+          self,
+          function (err: any, res: any) {
+            // Before we close, ensure that we have handled all
+            // requested redirects
+            const redirect = isRedirect(res?.statusCode);
+            const max: number = (self as any)._maxRedirects;
 
-        if (redirect && self.#redirects++ !== max) {
-          return self.#redirect(res, callback);
-        }
+            if (redirect && self.#redirects++ !== max) {
+              return self.#redirect(res, callback);
+            }
 
-        return close(self.#server, self.app, undefined, async () => {
-          await completeXhrPromises();
+            return close(self.#server, self.app, undefined, async () => {
+              await completeXhrPromises();
 
-          // REF: https://github.com/denoland/deno/blob/987716798fb3bddc9abc7e12c25a043447be5280/ext/timers/01_timers.js#L353
-          await new Promise((resolve) => setTimeout(resolve, 20));
+              // REF: https://github.com/denoland/deno/blob/987716798fb3bddc9abc7e12c25a043447be5280/ext/timers/01_timers.js#L353
+              await new Promise((resolve) => setTimeout(resolve, 20));
 
-          self.#assert(err, res, callback);
-        });
+              self.#assert(err, res, callback);
+            });
+          },
+        );
       },
     );
 

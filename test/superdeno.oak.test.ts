@@ -1,14 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 
-import { expect, getFreePort, Oak } from "./deps.ts";
-import { describe, it } from "./utils.ts";
+import { getFreePort } from "../deps.ts";
+import { expect, Oak } from "./deps.ts";
+import { describe, it, random } from "./utils.ts";
 import { superdeno, Test } from "../mod.ts";
 
 const { Application, Router } = Oak;
-
-function random(min: number, max: number): number {
-  return Math.round(Math.random() * (max - min)) + min;
-}
 
 const bootstrapOakServerTest = async (
   { configureApp, assertionsDelegate, done }: {

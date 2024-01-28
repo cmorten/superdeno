@@ -31,7 +31,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 - [Getting Started](#getting-started)
 - [About](#about)
 - [Installation](#installation)
-- [Example](#example)
+- [Examples](#examples)
 - [Documentation](#documentation)
 - [API](#api)
 - [Notes](#notes)
@@ -87,7 +87,7 @@ a package registry for Deno on the Blockchain.
 
 > Note: All examples in this README are using the unversioned form of the import URL. In production you should always use the versioned import form such as `https://deno.land/x/superdeno@4.9.0/mod.ts`.
 
-## Example
+## Examples
 
 You may pass a url string,
 [`http.Server`](https://doc.deno.land/https/deno.land/std/http/mod.ts#Server), a
@@ -117,7 +117,7 @@ Here's an example of SuperDeno working with the Opine web framework:
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
 import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
-export { expect } from "https://deno.land/x/expect@v0.4.0/mod.ts";
+import { expect } from "https://deno.land/x/expect@v0.4.0/mod.ts";
 
 const app = opine();
 
@@ -129,7 +129,7 @@ Deno.test("it should support regular expressions", async () => {
   await superdeno(app)
     .get("/")
     .expect("Content-Type", /^application/)
-    .end((err) => {
+    .catch((err) => {
       expect(err.message).toEqual(
         'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
       );
@@ -137,11 +137,41 @@ Deno.test("it should support regular expressions", async () => {
 });
 ```
 
+See more examples in the [Opine test suite](./test/superdeno.opine.test.ts).
+
+Here's an example of SuperDeno working with the Express web framework:
+
+```ts
+import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
+// @deno-types="npm:@types/express@^4.17"
+import express from "npm:express@4.18.2";
+import { expect } from "https://deno.land/x/expect@v0.4.0/mod.ts";
+
+Deno.test("it should support regular expressions", async () => {
+  const app = express();
+
+  app.get("/", (_req, res) => {
+    res.send("Hello Deno!");
+  });
+
+  await superdeno(app)
+    .get("/")
+    .expect("Content-Type", /^application/)
+    .catch((err) => {
+      expect(err.message).toEqual(
+        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
+      );
+    });
+});
+```
+
+See more examples in the [Express test suite](./test/superdeno.express.test.ts).
+
 Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { Application, Router } from "https://deno.land/x/oak@v10.0.0/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v12.6.2/mod.ts";
 
 const router = new Router();
 router.get("/", (ctx) => {
@@ -171,6 +201,8 @@ Deno.test("it should support the Oak framework", () => {
 });
 ```
 
+See more examples in the [Oak test suite](./test/superdeno.oak.test.ts).
+
 If you are using the [Oak](https://github.com/oakserver/oak/) web framework then
 it is recommended that you use the specialized
 [SuperOak](https://github.com/cmorten/superoak) assertions library for
@@ -181,7 +213,7 @@ are making use of the `app.handle()` method (for example for serverless apps)
 then you can write slightly less verbose tests for Oak:
 
 ```ts
-import { Application, Router } from "https://deno.land/x/oak@v10.0.0/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v12.6.2/mod.ts";
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
 
 const router = new Router();
