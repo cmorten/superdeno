@@ -95,7 +95,7 @@
 					<li><a href="#getting-started">Getting Started</a></li>
 					<li><a href="#about">About</a></li>
 					<li><a href="#installation">Installation</a></li>
-					<li><a href="#example">Example</a></li>
+					<li><a href="#examples">Examples</a></li>
 					<li><a href="#documentation">Documentation</a></li>
 					<li><a href="#api">API</a></li>
 					<li><a href="#notes">Notes</a></li>
@@ -106,7 +106,7 @@
 					<h2>Getting Started</h2>
 				</a>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno/mod.ts&quot;</span>;
-<span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/opine@1.9.1/mod.ts&quot;</span>;
+<span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/opine@2.3.4/mod.ts&quot;</span>;
 
 <span class="hljs-keyword">const</span> app = opine();
 
@@ -145,8 +145,8 @@ superdeno(app)
 				<blockquote>
 					<p>Note: All examples in this README are using the unversioned form of the import URL. In production you should always use the versioned import form such as <code>https://deno.land/x/superdeno@4.9.0/mod.ts</code>.</p>
 				</blockquote>
-				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
-					<h2>Example</h2>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
 				</a>
 				<p>You may pass a url string,
 					<a href="https://doc.deno.land/https/deno.land/std/http/mod.ts#Server"><code>http.Server</code></a>, a
@@ -169,8 +169,8 @@ superdeno(app)
 </code></pre>
 				<p>Here&#39;s an example of SuperDeno working with the Opine web framework:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno/mod.ts&quot;</span>;
-<span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/opine@1.9.1/mod.ts&quot;</span>;
-<span class="hljs-keyword">export</span> { expect } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/expect@v0.2.9/mod.ts&quot;</span>;
+<span class="hljs-keyword">import</span> { opine } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/opine@2.3.4/mod.ts&quot;</span>;
+<span class="hljs-keyword">import</span> { expect } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/expect@v0.4.0/mod.ts&quot;</span>;
 
 <span class="hljs-keyword">const</span> app = opine();
 
@@ -182,16 +182,41 @@ Deno.test(<span class="hljs-string">&quot;it should support regular expressions&
   <span class="hljs-keyword">await</span> superdeno(app)
     .get(<span class="hljs-string">&quot;/&quot;</span>)
     .expect(<span class="hljs-string">&quot;Content-Type&quot;</span>, <span class="hljs-regexp">/^application/</span>)
-    .end(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
       expect(err.message).toEqual(
-        <span class="hljs-string">&#x27;expected &quot;Content-Type&quot; matching /^application/, got &quot;text/html; charset=utf-8&quot;&#x27;</span>,
+        <span class="hljs-string">&#x27;expected &quot;Content-Type&quot; matching /^application/, got &quot;text/html; charset=utf-8&quot;&#x27;</span>
       );
     });
 });
 </code></pre>
+				<p>See more examples in the <a href="./test/superdeno.opine.test.ts">Opine test suite</a>.</p>
+				<p>Here&#39;s an example of SuperDeno working with the Express web framework:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno/mod.ts&quot;</span>;
+<span class="hljs-comment">// @deno-types=&quot;npm:@types/express@^4.17&quot;</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;npm:express@4.18.2&quot;</span>;
+<span class="hljs-keyword">import</span> { expect } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/expect@v0.4.0/mod.ts&quot;</span>;
+
+Deno.test(<span class="hljs-string">&quot;it should support regular expressions&quot;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">const</span> app = express();
+
+  app.get(<span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-function">(<span class="hljs-params">_req, res</span>) =&gt;</span> {
+    res.send(<span class="hljs-string">&quot;Hello Deno!&quot;</span>);
+  });
+
+  <span class="hljs-keyword">await</span> superdeno(app)
+    .get(<span class="hljs-string">&quot;/&quot;</span>)
+    .expect(<span class="hljs-string">&quot;Content-Type&quot;</span>, <span class="hljs-regexp">/^application/</span>)
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      expect(err.message).toEqual(
+        <span class="hljs-string">&#x27;expected &quot;Content-Type&quot; matching /^application/, got &quot;text/html; charset=utf-8&quot;&#x27;</span>
+      );
+    });
+});
+</code></pre>
+				<p>See more examples in the <a href="./test/superdeno.express.test.ts">Express test suite</a>.</p>
 				<p>Here&#39;s an example of SuperDeno working with the Oak web framework:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno/mod.ts&quot;</span>;
-<span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@v10.0.0/mod.ts&quot;</span>;
+<span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@v12.6.2/mod.ts&quot;</span>;
 
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
 router.get(<span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-function">(<span class="hljs-params">ctx</span>) =&gt;</span> {
@@ -220,6 +245,7 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework&qu
   <span class="hljs-keyword">await</span> app.listen({ <span class="hljs-attr">port</span>: <span class="hljs-number">0</span>, signal });
 });
 </code></pre>
+				<p>See more examples in the <a href="./test/superdeno.oak.test.ts">Oak test suite</a>.</p>
 				<p>If you are using the <a href="https://github.com/oakserver/oak/">Oak</a> web framework then
 					it is recommended that you use the specialized
 					<a href="https://github.com/cmorten/superoak">SuperOak</a> assertions library for
@@ -227,7 +253,7 @@ Deno.test(<span class="hljs-string">&quot;it should support the Oak framework&qu
 				<p>If you don&#39;t need to test the server setup side of your Oak application, or you
 					are making use of the <code>app.handle()</code> method (for example for serverless apps)
 				then you can write slightly less verbose tests for Oak:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@v10.0.0/mod.ts&quot;</span>;
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Application, Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/oak@v12.6.2/mod.ts&quot;</span>;
 <span class="hljs-keyword">import</span> { superdeno } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;https://deno.land/x/superdeno/mod.ts&quot;</span>;
 
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
@@ -240,15 +266,16 @@ router.get(<span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-fun
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-Deno.test(<span class="hljs-string">&quot;it should support the Oak framework `app.handle` method&quot;</span>, <span class="hljs-keyword">async</span> () =&gt; {
-  <span class="hljs-comment">/**
-   * Note that we have to bind `app` to the function otherwise `app.handle`
-   * doesn&#x27;t preserve the `this` context from `app`.
-   */</span>
-  <span class="hljs-keyword">await</span> superdeno(app.handle.bind(app))
-    .get(<span class="hljs-string">&quot;/&quot;</span>)
-    .expect(<span class="hljs-string">&quot;Hello Deno!&quot;</span>);
-});
+Deno.test(
+  <span class="hljs-string">&quot;it should support the Oak framework `app.handle` method&quot;</span>,
+  <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-comment">/**
+     * Note that we have to bind `app` to the function otherwise `app.handle`
+     * doesn&#x27;t preserve the `this` context from `app`.
+     */</span>
+    <span class="hljs-keyword">await</span> superdeno(app.handle.bind(app)).get(<span class="hljs-string">&quot;/&quot;</span>).expect(<span class="hljs-string">&quot;Hello Deno!&quot;</span>);
+  }
+);
 </code></pre>
 				<p>In this case, SuperDeno handles the setup and closing of the server for you, so
 				you can focus on just testing your middleware.</p>
