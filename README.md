@@ -18,7 +18,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 </p>
 <p align="center">
    <a href="https://deno.land/x/superdeno"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Flatest-version%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno latest /x/ version" /></a>
-   <a href="https://github.com/denoland/deno/blob/main/Releases.md"><img src="https://img.shields.io/badge/deno-^1.19.3-brightgreen?logo=deno" alt="Minimum supported Deno version" /></a>
+   <a href="https://github.com/denoland/deno/blob/main/Releases.md"><img src="https://img.shields.io/badge/deno-^1.40.2-brightgreen?logo=deno" alt="Minimum supported Deno version" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fdep-count%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency count" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fupdates%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency outdatedness" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fcache-size%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno cached size" /></a>
@@ -31,7 +31,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 - [Getting Started](#getting-started)
 - [About](#about)
 - [Installation](#installation)
-- [Example](#example)
+- [Examples](#examples)
 - [Documentation](#documentation)
 - [API](#api)
 - [Notes](#notes)
@@ -42,7 +42,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { opine } from "https://deno.land/x/opine@1.9.1/mod.ts";
+import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
 
 const app = opine();
 
@@ -85,9 +85,9 @@ import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
 SuperDeno is also available on [nest.land](https://nest.land/package/superdeno),
 a package registry for Deno on the Blockchain.
 
-> Note: All examples in this README are using the unversioned form of the import URL. In production you should always use the versioned import form such as `https://deno.land/x/superdeno@4.8.0/mod.ts`.
+> Note: All examples in this README are using the unversioned form of the import URL. In production you should always use the versioned import form such as `https://deno.land/x/superdeno@4.9.0/mod.ts`.
 
-## Example
+## Examples
 
 You may pass a url string,
 [`http.Server`](https://doc.deno.land/https/deno.land/std/http/mod.ts#Server), a
@@ -116,8 +116,8 @@ Here's an example of SuperDeno working with the Opine web framework:
 
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { opine } from "https://deno.land/x/opine@1.9.1/mod.ts";
-export { expect } from "https://deno.land/x/expect@v0.2.9/mod.ts";
+import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
+import { expect } from "https://deno.land/x/expect@v0.4.0/mod.ts";
 
 const app = opine();
 
@@ -129,19 +129,49 @@ Deno.test("it should support regular expressions", async () => {
   await superdeno(app)
     .get("/")
     .expect("Content-Type", /^application/)
-    .end((err) => {
+    .catch((err) => {
       expect(err.message).toEqual(
-        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"',
+        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
       );
     });
 });
 ```
 
+See more examples in the [Opine test suite](./test/superdeno.opine.test.ts).
+
+Here's an example of SuperDeno working with the Express web framework:
+
+```ts
+import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
+// @deno-types="npm:@types/express@^4.17"
+import express from "npm:express@4.18.2";
+import { expect } from "https://deno.land/x/expect@v0.4.0/mod.ts";
+
+Deno.test("it should support regular expressions", async () => {
+  const app = express();
+
+  app.get("/", (_req, res) => {
+    res.send("Hello Deno!");
+  });
+
+  await superdeno(app)
+    .get("/")
+    .expect("Content-Type", /^application/)
+    .catch((err) => {
+      expect(err.message).toEqual(
+        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
+      );
+    });
+});
+```
+
+See more examples in the [Express test suite](./test/superdeno.express.test.ts).
+
 Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { Application, Router } from "https://deno.land/x/oak@v10.0.0/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v12.6.2/mod.ts";
 
 const router = new Router();
 router.get("/", (ctx) => {
@@ -171,6 +201,8 @@ Deno.test("it should support the Oak framework", () => {
 });
 ```
 
+See more examples in the [Oak test suite](./test/superdeno.oak.test.ts).
+
 If you are using the [Oak](https://github.com/oakserver/oak/) web framework then
 it is recommended that you use the specialized
 [SuperOak](https://github.com/cmorten/superoak) assertions library for
@@ -181,7 +213,7 @@ are making use of the `app.handle()` method (for example for serverless apps)
 then you can write slightly less verbose tests for Oak:
 
 ```ts
-import { Application, Router } from "https://deno.land/x/oak@v10.0.0/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v12.6.2/mod.ts";
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
 
 const router = new Router();
@@ -194,15 +226,16 @@ const app = new Application();
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-Deno.test("it should support the Oak framework `app.handle` method", async () => {
-  /**
-   * Note that we have to bind `app` to the function otherwise `app.handle`
-   * doesn't preserve the `this` context from `app`.
-   */
-  await superdeno(app.handle.bind(app))
-    .get("/")
-    .expect("Hello Deno!");
-});
+Deno.test(
+  "it should support the Oak framework `app.handle` method",
+  async () => {
+    /**
+     * Note that we have to bind `app` to the function otherwise `app.handle`
+     * doesn't preserve the `this` context from `app`.
+     */
+    await superdeno(app.handle.bind(app)).get("/").expect("Hello Deno!");
+  }
+);
 ```
 
 In this case, SuperDeno handles the setup and closing of the server for you, so

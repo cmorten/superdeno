@@ -4,9 +4,9 @@ const decoder = new TextDecoder("utf-8");
 let SHAM_SYMBOL = Symbol("SHAM_SYMBOL");
 
 function setupSham(symbol) {
-  window[symbol] = window[symbol] || {};
-  window[symbol].idSequence = 0;
-  window[symbol].promises = {};
+  globalThis[symbol] = globalThis[symbol] || {};
+  globalThis[symbol].idSequence = 0;
+  globalThis[symbol].promises = {};
 }
 
 setupSham(SHAM_SYMBOL);
@@ -25,7 +25,7 @@ export const exposeSham = (symbol) => {
  */
 export class XMLHttpRequestSham {
   constructor() {
-    this.id = (++window[SHAM_SYMBOL].idSequence).toString(36);
+    this.id = (++globalThis[SHAM_SYMBOL].idSequence).toString(36);
     this.origin = null;
     this.onreadystatechange = () => {};
     this.readyState = 0;
@@ -205,7 +205,7 @@ export class XMLHttpRequestSham {
       // in this implementation. TBC whether this is accurate.
       // To prevent a memory leak we clean up our promise from the
       // cache now that it _must_ be resolved.
-      delete window[SHAM_SYMBOL].promises[self.id];
+      delete globalThis[SHAM_SYMBOL].promises[self.id];
 
       xhrResponse.responseHeaders = xhrResponse.getAllResponseHeaders();
       onStateChange(xhrResponse);
@@ -278,7 +278,7 @@ export class XMLHttpRequestSham {
         // so that superdeno can await these promises before ending.
         // Not doing such results in Deno test complaining of unhandled
         // async operations.
-        window[SHAM_SYMBOL].promises[self.id] = fetch(options.url, {
+        globalThis[SHAM_SYMBOL].promises[self.id] = fetch(options.url, {
           method: options.method,
           headers: options.requestHeaders,
           body,
@@ -295,7 +295,7 @@ export class XMLHttpRequestSham {
         });
 
         // Wait on the response, and then read the buffer.
-        response = await window[SHAM_SYMBOL].promises[self.id];
+        response = await globalThis[SHAM_SYMBOL].promises[self.id];
 
         // Manually transfer over properties, getPropertyDescriptors / prototype access now
         // restricted in Deno. REF: https://github.com/denoland/deno/releases/tag/v1.9.0

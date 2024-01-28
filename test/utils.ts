@@ -4,6 +4,17 @@
 export const TEST_TIMEOUT = 3000;
 
 /**
+ * Random number generator for a given range.
+ *
+ * @param min Lower bound
+ * @param max Upper bound
+ * @returns A random int in the range
+ */
+export function random(min: number, max: number): number {
+  return Math.round(Math.random() * (max - min)) + min;
+}
+
+/**
  * A no-op _describe_ method.
  *
  * @param name

@@ -1,14 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
 
-import { expect, getFreePort, Oak } from "./deps.ts";
-import { describe, it } from "./utils.ts";
+import { getFreePort } from "../deps.ts";
+import { expect, Oak } from "./deps.ts";
+import { describe, it, random } from "./utils.ts";
 import { superdeno, Test } from "../mod.ts";
 
 const { Application, Router } = Oak;
-
-function random(min: number, max: number): number {
-  return Math.round(Math.random() * (max - min)) + min;
-}
 
 const bootstrapOakServerTest = async (
   { configureApp, assertionsDelegate, done }: {
@@ -35,7 +32,7 @@ const bootstrapOakServerTest = async (
   app.use(router.allowedMethods());
 
   const controller = new AbortController();
-  const { signal } = controller;
+  const signal = controller.signal;
   const freePort = await getFreePort(random(1024, 49151));
 
   app.addEventListener("listen", ({ hostname, port, secure }: any) => {
@@ -52,7 +49,7 @@ describe("Oak: superdeno(url)", () => {
   it("Oak: superdeno(url): should support open `superdeno(url)` format for web frameworks such as Oak", async (done) => {
     await bootstrapOakServerTest({
       configureApp: ({ router }) => {
-        router.get("/", (ctx: Oak.RouterContext) => {
+        router.get("/", (ctx) => {
           ctx.response.body = "hello";
         });
       },
@@ -71,7 +68,7 @@ describe("Oak: superdeno(url)", () => {
     it("Oak: superdeno(url): .expect(status, body[, fn]): should assert the response body and status", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
-          router.get("/", (ctx: Oak.RouterContext) => {
+          router.get("/", (ctx) => {
             ctx.response.body = "foo";
           });
         },
@@ -89,7 +86,7 @@ describe("Oak: superdeno(url)", () => {
     it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
-          router.get("/", (ctx: Oak.RouterContext) => {
+          router.get("/", (ctx) => {
             ctx.throw(400, "foo");
           });
         },
@@ -109,7 +106,7 @@ describe("Oak: superdeno(url)", () => {
     it("Oak: superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
-          router.get("/", (ctx: Oak.RouterContext) => {
+          router.get("/", (ctx) => {
             ctx.response.body = "hello";
           });
         },
@@ -133,7 +130,7 @@ describe("Oak: superdeno(app.handle)", () => {
     const router = new Router();
     const app = new Application();
 
-    router.get("/", (ctx: Oak.RouterContext) => {
+    router.get("/", (ctx) => {
       ctx.response.body = "Hello Deno!";
     });
 
