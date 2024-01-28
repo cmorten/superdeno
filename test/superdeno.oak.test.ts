@@ -35,7 +35,7 @@ const bootstrapOakServerTest = async (
   app.use(router.allowedMethods());
 
   const controller = new AbortController();
-  const { signal } = controller;
+  const signal = controller.signal;
   const freePort = await getFreePort(random(1024, 49151));
 
   app.addEventListener("listen", ({ hostname, port, secure }: any) => {
@@ -52,7 +52,7 @@ describe("Oak: superdeno(url)", () => {
   it("Oak: superdeno(url): should support open `superdeno(url)` format for web frameworks such as Oak", async (done) => {
     await bootstrapOakServerTest({
       configureApp: ({ router }) => {
-        router.get("/", (ctx: Oak.RouterContext) => {
+        router.get("/", (ctx) => {
           ctx.response.body = "hello";
         });
       },
@@ -71,7 +71,7 @@ describe("Oak: superdeno(url)", () => {
     it("Oak: superdeno(url): .expect(status, body[, fn]): should assert the response body and status", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
-          router.get("/", (ctx: Oak.RouterContext) => {
+          router.get("/", (ctx) => {
             ctx.response.body = "foo";
           });
         },
@@ -89,7 +89,7 @@ describe("Oak: superdeno(url)", () => {
     it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
-          router.get("/", (ctx: Oak.RouterContext) => {
+          router.get("/", (ctx) => {
             ctx.throw(400, "foo");
           });
         },
@@ -109,7 +109,7 @@ describe("Oak: superdeno(url)", () => {
     it("Oak: superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", async (done) => {
       await bootstrapOakServerTest({
         configureApp: ({ router }) => {
-          router.get("/", (ctx: Oak.RouterContext) => {
+          router.get("/", (ctx) => {
             ctx.response.body = "hello";
           });
         },
@@ -133,7 +133,7 @@ describe("Oak: superdeno(app.handle)", () => {
     const router = new Router();
     const app = new Application();
 
-    router.get("/", (ctx: Oak.RouterContext) => {
+    router.get("/", (ctx) => {
       ctx.response.body = "Hello Deno!";
     });
 
