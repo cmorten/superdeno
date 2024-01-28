@@ -85,7 +85,7 @@ import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
 SuperDeno is also available on [nest.land](https://nest.land/package/superdeno),
 a package registry for Deno on the Blockchain.
 
-> Note: All examples in this README are using the unversioned form of the import URL. In production you should always use the versioned import form such as `https://deno.land/x/superdeno@4.8.0/mod.ts`.
+> Note: All examples in this README are using the unversioned form of the import URL. In production you should always use the versioned import form such as `https://deno.land/x/superdeno@4.9.0/mod.ts`.
 
 ## Example
 
@@ -116,8 +116,8 @@ Here's an example of SuperDeno working with the Opine web framework:
 
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { opine } from "https://deno.land/x/opine@1.9.1/mod.ts";
-export { expect } from "https://deno.land/x/expect@v0.2.9/mod.ts";
+import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
+export { expect } from "https://deno.land/x/expect@v0.4.0/mod.ts";
 
 const app = opine();
 
@@ -131,7 +131,7 @@ Deno.test("it should support regular expressions", async () => {
     .expect("Content-Type", /^application/)
     .end((err) => {
       expect(err.message).toEqual(
-        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"',
+        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
       );
     });
 });
@@ -194,15 +194,16 @@ const app = new Application();
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-Deno.test("it should support the Oak framework `app.handle` method", async () => {
-  /**
-   * Note that we have to bind `app` to the function otherwise `app.handle`
-   * doesn't preserve the `this` context from `app`.
-   */
-  await superdeno(app.handle.bind(app))
-    .get("/")
-    .expect("Hello Deno!");
-});
+Deno.test(
+  "it should support the Oak framework `app.handle` method",
+  async () => {
+    /**
+     * Note that we have to bind `app` to the function otherwise `app.handle`
+     * doesn't preserve the `this` context from `app`.
+     */
+    await superdeno(app.handle.bind(app)).get("/").expect("Hello Deno!");
+  }
+);
 ```
 
 In this case, SuperDeno handles the setup and closing of the server for you, so

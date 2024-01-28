@@ -8,7 +8,7 @@
  */
 
 import type { ListenerLike, ServerLike } from "./types.ts";
-import { assertEquals, STATUS_TEXT } from "../deps.ts";
+import { assertEquals, STATUS_TEXT, StatusCode } from "../deps.ts";
 import { superagent } from "./superagent.ts";
 import { close } from "./close.ts";
 import { isListener, isServer, isStdNativeServer, isString } from "./utils.ts";
@@ -618,8 +618,8 @@ export class Test extends SuperRequest {
    */
   #assertStatus = (status: number, res: IResponse): Error | void => {
     if (res.status !== status) {
-      const a = STATUS_TEXT.get(status);
-      const b = STATUS_TEXT.get(res.status);
+      const a = STATUS_TEXT[status as StatusCode];
+      const b = STATUS_TEXT[res.status as StatusCode];
 
       return new Error(`expected ${status} "${a}", got ${res.status} "${b}"`);
     }

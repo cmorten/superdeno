@@ -659,7 +659,7 @@ describe("superdeno(app)", () => {
         )
         .end((err, _res) => {
           expect(err.message).toEqual(
-            'expected { stringValue: "foo", numberValue: 3, nestedObject: { innerString: 5 } } response body, got { stringValue: "foo", numberValue: 3, nestedObject: { innerString: "5" } }',
+            'expected {\n  stringValue: "foo",\n  numberValue: 3,\n  nestedObject: { innerString: 5 }\n} response body, got {\n  stringValue: "foo",\n  numberValue: 3,\n  nestedObject: { innerString: "5" }\n}',
           ); // eslint-disable-line max-len
 
           superdeno(app)
