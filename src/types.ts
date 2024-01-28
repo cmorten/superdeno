@@ -3,6 +3,7 @@
 export interface RequestHandlerLike {
   (
     req: any,
+    ...args: any[]
   ): Promise<any> | Promise<void> | any | void;
 }
 
