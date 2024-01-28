@@ -42,7 +42,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 
 ```ts
 import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { opine } from "https://deno.land/x/opine@1.9.1/mod.ts";
+import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
 
 const app = opine();
 
