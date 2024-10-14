@@ -26,14 +26,14 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
 
 ---
 
-_**Now in maintenance mode:** [Deno has introduced Node and NPM compatability](https://docs.deno.com/runtime/fundamentals/node/), consider using [Supertest](https://www.npmjs.com/package/supertest) itself in
+_**Now in maintenance mode:** [Deno has introduced Node and NPM compatability](https://docs.deno.com/runtime/fundamentals/node/), consider using [SuperTest](https://www.npmjs.com/package/supertest) itself in
 Deno!_
 
 ```ts
 import supertest from "npm:supertest";
 ```
 
-Supertest not working for you? [Raise an issue on Deno](https://github.com/denoland/deno/issues) and keep reading for SuperDeno usage :tada:
+SuperTest not working for you? [Raise an issue on Deno](https://github.com/denoland/deno/issues) and keep reading for SuperDeno usage :tada:
 
 ---
 
