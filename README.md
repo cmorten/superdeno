@@ -14,7 +14,7 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
    <img src="https://img.shields.io/github/stars/cmorten/superdeno" alt="SuperDeno stars" />
    <img src="https://img.shields.io/github/forks/cmorten/superdeno" alt="SuperDeno forks" />
    <img src="https://img.shields.io/github/license/cmorten/superdeno" alt="SuperDeno license" />
-   <a href="https://GitHub.com/cmorten/superdeno/graphs/commit-activity"><img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="SuperDeno is maintained" /></a>
+   <a href="https://GitHub.com/cmorten/superdeno/graphs/commit-activity"><img src="https://img.shields.io/badge/Maintained%3F-no-green.svg" alt="SuperDeno is unmaintained" /></a>
 </p>
 <p align="center">
    <a href="https://deno.land/x/superdeno"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Flatest-version%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno latest /x/ version" /></a>
@@ -23,6 +23,17 @@ HTTP assertions for Deno made easy via <a href="https://github.com/visionmedia/s
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fupdates%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno dependency outdatedness" /></a>
    <a href="https://deno-visualizer.danopia.net/dependencies-of/https/deno.land/x/superdeno/mod.ts"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fcache-size%2Fx%2Fsuperdeno%2Fmod.ts" alt="SuperDeno cached size" /></a>
 </p>
+
+---
+
+_**Now in maintenance mode:** [Deno has introduced Node and NPM compatability](https://docs.deno.com/runtime/fundamentals/node/), consider using [Supertest](https://www.npmjs.com/package/supertest) itself in
+Deno!_
+
+```ts
+import supertest from "npm:supertest";
+```
+
+Supertest not working for you? [Raise an issue on Deno](https://github.com/denoland/deno/issues) and keep reading for SuperDeno usage :tada:
 
 ---
 
