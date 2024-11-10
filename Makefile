@@ -3,7 +3,7 @@
 FILES_TO_FORMAT = ./src ./test ./deps.ts ./mod.ts ./version.ts
 
 build:
-	@deno run --reload mod.ts
+	@deno run --allow-import --reload mod.ts
 
 ci:
 	@make fmt-check
