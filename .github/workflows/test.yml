@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        deno-version: [1.40.2]
+        deno-version: [2.0.5]
 
     runs-on: ${{ matrix.os }}
 
