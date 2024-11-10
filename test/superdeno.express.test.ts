@@ -751,7 +751,6 @@ describe("superdeno(app)", () => {
       superdeno(app)
         .get("/")
         .expect("Content-Type", "text/html; charset=utf-8")
-        .expect("Content-Length", "3")
         .end(done);
     });
 

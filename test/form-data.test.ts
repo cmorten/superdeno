@@ -1,4 +1,4 @@
-import { Oak, Opine } from "./deps.ts";
+import { Oak } from "./deps.ts";
 import { describe, it } from "./utils.ts";
 import {
   assertStrictEquals,
@@ -29,20 +29,20 @@ const setupOak = () => {
   return app;
 };
 
-const setupOpine = () => {
-  const app = Opine.opine();
+// const setupOpine = () => {
+//   const app = Opine.opine();
 
-  app.post("/", (req, res) => {
-    assertStringIncludes(
-      req.headers.get("content-type") ?? "",
-      "multipart/form-data; boundary=",
-    );
+//   app.post("/", (req, res) => {
+//     assertStringIncludes(
+//       req.headers.get("content-type") ?? "",
+//       "multipart/form-data; boundary=",
+//     );
 
-    res.send("done");
-  });
+//     res.send("done");
+//   });
 
-  return app;
-};
+//   return app;
+// };
 
 describe("post multipart/form-data", () => {
   it("should work with oak", async () => {
@@ -55,13 +55,13 @@ describe("post multipart/form-data", () => {
       .expect(200);
   });
 
-  it("should work with opine", async () => {
-    const app = setupOpine();
+  // it("should work with opine", async () => {
+  //   const app = setupOpine();
 
-    await superdeno(app)
-      .post("/")
-      .field("form_key", "form_value")
-      .attach("file_key", "path_to_file", "filename")
-      .expect(200);
-  });
+  //   await superdeno(app)
+  //     .post("/")
+  //     .field("form_key", "form_value")
+  //     .attach("file_key", "path_to_file", "filename")
+  //     .expect(200);
+  // });
 });

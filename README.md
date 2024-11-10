@@ -52,23 +52,23 @@ SuperTest not working for you? [Raise an issue on Deno](https://github.com/denol
 ## Getting Started
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
+// import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
+// import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
 
-const app = opine();
+// const app = opine();
 
-app.get("/user", (req, res) => {
-  res.setStatus(200).json({ name: "Deno" });
-});
+// app.get("/user", (req, res) => {
+//   res.setStatus(200).json({ name: "Deno" });
+// });
 
-superdeno(app)
-  .get("/user")
-  .expect("Content-Type", /json/)
-  .expect("Content-Length", "15")
-  .expect(200)
-  .end((err, res) => {
-    if (err) throw err;
-  });
+// superdeno(app)
+//   .get("/user")
+//   .expect("Content-Type", /json/)
+//   .expect("Content-Length", "15")
+//   .expect(200)
+//   .end((err, res) => {
+//     if (err) throw err;
+//   });
 ```
 
 Looking to test an Oak web server? Check out
@@ -126,26 +126,26 @@ Deno.test("GET /user responds with json", async () => {
 Here's an example of SuperDeno working with the Opine web framework:
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
-import { expect } from "https://deno.land/x/expect@v0.4.0/mod.ts";
+// import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
+// import { opine } from "https://deno.land/x/opine@2.3.4/mod.ts";
+// import { expect } from "https://deno.land/x/expect@v0.4.0/mod.ts";
 
-const app = opine();
+// const app = opine();
 
-app.get("/", (req, res) => {
-  res.send("Hello Deno!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello Deno!");
+// });
 
-Deno.test("it should support regular expressions", async () => {
-  await superdeno(app)
-    .get("/")
-    .expect("Content-Type", /^application/)
-    .catch((err) => {
-      expect(err.message).toEqual(
-        'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
-      );
-    });
-});
+// Deno.test("it should support regular expressions", async () => {
+//   await superdeno(app)
+//     .get("/")
+//     .expect("Content-Type", /^application/)
+//     .catch((err) => {
+//       expect(err.message).toEqual(
+//         'expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"'
+//       );
+//     });
+// });
 ```
 
 See more examples in the [Opine test suite](./test/superdeno.opine.test.ts).
@@ -181,35 +181,35 @@ See more examples in the [Express test suite](./test/superdeno.express.test.ts).
 Here's an example of SuperDeno working with the Oak web framework:
 
 ```ts
-import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
-import { Application, Router } from "https://deno.land/x/oak@v12.6.2/mod.ts";
+// import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
+// import { Application, Router } from "https://deno.land/x/oak@v12.6.2/mod.ts";
 
-const router = new Router();
-router.get("/", (ctx) => {
-  ctx.response.body = "Hello Deno!";
-});
+// const router = new Router();
+// router.get("/", (ctx) => {
+//   ctx.response.body = "Hello Deno!";
+// });
 
-const app = new Application();
-app.use(router.routes());
-app.use(router.allowedMethods());
+// const app = new Application();
+// app.use(router.routes());
+// app.use(router.allowedMethods());
 
-Deno.test("it should support the Oak framework", () => {
-  const controller = new AbortController();
-  const { signal } = controller;
+// Deno.test("it should support the Oak framework", () => {
+//   const controller = new AbortController();
+//   const { signal } = controller;
 
-  app.addEventListener("listen", async ({ hostname, port, secure }) => {
-    const protocol = secure ? "https" : "http";
-    const url = `${protocol}://${hostname}:${port}`;
+//   app.addEventListener("listen", async ({ hostname, port, secure }) => {
+//     const protocol = secure ? "https" : "http";
+//     const url = `${protocol}://${hostname}:${port}`;
 
-    await superdeno(url)
-      .get("/")
-      .expect("Hello Deno!", () => {
-        controller.abort();
-      });
-  });
+//     await superdeno(url)
+//       .get("/")
+//       .expect("Hello Deno!", () => {
+//         controller.abort();
+//       });
+//   });
 
-  await app.listen({ port: 0, signal });
-});
+//   await app.listen({ port: 0, signal });
+// });
 ```
 
 See more examples in the [Oak test suite](./test/superdeno.oak.test.ts).
@@ -292,12 +292,12 @@ Pass a custom assertion function. It'll be given the response object to check.
 If the check fails, throw an error.
 
 ```ts
-function hasPreviousAndNextKeys(res) {
-  if (!("next" in res.parsedBody)) throw new Error("missing next key");
-  if (!("prev" in res.parsedBody)) throw new Error("missing prev key");
-}
+// function hasPreviousAndNextKeys(res) {
+//   if (!("next" in res.parsedBody)) throw new Error("missing next key");
+//   if (!("prev" in res.parsedBody)) throw new Error("missing prev key");
+// }
 
-await superdeno(app).get("/").expect(hasPreviousAndNextKeys);
+// await superdeno(app).get("/").expect(hasPreviousAndNextKeys);
 ```
 
 ### .end(fn)
