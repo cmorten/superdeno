@@ -32,8 +32,8 @@ precommit:
 	@make fmt
 
 test:
-	@deno test --allow-net --allow-read --allow-env --no-check --doc
-	@deno test --allow-net --allow-read --allow-env --no-check --doc --unstable
+	@deno test --allow-net --allow-read --allow-env --allow-import --no-check --doc
+	@deno test --allow-net --allow-read --allow-env --allow-import --no-check --doc --unstable
 
 typedoc:
 	@rm -rf docs
