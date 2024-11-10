@@ -6,8 +6,7 @@ export const TEST_TIMEOUT = 3000;
 /**
  * Random number generator for a given range.
  *
- * @param min Lower bound
- * @param max Upper bound
+ * @param min Lower bound * @param max Upper bound
  * @returns A random int in the range
  */
 export function random(min: number, max: number): number {
