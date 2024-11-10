@@ -189,7 +189,7 @@ exposeSham(SHAM_SYMBOL);
 async function completeXhrPromises() {
   for (
     const promise of Object.values(
-      (window as any)[SHAM_SYMBOL].promises,
+      (globalThis as any)[SHAM_SYMBOL].promises,
     )
   ) {
     if (promise) {
