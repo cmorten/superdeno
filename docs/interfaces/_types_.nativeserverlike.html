@@ -82,14 +82,15 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.nativeserverlike.html#addrs" class="tsd-kind-icon">addrs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.nativeserverlike.html#addr" class="tsd-kind-icon">addr</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.nativeserverlike.html#finished" class="tsd-kind-icon">finished</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_types_.nativeserverlike.html#close" class="tsd-kind-icon">close</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_types_.nativeserverlike.html#listenandserve" class="tsd-kind-icon">listen<wbr>And<wbr>Serve</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_types_.nativeserverlike.html#shutdown" class="tsd-kind-icon">shutdown</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_types_.nativeserverlike.html#unref" class="tsd-kind-icon">unref</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,12 +99,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="addrs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> addrs</h3>
-					<div class="tsd-signature tsd-kind-icon">addrs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Deno.Addr</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="addr" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> addr</h3>
+					<div class="tsd-signature tsd-kind-icon">addr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Deno.Addr</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/cmorten/superdeno/blob/57252a3/src/types.ts#L16">git/cmorten/superdeno/src/types.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/cmorten/superdeno/blob/9616906/src/types.ts#L22">home/runner/work/superdeno/superdeno/src/types.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="finished" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> finished</h3>
+					<div class="tsd-signature tsd-kind-icon">finished<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/cmorten/superdeno/blob/9616906/src/types.ts#L23">home/runner/work/superdeno/superdeno/src/types.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -111,36 +122,36 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="close" class="tsd-anchor"></a>
-					<h3>close</h3>
+					<a name="shutdown" class="tsd-anchor"></a>
+					<h3>shutdown</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">shutdown<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/cmorten/superdeno/blob/57252a3/src/types.ts#L18">git/cmorten/superdeno/src/types.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/cmorten/superdeno/blob/9616906/src/types.ts#L24">home/runner/work/superdeno/superdeno/src/types.ts:24</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="listenandserve" class="tsd-anchor"></a>
-					<h3>listen<wbr>And<wbr>Serve</h3>
+					<a name="unref" class="tsd-anchor"></a>
+					<h3>unref</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">listen<wbr>And<wbr>Serve<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">unref<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/cmorten/superdeno/blob/57252a3/src/types.ts#L17">git/cmorten/superdeno/src/types.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/cmorten/superdeno/blob/9616906/src/types.ts#L25">home/runner/work/superdeno/superdeno/src/types.ts:25</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -181,6 +192,9 @@
 						<a href="_types_.expressserverlike.html" class="tsd-kind-icon">Express<wbr>Server<wbr>Like</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_types_.legacynativeserverlike.html" class="tsd-kind-icon">Legacy<wbr>Native<wbr>Server<wbr>Like</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_types_.legacyserverlike.html" class="tsd-kind-icon">Legacy<wbr>Server<wbr>Like</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
@@ -192,13 +206,16 @@
 						<a href="_types_.nativeserverlike.html" class="tsd-kind-icon">Native<wbr>Server<wbr>Like</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.nativeserverlike.html#addrs" class="tsd-kind-icon">addrs</a>
+								<a href="_types_.nativeserverlike.html#addr" class="tsd-kind-icon">addr</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_types_.nativeserverlike.html#finished" class="tsd-kind-icon">finished</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_types_.nativeserverlike.html#close" class="tsd-kind-icon">close</a>
+								<a href="_types_.nativeserverlike.html#shutdown" class="tsd-kind-icon">shutdown</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_types_.nativeserverlike.html#listenandserve" class="tsd-kind-icon">listen<wbr>And<wbr>Serve</a>
+								<a href="_types_.nativeserverlike.html#unref" class="tsd-kind-icon">unref</a>
 							</li>
 						</ul>
 					</li>
