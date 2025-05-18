@@ -1,11 +1,9 @@
-// deno-lint-ignore-file no-explicit-any
-
-import { expect, Opine } from "./deps.ts";
+import { expect, express } from "./deps.ts";
 import { describe, it } from "./utils.ts";
 import { superdeno } from "../mod.ts";
 
-const { opine, json, urlencoded } = Opine;
-let promises: Promise<any>[] = [];
+const { json, urlencoded } = express;
+let promises: Promise<boolean>[] = [];
 
 const allPromises = async () => {
   for (const promise of promises) {
@@ -19,7 +17,7 @@ const allPromises = async () => {
 };
 
 const setup = () => {
-  const app = opine();
+  const app = express();
 
   app.use(json());
   app.use(urlencoded({ extended: true }));
@@ -50,7 +48,7 @@ const setup = () => {
 
   app.get("/movies/all/0", (req, res) => {
     res.set("QUERY", JSON.stringify(req.query));
-    res.setStatus(200).send("first movie page");
+    res.status(200).send("first movie page");
   });
 
   app.get("/movies/random", (_req, res) => {
@@ -80,7 +78,7 @@ const setup = () => {
 
   app.get("/show-cookies", (req, res) => {
     res.set("content-type", "text/plain");
-    res.send(req.headers.get("cookie"));
+    res.send(req.headers.cookie);
   });
 
   app.put("/redirect-303", (_req, res) => {
@@ -120,24 +118,20 @@ const setup = () => {
   });
 
   app.get("/header/2", (req, res) => {
-    res.send(Object.fromEntries(req.headers.entries()));
+    res.send(req.headers);
   });
 
-  app.get("/bad-redirect", async (_req, res) => {
-    try {
-      await res.setStatus(307).end();
-    } catch (_) {
-      // swallow
-    }
+  app.get("/bad-redirect", (_req, res) => {
+    res.status(307).end();
   });
 
-  const called: any = {};
+  const called: Record<string, boolean> = {};
 
   app.get("/error/redirect/:id", (req, res) => {
     const { id } = req.params;
     if (!called[id]) {
       called[id] = true;
-      res.setStatus(500).send("boom");
+      res.status(500).send("boom");
     } else {
       res.redirect("/movies");
       delete called[id];

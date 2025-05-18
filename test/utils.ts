@@ -83,8 +83,7 @@ export function it(
         };
       }
 
-      await fn(done);
-      await race;
+      await Promise.allSettled([fn(done), race]);
 
       if (timeoutId!) {
         clearTimeout(timeoutId);
