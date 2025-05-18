@@ -79,6 +79,7 @@ export function superdeno(
   if (!isString(app) && !isListener(app) && !isServer(app)) {
     managedServer = Deno.serve({
       port: 0,
+      onListen: () => {},
     }, async function handler(request) {
       try {
         return await app(request);
