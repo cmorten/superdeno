@@ -1,3 +1,5 @@
+import type { ExpressServerLike } from "./types.ts";
+import type { LegacyNativeServerLike } from "./types.ts";
 import type {
   ExpressListenerLike,
   LegacyServerLike,
@@ -21,21 +23,32 @@ export const isExpressListener = (
   "render" in thing && "route" in thing && "set" in thing && "use" in thing;
 
 const isCommonServer = (thing: unknown): thing is ServerLike =>
-  thing instanceof Object && thing !== null && "close" in thing;
+  thing instanceof Object && thing !== null &&
+  ("close" in thing || "shutdown" in thing);
 
 export const isStdLegacyServer = (thing: unknown): thing is LegacyServerLike =>
   isCommonServer(thing) &&
   "listener" in thing;
 
-export const isStdNativeServer = (thing: unknown): thing is NativeServerLike =>
+export const isStdLegacyNativeServer = (
+  thing: unknown,
+): thing is LegacyNativeServerLike =>
   isCommonServer(thing) &&
   "addrs" in thing;
 
-export const isExpressServer = (thing: unknown): thing is NativeServerLike =>
+export const isNativeServer = (
+  thing: unknown,
+): thing is NativeServerLike =>
+  isCommonServer(thing) &&
+  "addr" in thing;
+
+export const isExpressServer = (thing: unknown): thing is ExpressServerLike =>
   isCommonServer(thing) &&
   "listening" in thing &&
   "address" in thing && typeof thing.address === "function";
 
-export const isServer = (thing: unknown): thing is ServerLike =>
-  isStdLegacyServer(thing) || isStdNativeServer(thing) ||
-  isExpressServer(thing);
+export const isServer = (
+  thing: unknown,
+): thing is ServerLike | NativeServerLike =>
+  isStdLegacyServer(thing) || isStdLegacyNativeServer(thing) ||
+  isNativeServer(thing) || isExpressServer(thing);

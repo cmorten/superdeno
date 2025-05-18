@@ -12,10 +12,17 @@ export interface LegacyServerLike {
   close(): void;
 }
 
-export interface NativeServerLike {
+export interface LegacyNativeServerLike {
   readonly addrs: Deno.Addr[];
   listenAndServe(): Promise<void>;
   close(): void;
+}
+
+export interface NativeServerLike {
+  readonly addr: Deno.Addr;
+  readonly finished: Promise<void>;
+  shutdown(): Promise<void>;
+  unref(): void;
 }
 
 export interface ExpressServerLike {
@@ -27,7 +34,7 @@ export interface ExpressServerLike {
 
 export type ServerLike =
   | LegacyServerLike
-  | NativeServerLike
+  | LegacyNativeServerLike
   | ExpressServerLike;
 
 export interface ListenerLike {

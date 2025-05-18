@@ -20,8 +20,9 @@ import {
   isExpressListener,
   isExpressServer,
   isListener,
+  isNativeServer,
   isServer,
-  isStdNativeServer,
+  isStdLegacyNativeServer,
   isString,
 } from "./utils.ts";
 import { exposeSham } from "./xhrSham.js";
@@ -47,7 +48,6 @@ type Parser = (str: string) => any;
 type MultipartValueSingle =
   | Blob
   | Uint8Array
-  | Deno.Reader
   | string
   | boolean
   | number;
@@ -188,8 +188,8 @@ exposeSham(SHAM_SYMBOL);
  */
 async function completeXhrPromises() {
   for (
-    const promise of Object.values(
-      (window as any)[SHAM_SYMBOL].promises,
+    const promise of Object.values<Promise<Response>>(
+      (globalThis as any)[SHAM_SYMBOL].promises,
     )
   ) {
     if (promise) {
@@ -221,7 +221,7 @@ export class Test extends SuperRequest {
   #urlSetupPromise: Promise<void>;
 
   public app: string | ListenerLike | ServerLike;
-  public url!: string;
+  public override url!: string;
 
   constructor(
     app: string | ListenerLike | ServerLike,
@@ -254,7 +254,22 @@ export class Test extends SuperRequest {
       serverSetupPromiseResolver();
       addressSetupPromiseResolver();
     } else {
-      if (isStdNativeServer(app)) {
+      if (isNativeServer(app)) {
+        this.#server = {
+          async close() {
+            try {
+              app.unref();
+              await app.shutdown();
+            } catch {
+              // swallow error
+            }
+          },
+          addrs: [app.addr],
+          async listenAndServe() {},
+        };
+
+        serverSetupPromiseResolver();
+      } else if (isStdLegacyNativeServer(app)) {
         const listenAndServePromise = app.listenAndServe().catch((err) =>
           close(app, app, err)
         );
@@ -347,7 +362,9 @@ export class Test extends SuperRequest {
     await this.#serverSetupPromise;
 
     const address =
-      ("addrs" in this.#server
+      ("addr" in this.#server
+        ? this.#server.addr
+        : "addrs" in this.#server
         ? this.#server.addrs[0]
         : "address" in this.#server
         ? this.#server.address()
@@ -536,7 +553,7 @@ export class Test extends SuperRequest {
    * @returns {Test} for chaining
    * @public
    */
-  end(callback?: CallbackHandler): this {
+  override end(callback?: CallbackHandler): this {
     Promise.allSettled([this.#serverSetupPromise, this.#urlSetupPromise]).then(
       () => {
         const self = this;
