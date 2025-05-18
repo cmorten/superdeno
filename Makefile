@@ -3,7 +3,7 @@
 FILES_TO_FORMAT = ./src ./test ./deps.ts ./mod.ts ./version.ts
 
 build:
-	@deno run --reload mod.ts
+	@deno run --allow-import --allow-env --allow-sys --allow-read --reload mod.ts
 
 ci:
 	@make fmt-check
@@ -15,7 +15,7 @@ deps:
 	@npm install -g typescript@4 typedoc@0.19.2
 
 doc:
-	@deno doc ./mod.ts
+	@deno doc --allow-import ./mod.ts
 
 fmt:
 	@deno fmt ${FILES_TO_FORMAT}
@@ -32,8 +32,7 @@ precommit:
 	@make fmt
 
 test:
-	@deno test --allow-net --allow-read --allow-env --no-check --doc
-	@deno test --allow-net --allow-read --allow-env --no-check --doc --unstable
+	@deno test --allow-import --allow-net --allow-read --allow-env --allow-sys --no-check
 
 typedoc:
 	@rm -rf docs

@@ -46,8 +46,8 @@ const bootstrapOakServerTest = async (
 };
 
 describe("Oak: superdeno(url)", () => {
-  it("Oak: superdeno(url): should support open `superdeno(url)` format for web frameworks such as Oak", async (done) => {
-    await bootstrapOakServerTest({
+  it("Oak: superdeno(url): should support open `superdeno(url)` format for web frameworks such as Oak", (done) => {
+    bootstrapOakServerTest({
       configureApp: ({ router }) => {
         router.get("/", (ctx) => {
           ctx.response.body = "hello";
@@ -65,8 +65,8 @@ describe("Oak: superdeno(url)", () => {
   });
 
   describe(".expect(status, body[, fn])", () => {
-    it("Oak: superdeno(url): .expect(status, body[, fn]): should assert the response body and status", async (done) => {
-      await bootstrapOakServerTest({
+    it("Oak: superdeno(url): .expect(status, body[, fn]): should assert the response body and status", (done) => {
+      bootstrapOakServerTest({
         configureApp: ({ router }) => {
           router.get("/", (ctx) => {
             ctx.response.body = "foo";
@@ -83,8 +83,8 @@ describe("Oak: superdeno(url)", () => {
       });
     });
 
-    it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", async (done) => {
-      await bootstrapOakServerTest({
+    it("superdeno(app): .expect(status, body[, fn]): should assert the response body and error status'", (done) => {
+      bootstrapOakServerTest({
         configureApp: ({ router }) => {
           router.get("/", (ctx) => {
             ctx.throw(400, "foo");
@@ -103,8 +103,8 @@ describe("Oak: superdeno(url)", () => {
   });
 
   describe(".end(cb)", () => {
-    it("Oak: superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", async (done) => {
-      await bootstrapOakServerTest({
+    it("Oak: superdeno(url): .end(cb): should set `this` to the test object when calling the `cb` in `.end(cb)`", (done) => {
+      bootstrapOakServerTest({
         configureApp: ({ router }) => {
           router.get("/", (ctx) => {
             ctx.response.body = "hello";

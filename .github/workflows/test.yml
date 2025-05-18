@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        deno-version: [1.40.2]
+        deno-version: [2.3.3]
 
     runs-on: ${{ matrix.os }}
 
@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        deno-version: [1.40.2]
+        deno-version: [2.3.3]
 
     runs-on: ${{ matrix.os }}
 

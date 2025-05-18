@@ -3,11 +3,15 @@
  * Port of supertest (https://github.com/visionmedia/supertest) for Deno
  */
 
-import { methods, Server } from "../deps.ts";
+import { methods } from "../deps.ts";
 import { Test } from "./test.ts";
-import { close } from "./close.ts";
 import { isListener, isServer, isString } from "./utils.ts";
-import type { ListenerLike, RequestHandlerLike, ServerLike } from "./types.ts";
+import type {
+  ListenerLike,
+  NativeServerLike,
+  RequestHandlerLike,
+  ServerLike,
+} from "./types.ts";
 
 /**
  * Provides methods for making requests to the configured server using the passed
@@ -42,17 +46,6 @@ export interface SuperDeno {
   unsubscribe(url: string): Test;
 }
 
-async function startManagedServer(
-  managedServer: Server,
-  app: RequestHandlerLike,
-) {
-  try {
-    await managedServer.listenAndServe();
-  } catch (error) {
-    await close(managedServer, app, error);
-  }
-}
-
 /**
  * Takes a a url string, [`http.Server`](https://doc.deno.land/https/deno.land/std/http/mod.ts#Server),
  * a request handling function, or an object that implements an `app.listen()` method (which mirrors
@@ -71,28 +64,32 @@ async function startManagedServer(
  * @public
  */
 export function superdeno(
-  app: string | RequestHandlerLike | ListenerLike | ServerLike,
+  app:
+    | string
+    | RequestHandlerLike
+    | ListenerLike
+    | ServerLike
+    | NativeServerLike,
   secure?: boolean,
 ): SuperDeno {
   const obj: Record<string, any> = {};
 
-  let managedServer: Server | undefined;
+  let managedServer: Deno.HttpServer | undefined;
 
   if (!isString(app) && !isListener(app) && !isServer(app)) {
-    managedServer = new Server({
+    managedServer = Deno.serve({
       port: 0,
-      async handler(request) {
-        try {
-          return await app(request);
-        } catch (error) {
-          console.error(
-            "SuperDeno experienced an unexpected server error with the underlying app handler.",
-            error,
-          );
+    }, async function handler(request) {
+      try {
+        return await app(request);
+      } catch (error) {
+        console.error(
+          "SuperDeno experienced an unexpected server error with the underlying app handler.",
+          error,
+        );
 
-          throw error;
-        }
-      },
+        throw error;
+      }
     });
   }
 
@@ -107,10 +104,6 @@ export function superdeno(
       );
     };
   });
-
-  if (typeof managedServer !== "undefined") {
-    startManagedServer(managedServer, app as RequestHandlerLike);
-  }
 
   return obj as SuperDeno;
 }
